@@ -7,4 +7,12 @@ const errorHandler = (error, req, res, next) => {
   });
 };
 
-module.exports = { errorHandler };
+function errorLogger(error, req, res, next) {
+  // for logging errors
+  if (process.env.NODE_ENV === "development") {
+    console.error(error);
+  }
+  next(error);
+}
+
+module.exports = { errorHandler, errorLogger };
