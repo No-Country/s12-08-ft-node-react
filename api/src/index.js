@@ -8,7 +8,7 @@ const { sequelize, dbInit } = require("./db");
 const { errorHandler, errorLogger } = require("./middlewares/errors/errors");
 
 // Routers
-// const exampleRouter = require("./web/example");
+const exampleRouter = require("./web/example");
 
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
@@ -37,10 +37,12 @@ function initializeApp() {
     res.status(200).send("Stable");
   });
 
-  app.use("/users", userRouter);
-  app.use("/pets", petsRouter);
+  // Comment this when not used
+  app.use("/example", exampleRouter);
 
-  // Errors middleware
+  /*
+   * Errors middleware
+   */
   app.use(errorLogger);
   app.use(errorHandler);
 
@@ -49,13 +51,19 @@ function initializeApp() {
 
 async function startServer() {
   try {
-    // Agregar authenticacion de mongo
+    // Auth de mongo
+
+    // Auth de sequelize
     await sequelize.authenticate();
     console.log("Conexión establecida");
+    // noSQL init
+
+    // SQL init
     await dbInit();
     console.log("Base de datos sincronizada.");
-    const app = initializeApp();
 
+    // start server
+    const app = initializeApp();
     app.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
     });
