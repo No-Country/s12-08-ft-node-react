@@ -4,8 +4,8 @@ to: src/routes/<%= entities %>.js
 
 const express = require("express");
 const <%= entities %>Router = express.Router();
-const { <%= entities %>Controller } = require("../controllers");
+const { <%= Entity %>Controller } = require("../controllers/<%= entities %>.controller");
 
-exampleRouter.get("/", <%= entities %>Controller.example);
+<%= entities %>Router.get("/", <%= Entity %>Controller.example);
 
 module.exports = <%= entities %>Router;

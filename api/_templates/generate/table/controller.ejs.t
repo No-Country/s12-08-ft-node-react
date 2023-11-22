@@ -1,5 +1,5 @@
 ---
-to: src/controllers/<%= entities %>.service.js
+to: src/controllers/<%= entities %>.controller.js
 ---
 const { <%= Entity %> } = require('../db');
 const validations = require('../validations/<%= entities %>.validations.js');
@@ -8,7 +8,7 @@ class <%= Entity %>Controller {
   static async example(req,res,next) {
     console.log('example!');
     try {
-      await validations.example.validateAsync(attributes);
+      await validations.validateAsync(req.body);
 
       // call db methods after validations have passed
     } catch (err) {
@@ -17,4 +17,4 @@ class <%= Entity %>Controller {
   }
 }
 
-module.exports = <%= Entity %>Controller ;
+module.exports = { <%= Entity %>Controller };

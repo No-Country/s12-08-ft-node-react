@@ -5,4 +5,4 @@ const Joi = require('joi');
 
 const <%= entities %>Validation = Joi.object({ });
 
-module.exports = { <%= entities %>Validation };
+module.exports = <%= entities %>Validation 
