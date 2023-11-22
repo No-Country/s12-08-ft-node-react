@@ -1,9 +1,7 @@
 const express = require("express");
 const exampleRouter = express.Router();
-// const { ExampleService } = require("../../lib/users/");
+const { ExampleService } = require("../../lib/examples/");
 
-exampleRouter.get("/", (req, res) => {
-  console.log("Example");
-});
+exampleRouter.get("/", ExampleService.example);
 
 module.exports = usersRouter;
