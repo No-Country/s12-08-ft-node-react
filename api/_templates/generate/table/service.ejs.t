@@ -12,7 +12,7 @@ class <%= Entity %>Service {
 
       // call db methods after validations have passed
     } catch (err) {
-      throw new Error(err);
+      next(err);
     }
   }
 }
