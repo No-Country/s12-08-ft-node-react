@@ -5,10 +5,10 @@ const morgan = require("morgan");
 const cors = require("cors");
 const { sequelize, dbInit } = require("./db");
 
-const { errorHandler, errorLogger } = require("./middlewares/errors/errors");
+const { errorHandler, errorLogger } = require("./middlewares/errors/index");
 
 // Routers
-const exampleRouter = require("./web/example");
+const exampleRouter = require("./routes/examples");
 
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
