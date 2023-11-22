@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '../index.css';
 const AppRouter = () => {
-  const Example = 'Doing things width'
-  console.log(Example)
+
 
   return (
     <>
