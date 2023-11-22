@@ -31,6 +31,12 @@ Asegúrese de tener instaladas las siguientes herramientas antes de comenzar:
 4. Haga push a su rama: `git push origin mi-contribucion`
 5. Enviar una pull request para mergearlo a la copia principal (git request-pull backend origin).
 
+### Code generators
+
+- Para generar una nueva entidad, correr este comando: `npx hygen generate table`
+- A continuación pedira el nombre de la entidad y nombre en la db
+- Los nombres deben ser en 'singular'
+
 
 ## Licencia
 
