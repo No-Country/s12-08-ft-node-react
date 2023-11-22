@@ -1,5 +1,5 @@
 ---
-to: src/lib/<%= entities %>/<%= entities %>.model.js
+to: src/database/sql/<%= entities %>.model.js
 ---
 const { Model } = require('sequelize');
 

@@ -1,10 +1,10 @@
 ---
-to: src/lib/<%= entities %>/<%= entities %>.service.js
+to: src/controllers/<%= entities %>.service.js
 ---
-const { <%= Entity %> } = require('../../db');
-const validations = require('./<%= entities %>.validations');
+const { <%= Entity %> } = require('../db');
+const validations = require('../validations/<%= entities %>.validations.js');
 
-class <%= Entity %>Service {
+class <%= Entity %>Controller {
   static async example(req,res,next) {
     console.log('example!');
     try {
@@ -17,4 +17,4 @@ class <%= Entity %>Service {
   }
 }
 
-module.exports = <%= Entity %>Service ;
+module.exports = <%= Entity %>Controller ;

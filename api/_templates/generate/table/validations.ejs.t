@@ -1,6 +1,8 @@
 ---
-to: src/lib/<%= entities %>/<%= entities %>.validations.js
+to: src/validations/<%= entities %>.validations.js
 ---
 const Joi = require('joi');
 
-module.exports = {};
+const <%= entities %>Validation = Joi.object({ });
+
+module.exports = { <%= entities %>Validation };
