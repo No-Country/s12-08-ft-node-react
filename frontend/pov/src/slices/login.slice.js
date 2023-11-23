@@ -21,8 +21,8 @@ const loginSlice = createSlice({
   extraReducers: (builder) => {
     // Manejo de acciones adicionales (fuera del slice) con extraReducers
 
-    // Agrega un caso para la acción 'login' (que parece un error de nombre, debería ser 'userLogin')
-    builder.addCase(loginSlice.actions.login, async (state, action) => {
+    // Agrega un caso para la acción 'userLogin'
+    builder.addCase(loginSlice.actions.userLogin, async (state, action) => {
       try {
         // Crea un objeto DATA con email y password de la acción
         const DATA = {
@@ -44,5 +44,5 @@ const loginSlice = createSlice({
 });
 
 // Exporta la acción 'login' y el reducer del slice
-export const { login } = loginSlice.actions;
+export const { userLogin } = loginSlice.actions;
 export default loginSlice.reducer;
