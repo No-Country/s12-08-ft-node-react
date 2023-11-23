@@ -3,7 +3,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const { sequelize, dbInit } = require("./db");
+const { sequelize, dbInit, mongoDbConnection } = require("./db");
 
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
 
@@ -52,7 +52,7 @@ function initializeApp() {
 async function startServer() {
   try {
     // Auth de mongo
-
+    await mongoDbConnection()
     // Auth de sequelize
     await sequelize.authenticate();
     console.log("Conexión establecida");
