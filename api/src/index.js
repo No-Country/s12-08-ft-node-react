@@ -4,7 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const { sequelize, dbInit, mongoDbConnection } = require("./db");
-
+const {swaggerDocs} =  require("./config/swagger")
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
 
 // Routers
@@ -33,12 +33,12 @@ function initializeApp() {
    * Routes
    */
 
-  app.get("/health-check", async (req, res) => {
+  app.get("/api/health-check", async (req, res) => {
     res.status(200).send("Stable");
   });
 
   // Comment this when not used
-  app.use("/example", exampleRouter);
+  app.use("/api/examples", exampleRouter);
 
   /*
    * Errors middleware
@@ -66,6 +66,7 @@ async function startServer() {
     const app = initializeApp();
     app.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
+      swaggerDocs(app, port)
     });
   } catch (error) {
     console.error("Error al iniciar el servidor:", error);
