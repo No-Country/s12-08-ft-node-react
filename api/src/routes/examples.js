@@ -1,7 +1,7 @@
 const express = require("express");
 const examplesRouter = express.Router();
+const {checkSession} = require('../middlewares/session/session')
 const { ExampleController } = require("../controllers/examples.controller");
-
 
 /**
  * @openapi
