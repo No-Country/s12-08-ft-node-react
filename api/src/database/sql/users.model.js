@@ -3,9 +3,8 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.belongsToMany(models.User, {
-        through: 'user_has_subscriptions'
-      });
+      User.belongsToMany(models.User, { through: 'user_has_subscriptions', as: 'subscribers'});
+      User.belongsToMany(models.User, { through: 'user_has_subscriptions', as: 'subscriptions'});
   }
 }
 
@@ -46,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     // Other model options go here
-    modelName: 'pov',
+    modelName: 'users',
     sequelize,
   },
 );
