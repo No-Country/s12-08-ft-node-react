@@ -8,9 +8,6 @@ const {swaggerDocs} =  require("./config/swagger")
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
 const router = require('./routes/index');
 
-// Routers
-const exampleRouter = require("./routes/examples");
-
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
   optionsSuccessStatus: 200,
@@ -39,8 +36,7 @@ function initializeApp() {
   });
 
   // Comment this when not used
-  app.use("/", router);
-  app.use("/api/examples", exampleRouter);
+  app.use("/api", router);
 
   /*
    * Errors middleware

@@ -1,9 +1,8 @@
-const { Example } = require('../db');
+const { Example } = require('../database/sql/examples.model.js');
 const validations = require('../validations/examples.validations.js');
 
 class ExampleController {
   static async example(req,res,next) {
-    console.log('example!');
     try {
       await validations.validateAsync(req.body);
       
