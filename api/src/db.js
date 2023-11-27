@@ -42,6 +42,7 @@ const Example = require("./database/sql/examples.model")(
 
 const dbInit = async () => {
   await Example.sync({ alter: true });
+  await User.sync({ alter: true });
 };
 
 module.exports = {
