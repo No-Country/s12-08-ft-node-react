@@ -36,9 +36,9 @@ function initializeApp() {
   app.get("/health-check", async (req, res) => {
     res.status(200).send("Stable");
   });
-
   // Comment this when not used
   app.use("/example", exampleRouter);
+  //
 
   /*
    * Errors middleware

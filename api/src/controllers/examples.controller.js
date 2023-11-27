@@ -8,6 +8,7 @@ class ExampleController {
       await validations.validateAsync(req.body);
 
       // call db methods after validations have passed
+
     } catch (err) {
       next(err);
     }
