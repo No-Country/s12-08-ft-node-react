@@ -1,6 +1,8 @@
-const { User } = require('../database/sql/users.model.js');
+const { User } = require('../db.js');
 const validations = require('../validations/users.validations.js');
 const BadRequest = require('../errorClasses/BadRequest.js');
+const usersValidation = require('../validations/users.validations.js');
+const bcrypt = require('bcrypt');
 
 class UserController {
   static async creatUser(req,res,next) {

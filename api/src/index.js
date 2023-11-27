@@ -6,6 +6,7 @@ const cors = require("cors");
 const { sequelize, dbInit, mongoDbConnection } = require("./db");
 const {swaggerDocs} =  require("./config/swagger")
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
+const router = require('./routes/index');
 
 // Routers
 const exampleRouter = require("./routes/examples");
@@ -38,6 +39,7 @@ function initializeApp() {
   });
 
   // Comment this when not used
+  app.use("/", router);
   app.use("/api/examples", exampleRouter);
 
   /*
