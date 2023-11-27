@@ -1,7 +1,7 @@
 ---
 to: src/controllers/<%= entities %>.controller.js
 ---
-const { <%= Entity %> } = require('../db');
+const { <%= Entity %> } = require('../database/sql/<%= entities %>.model.js');
 const validations = require('../validations/<%= entities %>.validations.js');
 
 class <%= Entity %>Controller {
