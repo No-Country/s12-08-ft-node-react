@@ -4,7 +4,7 @@ const NotFound = require('../../errorClasses/NotFound')
 const User = require('../../database/sql/users.model')
 require("dotenv").config();
 
-const checkSession = async() => {
+const checkSession = async(req, res, next) => {
     const tokenByUser = req.headers.authorization || null
 
     if(!tokenByUser){
