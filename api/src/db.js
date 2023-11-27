@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 const mongoose = require('mongoose');
-
 // Connections
 const sequelize = new Sequelize(process.env.DATABASE_NAME,process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD,{
   host: process.env.DATABASE_HOST,
@@ -35,6 +34,11 @@ const Example = require("./database/sql/examples.model")(
   Sequelize.DataTypes
 );
 
+const User = require("./database/sql/users.model")(
+  sequelize,
+  Sequelize.DataTypes
+);
+
 // Relations go here
 
 // Example.hasMany(Other)
@@ -42,6 +46,7 @@ const Example = require("./database/sql/examples.model")(
 
 const dbInit = async () => {
   await Example.sync({ alter: true });
+  await User.sync({ alter: true });
 };
 
 module.exports = {
