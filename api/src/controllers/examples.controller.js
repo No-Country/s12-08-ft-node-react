@@ -6,7 +6,8 @@ class ExampleController {
     console.log('example!');
     try {
       await validations.validateAsync(req.body);
-
+      
+      return res.status( 200 ).json({ result: 'Successful example' }); 
       // call db methods after validations have passed
     } catch (err) {
       next(err);
