@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 const mongoose = require('mongoose');
-
 // Connections
 const sequelize = new Sequelize(process.env.DATABASE_NAME,process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD,{
   host: process.env.DATABASE_HOST,
@@ -31,6 +30,11 @@ const mongoDbConnection = async () => {
 // Agregar mongo y borrar este comentario
 
 const Example = require("./database/sql/examples.model")(
+  sequelize,
+  Sequelize.DataTypes
+);
+
+const User = require("./database/sql/users.model")(
   sequelize,
   Sequelize.DataTypes
 );

@@ -1,4 +1,4 @@
-const { User } = require('../db');
+const { User } = require('../database/sql/users.model.js');
 const validations = require('../validations/users.validations.js');
 
 class UserController {
