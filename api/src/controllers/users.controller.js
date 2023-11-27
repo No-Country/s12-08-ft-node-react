@@ -1,13 +1,36 @@
-const { User } = require('../database/sql/users.model.js');
+const { User } = require('../db.js');
 const validations = require('../validations/users.validations.js');
+const BadRequest = require('../errorClasses/BadRequest.js');
+const usersValidation = require('../validations/users.validations.js');
+const bcrypt = require('bcrypt');
 
 class UserController {
-  static async example(req,res,next) {
-    console.log('example!');
+  static async creatUser(req,res,next) {
     try {
-      await validations.validateAsync(req.body);
+      //validanciones por body
+      const {error, value } = usersValidation.validate(req.body);
+      if(error){
+        throw new BadRequest(error.details[0].message);
+      }
 
-      // call db methods after validations have passed
+      // Obtener datos del cuerpo de la solicitud
+      const { email, name, password, role, profile_picture, date_of_birth } = req.body;
+
+      // Hash de la contraseña utilizando bcrypt
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Lógica para crear el usuario en la base de datos
+      const newUser = await User.create({
+        email,
+        name,
+        password: hashedPassword,
+        role,
+        profile_picture,
+        date_of_birth,
+      });
+
+      // Enviar la respuesta con el nuevo usuario creado
+      res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
     } catch (err) {
       next(err);
     }
