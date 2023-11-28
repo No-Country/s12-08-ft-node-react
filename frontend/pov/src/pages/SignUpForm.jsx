@@ -24,7 +24,7 @@ const signUpValidations = {
   ],
 };
 
-const SignUpForm = () => {
+export const SignUpForm = () => {
   // Estado para controlar si el formulario ha sido enviado
   const [formSubmited, setformSubmited] = useState(false);
 
