@@ -6,9 +6,7 @@ const cors = require("cors");
 const { sequelize, dbInit, mongoDbConnection } = require("./db");
 const {swaggerDocs} =  require("./config/swagger")
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
-
-// Routers
-const exampleRouter = require("./routes/examples");
+const router = require('./routes/index');
 
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
@@ -37,7 +35,7 @@ function initializeApp() {
     res.status(200).send("Stable");
   });
   // Comment this when not used
-  app.use("/api/examples", exampleRouter);
+  app.use("/api", router);
 
   /*
    * Errors middleware

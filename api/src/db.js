@@ -55,5 +55,6 @@ module.exports = {
   sequelize,
   Sequelize,
   Example,
-  mongoDbConnection
+  mongoDbConnection,
+  User
 };
