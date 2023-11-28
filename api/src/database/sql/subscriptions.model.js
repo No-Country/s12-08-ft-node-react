@@ -1,18 +1,51 @@
-const { Model } = require('sequelize');
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Subscription extends Model {}
+  class Subscription extends Model {
+    static associate(models) {
+      Subscription.belongsTo(models.User, { foreignKey: "user_id" });
+      // Subscription.hasMany(models.Payment, { foreignKey: 'payment_id' });
+    }
+  }
 
   Subscription.init(
-  {
-    // Model attributes are defined here
-  },
-  {
-    // Other model options go here
-    modelName: 'subscription',
-    sequelize,
-  },
-);
+    {
+      // Model attributes are defined here
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+      },
+      // payment_id: {
+      //   type: DataTypes.UUID,
+      //   allowNull: false,
+      // },
+      // user_id: {
+      //   type: DataTypes.UUID,
+      //   allowNull: false,
+      // },
+      // beneficiary_id: {
+      //   type: DataTypes.UUID,
+      //   allowNull: false,
+      // },
+      start_date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      end_date: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+    },
+    {
+      // Other model options go here
+      modelName: "subscription",
+      sequelize,
+    }
+  );
 
-  return Subscription
-}
+  return Subscription;
+};
