@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.belongsToMany(models.User, { through: 'user_has_subscriptions', as: 'subscribers'});
       User.belongsToMany(models.User, { through: 'user_has_subscriptions', as: 'subscriptions'});
-      User.hasMany(Subscription, { foreignKey: 'user_id' });
+      User.hasMany(models.Subscription, { foreignKey: 'user_id' });
   }
 }
 
