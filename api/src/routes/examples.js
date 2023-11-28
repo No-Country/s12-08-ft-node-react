@@ -3,6 +3,8 @@ const examplesRouter = express.Router();
 const {checkSession} = require('../middlewares/session/session')
 const { ExampleController } = require("../controllers/examples.controller");
 
+
+examplesRouter.use(checkSession)
 /**
  * @openapi
  * /api/examples:
