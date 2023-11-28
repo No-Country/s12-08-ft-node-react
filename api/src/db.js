@@ -60,6 +60,7 @@ const dbInit = async () => {
   await Example.sync({ alter: true });
   await User.sync({ alter: true });
   await Subscription.sync({ alter: true });
+  await Payment.sync({ alter: true });
 };
 
 module.exports = {
