@@ -4,7 +4,7 @@ const usersValidation = Joi.object({
     email: Joi.string().email().required(),
     name: Joi.string().required(),
     password: Joi.string().required(),
-    profile_picture: Joi.string().allow(null).optional(),
+    profile_picture: Joi.string().regex(/^data:image\/\w+;base64,/).allow(null).optional(),
     date_of_birth: Joi.date().required(),
  });
 

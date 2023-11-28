@@ -4,6 +4,7 @@ const NotFound = require('../errorClasses/NotFound.js');
 const {usersValidation, loginValidation} = require('../validations/users.validations.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 
 class UserController {
@@ -60,9 +61,60 @@ class UserController {
         throw new BadRequest('Contraseña incorrecta' ); 
       }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
       return res.status(201).json({ token: token, user: user });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+
+  static async editUser(req,res,next) {
+    try {
+      const { id } = req.params
+
+      if(!id){
+        throw new BadRequest('Se debe proporcionar un ID');
+      }
+
+      const { error, value } = usersValidation.validate(req.body);
+      if( error ){
+        throw new BadRequest(error.details[0].message);
+      }
+      const { email, name, password, profile_picture, date_of_birth } = value;
+
+      const user = await User.findByPk( id )
+
+      if(!user){
+        throw new NotFound("El usuario no existe")
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      let routeImg = null
+
+      if(profile_picture){
+          const uploadResponse = await cloudinary.uploader.upload(profile_picture, {
+            resource_type: "auto",
+            folder: "pov",
+          });
+        
+        routeImg = uploadResponse.secure_url;
+      }
+      
+
+      user.set({
+        email,
+        name, 
+        password: hashedPassword,
+        profile_picture: routeImg,
+        date_of_birth
+      })
+      
+      const newUser = await user.save()
+
+      return res.status(201).json({ message: 'Usuario editado exitosamente' , user: newUser });
     } catch (error) {
       next(error);
     }
