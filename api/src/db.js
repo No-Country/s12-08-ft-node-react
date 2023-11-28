@@ -44,6 +44,7 @@ const User = require("./database/sql/users.model")(
 // Example.hasMany(Other)
 // Other.belongsTo(Example)
 
+
 const dbInit = async () => {
   await Example.sync({ alter: true });
   await User.sync({ alter: true });

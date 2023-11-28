@@ -34,7 +34,6 @@ function initializeApp() {
   app.get("/api/health-check", async (req, res) => {
     res.status(200).send("Stable");
   });
-
   // Comment this when not used
   app.use("/api", router);
 

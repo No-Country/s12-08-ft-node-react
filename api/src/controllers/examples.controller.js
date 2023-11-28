@@ -8,6 +8,7 @@ class ExampleController {
       
       return res.status( 200 ).json({ result: 'Successful example' }); 
       // call db methods after validations have passed
+
     } catch (err) {
       next(err);
     }
