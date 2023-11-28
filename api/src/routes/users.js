@@ -90,4 +90,6 @@ usersRouter.use(checkSession)
 */
 usersRouter.put("/edit/:id" , UserController.editUser)
 
-module.exports = usersRouter
+usersRouter.get("/allUser", UserController.AllUser);
+
+module.exports = usersRouter;
