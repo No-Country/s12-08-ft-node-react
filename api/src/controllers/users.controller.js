@@ -126,7 +126,9 @@ class UserController {
 
   static async AllUser(req, res, next){
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({
+        attributes: { exclude: ['password'] } 
+      });
 
       res.status(200).json(users);
     } catch (error) {
