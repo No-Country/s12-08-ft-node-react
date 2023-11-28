@@ -7,9 +7,19 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
   // Estado de las validaciones del formulario
   const [formValidation, setformValidation] = useState({});
 
-  
   // Efecto para crear validadores cuando cambia el estado del formulario
   useEffect(() => {
+    const createValidators = () => {
+      const formCheckedValues = {};
+      for (const formField of Object.keys(formValidations)) {
+        const [fn, errorMessage] = formValidations[formField];
+
+        formCheckedValues[`${formField}Valid`] = fn(formState[formField])
+          ? null
+          : errorMessage;
+      }
+      setformValidation(formCheckedValues);
+    };
     createValidators();
   }, [formState]);
 
@@ -34,7 +44,6 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
 
   // Determinar si el formulario es válido utilizando useMemo
   const isFormValid = useMemo(() => {
-
     for (const formValue of Object.keys(formValidation)) {
       if (formValidation[formValue] !== null) return false;
     }
@@ -43,7 +52,6 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
 
   // Crear validadores para los campos del formulario
   const createValidators = () => {
-
     const formCheckedValues = {};
     for (const formField of Object.keys(formValidations)) {
       const [fn, errorMessage] = formValidations[formField];
@@ -54,7 +62,6 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
     }
     setformValidation(formCheckedValues);
   };
-  
 
   // Devolver el estado del formulario, manejadores y validaciones
   return {
