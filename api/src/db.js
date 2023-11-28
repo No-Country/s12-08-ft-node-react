@@ -52,9 +52,9 @@ const Subscription = require("./database/sql/subscriptions.model")(
 // Other.belongsTo(Example)
 
 const dbInit = async () => {
-  await Example.sync({ alter: true });
-  await User.sync({ alter: true });
-  await Subscription.sync({ alter: true });
+  await Example.sync({ force: true });
+  await User.sync({ force: true });
+  await Subscription.sync({ force: true });
 };
 
 module.exports = {
