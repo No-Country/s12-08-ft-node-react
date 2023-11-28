@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const BadRequest = require('../../errorClasses/BadRequest')
 const NotFound = require('../../errorClasses/NotFound')
-const User = require('../../database/sql/users.model')
+const { User } = require('../../db')
 require("dotenv").config();
 
 const checkSession = async(req, res, next) => {

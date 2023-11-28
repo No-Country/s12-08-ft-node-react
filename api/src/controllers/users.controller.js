@@ -1,11 +1,14 @@
 const { User } = require('../db.js');
-const validations = require('../validations/users.validations.js');
 const BadRequest = require('../errorClasses/BadRequest.js');
-const usersValidation = require('../validations/users.validations.js');
+const NotFound = require('../errorClasses/NotFound.js');
+const {usersValidation, loginValidation} = require('../validations/users.validations.js');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+require("dotenv").config();
 
 class UserController {
-  static async creatUser(req,res,next) {
+
+  static async createUser(req,res,next) {
     try {
       //validanciones por body
       const {error, value } = usersValidation.validate(req.body);
@@ -14,7 +17,7 @@ class UserController {
       }
 
       // Obtener datos del cuerpo de la solicitud
-      const { email, name, password, role, profile_picture, date_of_birth } = req.body;
+      const { email, name, password, profile_picture, date_of_birth } = value;
 
       // Hash de la contraseña utilizando bcrypt
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,7 +27,6 @@ class UserController {
         email,
         name,
         password: hashedPassword,
-        role,
         profile_picture,
         date_of_birth,
       });
@@ -33,6 +35,36 @@ class UserController {
       res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
     } catch (err) {
       next(err);
+    }
+  }
+
+  static async login(req,res,next) {
+    try {
+      const {error, value } = loginValidation.validate(req.body);
+
+      if(error){
+        throw new BadRequest(error.details[0].message);
+      }
+
+      const {email, password} = value
+
+      const user = await User.findOne({where: {email}})
+
+      if(!user){
+        throw new NotFound("El usuario no existe")
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.password)
+
+      if (!passwordMatch) {
+        throw new BadRequest('Contraseña incorrecta' ); 
+      }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+
+      return res.status(201).json({ token: token, user: user });
+    } catch (error) {
+      next(error);
     }
   }
 }
