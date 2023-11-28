@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Home } from '../pages/Home';
 import '../index.css';
-
+import SignUpForm from '../pages/SignUpForm';
+ 
 const AppRouter = () => {
 
 
@@ -10,6 +11,7 @@ const AppRouter = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/reguister" element={<SignUpForm />} />
         </Routes>
       </BrowserRouter>
     </>

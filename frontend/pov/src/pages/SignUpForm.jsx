@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "../hook/UseForm";
+import { useForm } from "../hooks/UseForm";
 
 const initialSignUpForm = {
   user: "",
