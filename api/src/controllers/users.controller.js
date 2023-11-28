@@ -5,6 +5,8 @@ const {usersValidation, loginValidation} = require('../validations/users.validat
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 require("dotenv").config();
+const Chat = require('../database/mongo/chats.model.js');
+const mongoose = require('mongoose');
 
 class UserController {
 
@@ -15,24 +17,28 @@ class UserController {
       if(error){
         throw new BadRequest(error.details[0].message);
       }
-
-      // Obtener datos del cuerpo de la solicitud
-      const { email, name, password, profile_picture, date_of_birth } = value;
+      const { email, name, username, password, profile_picture, date_of_birth } = value;
 
       // Hash de la contraseña utilizando bcrypt
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Lógica para crear el usuario en la base de datos
       const newUser = await User.create({
         email,
         name,
+        username,
         password: hashedPassword,
         profile_picture,
         date_of_birth,
       });
 
-      // Enviar la respuesta con el nuevo usuario creado
-      res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
+      const newChat = await Chat.create({
+        _id: newUser.id,
+        user_id: newUser.id, 
+        name: newUser.name,
+        description: "Chat de " + newUser.username
+      });
+
+      res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser, chat: newChat });
     } catch (err) {
       next(err);
     }
