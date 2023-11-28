@@ -28,9 +28,6 @@ const { UserController } = require("../controllers/users.controller");
  *               password:
  *                 type: string
  *                 description: Contraseña del nuevo usuario.
- *               profile_picture:
- *                 type: string
- *                 description: Imagen de perfil del nuevo usuario en formato base64.
  *               date_of_birth:
  *                 type: string
  *                 description: Fecha de nacimiento del nuevo usuario en formato YYYY-MM-DD.
