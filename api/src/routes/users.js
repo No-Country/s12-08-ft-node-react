@@ -1,18 +1,27 @@
 const express = require("express");
 const usersRouter = express.Router();
+const {checkSession} = require('../middlewares/session/session')
 const { UserController } = require("../controllers/users.controller");
 
+usersRouter.use(checkSession)
 
 /**
  * @openapi
- * /api/auth/sign-up:
- *   post:
+ * /api/users/edit/{id}:
+ *   put:
  *     tags:
- *       - Auth
- *     summary: Crea un nuevo usuario.
- *     description: Crea un nuevo usuario con la información proporcionada.
+ *       - Users
+ *     summary: Edita un usuario existente.
+ *     description: Edita un usuario existente con la información proporcionada.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del usuario que se va a editar.
+ *         schema:
+ *           type: string
  *     requestBody:
- *       description: Datos del nuevo usuario.
+ *       description: Datos actualizados del usuario.
  *       required: true
  *       content:
  *         application/json:
@@ -21,19 +30,22 @@ const { UserController } = require("../controllers/users.controller");
  *             properties:
  *               email:
  *                 type: string
- *                 description: Dirección de correo electrónico del nuevo usuario.
+ *                 description: Nueva dirección de correo electrónico del usuario.
  *               name:
  *                 type: string
- *                 description: Nombre del nuevo usuario.
+ *                 description: Nuevo nombre del usuario.
  *               password:
  *                 type: string
- *                 description: Contraseña del nuevo usuario.
+ *                 description: Nueva contraseña del usuario.
+ *               profile_picture:
+ *                 type: string
+ *                 description: Nueva imagen de perfil del usuario en formato base64.
  *               date_of_birth:
  *                 type: string
- *                 description: Fecha de nacimiento del nuevo usuario en formato YYYY-MM-DD.
+ *                 description: Nueva fecha de nacimiento del usuario en formato YYYY-MM-DD.
  *     responses:
  *       201:
- *         description: Usuario creado exitosamente.
+ *         description: Usuario editado exitosamente.
  *         content:
  *           application/json:
  *             schema:
@@ -41,10 +53,10 @@ const { UserController } = require("../controllers/users.controller");
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Mensaje indicando que el usuario se ha creado exitosamente.
+ *                   description: Mensaje indicando que el usuario se ha editado exitosamente.
  *                 user:
  *                   type: object
- *                   description: Detalles del nuevo usuario.
+ *                   description: Detalles del usuario editado.
  *       400:
  *         description: Error en la solicitud debido a datos incorrectos.
  *         content:
@@ -55,61 +67,6 @@ const { UserController } = require("../controllers/users.controller");
  *                 message:
  *                   type: string
  *                   description: Mensaje de error.
- *       500:
- *         description: Error del servidor.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Mensaje de error.
-*/
-usersRouter.post("/sign-up", UserController.createUser);
-
-
-/**
- * @openapi
- * /api/auth/login:
- *   post:
- *     tags:
- *       - Auth
- *     summary: Inicia sesión de usuario.
- *     description: Inicia sesión de usuario con credenciales proporcionadas.
- *     requestBody:
- *       description: Datos de inicio de sesión del usuario.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       201:
- *         description: Inicio de sesión exitoso.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                 user:
- *                   type: object
- *       400:
- *         description: Error en la solicitud debido a datos incorrectos.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       404:
  *         description: El usuario no existe.
  *         content:
@@ -119,6 +76,7 @@ usersRouter.post("/sign-up", UserController.createUser);
  *               properties:
  *                 message:
  *                   type: string
+ *                   description: Mensaje de error.
  *       500:
  *         description: Error del servidor.
  *         content:
@@ -128,7 +86,8 @@ usersRouter.post("/sign-up", UserController.createUser);
  *               properties:
  *                 message:
  *                   type: string
+ *                   description: Mensaje de error.
 */
-usersRouter.post("/login", UserController.login);
+usersRouter.put("/edit/:id" , UserController.editUser)
 
-module.exports = usersRouter;
+module.exports = usersRouter
