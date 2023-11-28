@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // Model attributes are defined here
       id: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       // payment_id: {
