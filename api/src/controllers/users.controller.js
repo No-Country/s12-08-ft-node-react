@@ -92,7 +92,7 @@ class UserController {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      let routeImg = null
+      let routeImg = user.profile_picture
 
       if(profile_picture){
           const uploadResponse = await cloudinary.uploader.upload(profile_picture, {
