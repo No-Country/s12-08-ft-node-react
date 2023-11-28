@@ -6,10 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.User, {
         through: "user_has_subscriptions",
         as: "subscribers",
+        foreignKey: "user_id",
       });
       User.belongsToMany(models.User, {
         through: "user_has_subscriptions",
         as: "subscriptions",
+        foreignKey: "subscriber_id",
       });
       User.hasMany(models.Subscription, { foreignKey: "user_id" });
     }
