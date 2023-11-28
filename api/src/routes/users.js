@@ -131,4 +131,6 @@ usersRouter.post("/sign-up", UserController.createUser);
 */
 usersRouter.post("/login", UserController.login);
 
+usersRouter.get("/allUser", UserController.AllUser);
+
 module.exports = usersRouter;
