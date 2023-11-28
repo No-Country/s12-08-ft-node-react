@@ -48,7 +48,6 @@ const Subscription = require("./database/sql/subscriptions.model")(
   Sequelize.DataTypes
 );
 
-
 // Example.hasMany(Other)
 // Other.belongsTo(Example)
 
