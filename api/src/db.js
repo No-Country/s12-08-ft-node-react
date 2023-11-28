@@ -54,6 +54,7 @@ const Subscription = require("./database/sql/subscriptions.model")(
 const dbInit = async () => {
   await Example.sync({ alter: true });
   await User.sync({ alter: true });
+  await Subscription.sync({ alter: true });
 };
 
 module.exports = {
