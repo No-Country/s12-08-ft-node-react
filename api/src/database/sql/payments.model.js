@@ -1,7 +1,14 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Payment extends Model {}
+  class Payment extends Model {
+    static associate(models) {
+      Payment.belongsTo(models.Subscription, {
+        foreignKey: "payment_id",
+        as: "paid_subscription",
+      });
+    }
+  }
 
   Payment.init(
     {

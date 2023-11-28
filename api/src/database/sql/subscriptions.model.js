@@ -4,13 +4,15 @@ module.exports = (sequelize, DataTypes) => {
   class Subscription extends Model {
     static associate(models) {
       Subscription.belongsTo(models.User, { foreignKey: "user_id" });
-      // Subscription.hasMany(models.Payment, { foreignKey: 'payment_id' });
+      Subscription.hasMany(models.Payment, {
+        foreignKey: "payment_id",
+        as: "payments",
+      });
     }
   }
 
   Subscription.init(
     {
-      // Model attributes are defined here
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
