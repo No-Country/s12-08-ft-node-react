@@ -97,9 +97,9 @@ class UserController {
 
   static async editUser(req,res,next) {
     try {
-      const { id } = req.params
+      const { user_id } = req
 
-      if(!id){
+      if(!user_id){
         throw new BadRequest('Se debe proporcionar un ID');
       }
 
@@ -108,11 +108,38 @@ class UserController {
         throw new BadRequest(error.details[0].message);
       }
 
-      const user = await User.findByPk( id )
+      const user = await User.findByPk( user_id )
 
       if(!user){
         throw new NotFound("El usuario no existe")
       }
+
+
+      if (value.email) {
+        const emailExists = await User.findOne({
+          where: {
+            email: value.email,
+            id: { [Op.ne]: user_id }, 
+          },
+        });
+        if (emailExists) {
+          throw new AlreadyExist("El email ya está registrado por otro usuario");
+        }
+      }
+
+      if (value.username) {
+        const usernameExists = await User.findOne({
+          where: {
+            username: value.username,
+            id: { [Op.ne]: user_id },
+          },
+        });
+
+        if (usernameExists) {
+          throw new AlreadyExist("El nombre de usuario ya está registrado por otro usuario");
+        }
+      }
+        
 
       if(value.password){
         value.password = await bcrypt.hash(password, 10);
@@ -150,6 +177,22 @@ class UserController {
       res.status(200).json(users);
     } catch (error) {
     next(error);  
+    }
+  }
+
+  static async oneUser(req, res, next){
+    try {
+      const { id } = req.params;
+      const user = await User.findOne({
+        where: { id: id },
+        attributes: { exclude: ['password'] } 
+      });
+      const userChat = await Chat.findOne({ _id: id });
+
+      res.status(200).json({ user: user, chat: userChat });
+    } catch (error) {
+      next(error)
+      
     }
   }
 }
