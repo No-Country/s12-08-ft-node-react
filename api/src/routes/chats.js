@@ -6,6 +6,6 @@ const { checkSession } = require("../middlewares/session/session");
 
 chatsRouter.get("/", ChatController.example);
 
-chatsRouter.post("/chat", checkSession, MessageController.create);
+chatsRouter.post("/chat",checkSession, MessageController.create);
 
 module.exports = chatsRouter;

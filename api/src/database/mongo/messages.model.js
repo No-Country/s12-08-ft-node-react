@@ -3,9 +3,8 @@ const { Schema } = mongoose;
 
 const messagesSchema = new Schema(
   {
-    chat_id: { type: mongoose.SchemaTypes.ObjectId, required: true },
     user_id: { type: String, required: true },
-    content: { type: ["image", "video", "text", "gif"], required: true },
+    content: { type: String, required: true },
     text: {
       type: String,
     },
@@ -18,7 +17,7 @@ const messagesSchema = new Schema(
     gif: {
       type: String,
     },
-    reaction: { type: [{ user_id: String, type: String }]},
+    reactions: { type: [{ user_id: String, type: String }], default: []},
   },
   {
     timestamps: true,

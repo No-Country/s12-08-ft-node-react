@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 const createMessageValidation = Joi.object({ 
-    chat_id: Joi.string().hex().length(24),
     user_id: Joi.string().required(),
     content: Joi.string().valid("image", "video", "text", "gif"),
     text: Joi.string().allow(null).optional(),
