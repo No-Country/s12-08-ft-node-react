@@ -85,7 +85,7 @@ authRouter.post("/sign-up", UserController.createUser);
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               identifier:
  *                 type: string
  *               password:
  *                 type: string

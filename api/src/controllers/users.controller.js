@@ -1,6 +1,7 @@
 const { User } = require('../db.js');
 const BadRequest = require('../errorClasses/BadRequest.js');
 const NotFound = require('../errorClasses/NotFound.js');
+const AlreadyExist = require('../errorClasses/AlreadyExist.js');
 const {usersValidation, loginValidation,editUserValidation} = require('../validations/users.validations.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
@@ -8,6 +9,7 @@ const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 const Chat = require('../database/mongo/chats.model.js');
 const mongoose = require('mongoose');
+const { Op } = require('sequelize');
 
 class UserController {
 
@@ -19,6 +21,15 @@ class UserController {
         throw new BadRequest(error.details[0].message);
       }
       const { email, name, username, password, profile_picture, date_of_birth } = value;
+
+      const user = await User.findOne({ where: { [Op.or]: [
+        { email: email },
+        { username: username }
+      ]}})
+
+      if(user){
+        throw new AlreadyExist("El usuario ya existe")
+      }
 
       // Hash de la contraseña utilizando bcrypt
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -39,6 +50,8 @@ class UserController {
         description: "Chat de " + newUser.username
       });
 
+      delete newUser.dataValues.password
+
       res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser, chat: newChat });
     } catch (err) {
       next(err);
@@ -53,9 +66,13 @@ class UserController {
         throw new BadRequest(error.details[0].message);
       }
 
-      const {email, password} = value
+      const { identifier,password } = value
 
-      const user = await User.findOne({where: {email}})
+      const user = await User.findOne({ where: { [Op.or]: [
+        { email: identifier },
+        { username: identifier }
+      ]}});
+
 
       if(!user){
         throw new NotFound("El usuario no existe")
@@ -68,6 +85,8 @@ class UserController {
       }
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+
+      delete user.dataValues.password
 
       return res.status(201).json({ token: token, user: user });
     } catch (error) {
@@ -88,8 +107,6 @@ class UserController {
       if( error ){
         throw new BadRequest(error.details[0].message);
       }
-
-      //const { email, name, password, profile_picture, date_of_birth } = value;
 
       const user = await User.findByPk( id )
 
