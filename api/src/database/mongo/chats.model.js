@@ -7,6 +7,7 @@ const chatSchema = new Schema(
     user_id: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
+    messages:[{ type: Schema.Types.ObjectId, ref: 'Messages' }],
     img: {
       type: String,
       default:
@@ -20,3 +21,6 @@ const chatSchema = new Schema(
 
 const Chat = mongoose.model("Chat", chatSchema);
 module.exports = Chat;
+
+
+

@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
-const chatsValidation = Joi.object({ });
+const chatsValidation = Joi.object({
+    
+});
 
 module.exports = chatsValidation 

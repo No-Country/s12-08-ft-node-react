@@ -20,7 +20,7 @@ const checkSession = async (req, res, next) => {
     if (!user) {
       throw new NotFound("Token inválido - usuario no encontrado");
     }
-
+    req.body.user_id = user.id;
     next();
   } catch (error) {
     next(error);
