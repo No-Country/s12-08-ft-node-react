@@ -3,12 +3,10 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const { sequelize, dbInit } = require("./db");
-
+const { sequelize, dbInit, mongoDbConnection } = require("./db");
+const {swaggerDocs} =  require("./config/swagger")
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
-
-// Routers
-const exampleRouter = require("./routes/examples");
+const router = require('./routes/index');
 
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
@@ -33,12 +31,11 @@ function initializeApp() {
    * Routes
    */
 
-  app.get("/health-check", async (req, res) => {
+  app.get("/api/health-check", async (req, res) => {
     res.status(200).send("Stable");
   });
-
   // Comment this when not used
-  app.use("/example", exampleRouter);
+  app.use("/api", router);
 
   /*
    * Errors middleware
@@ -52,7 +49,7 @@ function initializeApp() {
 async function startServer() {
   try {
     // Auth de mongo
-
+    await mongoDbConnection()
     // Auth de sequelize
     await sequelize.authenticate();
     console.log("Conexión establecida");
@@ -66,6 +63,7 @@ async function startServer() {
     const app = initializeApp();
     app.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
+      swaggerDocs(app, port)
     });
   } catch (error) {
     console.error("Error al iniciar el servidor:", error);

@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { useForm } from "../../hooks/UseForm";
 import { userLogin } from "../../slices/login.slice";
 import { userRegister } from "../../slices/register.slice";
+import { Google } from "../../components/Svg/Google";
+import { Facebook} from "../../components/Svg/Facebook";
+import { Apple} from "../../components/Svg/Apple";
 
 const initialSignUpForm = {
   user: "usuario",
@@ -87,7 +90,42 @@ export const Registerlogin = () => {
     };
 
   // Renderizado del componente del formulario de registro
+  // return (
+  //   <main className=" font-Lexend font-sans flex min-h-screen justify-center items-center font-Lexend ">
+  //     <div class="flex items-center justify-center h-screen">
+  //       <div class="bg-gray-200 p-6 rounded-lg">
+  //        
+  //       </div>
+  //       <div className=" flex justify-end">
+  //         <button className="m-2 p-2">
+  //           <Google />
+  //         </button>
+  //         <button className="m-2 p-2">
+  //           <Facebook />
+  //         </button>
+  //         <button className=" m-2 p-2">
+  //           <Apple />
+  //         </button>
+  //         {location.pathname === "/register" ? (
+  //           <div>
+  //             <p className=" mt-2 mb-[36px] text-[12px]">
+  //               ¿Ya tienes una cuenta? <strong>Inicia sesión</strong>
+  //             </p>
+  //           </div>
+  //         ) : (
+  //           <div>
+  //             <p className=" mt-2 mb-[36px] text-[12px]">
+  //               ¿No tienes cuenta todavía?
+  //               <strong>Regístrate</strong>
+  //             </p>
+  //           </div>
+  //         )}
+  //       </div>
+  //     </div>
+  //   </main>
+  // );
   return (
+
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -99,6 +137,7 @@ export const Registerlogin = () => {
               </p>
             </div>
           ) : null}
+
           <form className="card-body" onSubmit={handleSignUp}>
             {location.pathname === "/register" ? (
               <div className="form-control">
@@ -131,10 +170,12 @@ export const Registerlogin = () => {
                     <span style={{ color: "red" }}>{usernameValid}</span>
                   </div>
                 )}
+
               </div>
             ) : (
               <h4 className="text-5xl font-">Ingresar</h4>
             )}
+
 
             <div className="form-control">
               {/* Input de Correo Electrónico */}
