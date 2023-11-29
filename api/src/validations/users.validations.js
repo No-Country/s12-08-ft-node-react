@@ -12,6 +12,7 @@ const usersValidation = Joi.object({
 const editUserValidation = Joi.object({
     email: Joi.string().email().allow(null).optional(),
     name: Joi.string().allow(null).optional(),
+    username: Joi.string().allow(null).optional(),
     password: Joi.string().allow(null).optional(),
     profile_picture: Joi.string().regex(/^data:image\/\w+;base64,/).allow(null).optional(),
     date_of_birth: Joi.date().allow(null).optional(),
