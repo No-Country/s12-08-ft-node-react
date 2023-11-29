@@ -12,43 +12,28 @@ const loginSlice = createSlice({
   name: "login",  // Nombre del slice
   initialState,  // Estado inicial del slice
   reducers: {
-    // Reducer para la acción userLogin
-    userLogin: (state, action) => {
-      console.log(action.payload)
-      // Actualiza el estado con el token proporcionado en la acción
-      state.token = action.payload.token;
+    userLogin: async (state, action) => {
+
+      const url = "https://pov.azurewebsites.net/api/auth";
+      try {
+        const DATA = {
+          identifier: action.payload.email,
+          password: action.payload.password,
+        };
+
+        const response = await axios.post(`${url}/login`, DATA);
+        state.token = response.data.token;
+      } catch (error) {
+        console.error("Error en el login:", error);
+      }
     },
     userLogout: (state, action) => {
       // Actualiza el estado con el token proporcionado en la acción
       state.token = "";
     },
-
-  },
-  extraReducers: (builder) => {
-    // Manejo de acciones adicionales (fuera del slice) con extraReducers
-
-    // Agrega un caso para la acción 'userLogin'
-    builder.addCase(loginSlice.actions.userLogin, async (state, action) => {
-      try {
-        // Crea un objeto DATA con email y password de la acción
-        const DATA = {
-          email: action.payload.email,
-          password: action.payload.password,
-        }
-
-        // Realiza una solicitud POST al servidor para autenticar al usuario
-        const response = await axios.post("https://api.example.com/login", DATA);
-
-        // Actualiza el estado con el token de la respuesta del servidor
-        state.token = response.data.token;
-      } catch (error) {
-        // Maneja errores en caso de fallo en la solicitud
-        console.error("Error en el login:", error);
-      }
-    });
   },
 });
 
 // Exporta la acción 'login' y el reducer del slice
-export const { userLogin, userLogout } = loginSlice.actions;
+export const { userLogout, userLogin } = loginSlice.actions;
 export default loginSlice.reducer;
