@@ -14,9 +14,15 @@ const loginSlice = createSlice({
   reducers: {
     // Reducer para la acción userLogin
     userLogin: (state, action) => {
+      console.log(action.payload)
       // Actualiza el estado con el token proporcionado en la acción
       state.token = action.payload.token;
     },
+    userLogout: (state, action) => {
+      // Actualiza el estado con el token proporcionado en la acción
+      state.token = "";
+    },
+
   },
   extraReducers: (builder) => {
     // Manejo de acciones adicionales (fuera del slice) con extraReducers
@@ -44,5 +50,5 @@ const loginSlice = createSlice({
 });
 
 // Exporta la acción 'login' y el reducer del slice
-export const { userLogin } = loginSlice.actions;
+export const { userLogin, userLogout } = loginSlice.actions;
 export default loginSlice.reducer;
