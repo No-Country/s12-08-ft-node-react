@@ -6,7 +6,7 @@ import logo from "../../assets/avatars/logoPov.webp";
 
 const NavBar = () => {
   return (
-    <div className="w-screen fixed left-0 top-0 px-[24px] 3xl:px-0 bg-white shadow-md">
+    <div className="w-screen fixed left-0 top-0 px-[24px] 3xl:px-0 bg-white shadow-md z-10">
       <nav className="max-w-[1200px] mx-auto p-0 navbar">
         {/* LOGO */}
         <section className="flex-1">
