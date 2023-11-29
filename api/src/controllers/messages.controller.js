@@ -7,14 +7,15 @@ const {
 
 class MessageController {
   static async create(req, res, next) {
-    console.log("example!");
+    
+    req.body.user_id = req.user_id
     try {
       const { error, value } = createMessageValidation.validate(req.body);
       if (error) {
         throw new BadRequest(error.details[0].message);
       }
 
-      const { user_id, text, image, video, gif, content } = value;
+      const { user_id , text, image, video, gif, content } = value;
 
       const message = await Messages.create({
         user_id,

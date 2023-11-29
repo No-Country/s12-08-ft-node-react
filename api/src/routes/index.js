@@ -12,7 +12,7 @@ router.use('/auth', authRouter);
 
 router.use('/examples', exampleRouter);
 
-router.use('/', chatsRouter);
+router.use('/chats', chatsRouter);
 
 
 module.exports = router
