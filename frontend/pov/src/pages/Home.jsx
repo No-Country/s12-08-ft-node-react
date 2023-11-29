@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { Cards } from "../components/Cards";
-import ContainerSubscriptions from "../components/Subscription/ContainerSubscriptions";
-=======
 import { Fragment } from 'react';
 import { LogoHistory } from '../components/Svg/Logo';
 
@@ -23,16 +19,10 @@ const Histories = [
     name: 'Luisa',
   },
 ];
->>>>>>> 7aa49a6ba787b8c7a9cc983f18811362e517c113
 
 export const Home = () => {
   return (
     <>
-<<<<<<< HEAD
-      <h1>Este es el Home-Page</h1>
-      <Cards />
-      <ContainerSubscriptions />
-=======
       <section className="flex flex-col pt-28 px-5">
         <h1 className="text-4xl text-black ">Historias</h1>
         <div className="flex flex-row gap-5 md:gap-36 justify-center">
@@ -50,7 +40,6 @@ export const Home = () => {
           ))}
         </div>
       </section>
->>>>>>> 7aa49a6ba787b8c7a9cc983f18811362e517c113
     </>
   );
 };
