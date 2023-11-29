@@ -92,4 +92,6 @@ usersRouter.put("/edit/:id" , UserController.editUser)
 
 usersRouter.get("/allUser", UserController.AllUser);
 
+usersRouter.get("/:id", UserController.oneUser);
+
 module.exports = usersRouter;
