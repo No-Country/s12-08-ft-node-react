@@ -3,9 +3,8 @@ const { Schema } = mongoose;
 
 const commentsSchema = new Schema(
   {
-    message_id: { type: mongoose.SchemaTypes.ObjectId, required: true },
     suscriber_id: { type: String, required: true },
-    content: { type: ["image", "video", "text", "gif"], required: true },
+    content: { type: String, required: true },
     text: {
       type: String,
     },
