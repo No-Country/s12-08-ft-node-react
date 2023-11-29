@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { LogoHistory } from '../components/Svg/Logo';
+import  ContainerSubscriptions from '../components/Subscription/ContainerSubscriptions';
 
 const Histories = [
   {
@@ -39,6 +40,7 @@ export const Home = () => {
             </Fragment>
           ))}
         </div>
+        <ContainerSubscriptions/>
       </section>
     </>
   );

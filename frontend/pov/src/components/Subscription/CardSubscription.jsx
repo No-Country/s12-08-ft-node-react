@@ -25,7 +25,7 @@ const CardSubscription = ({ subscription }) => {
           </div>
         </div>
         <div className="row-start-3 col-span-full text-center flex items-center ml-5 mt-[-15px]">
-          <div className="text-white ml-0 mt-[-25px]">{name}</div>
+          <div className="text-black ml-0 mt-[-25px]">{name}</div>
         </div>
       </div>
     </div>
