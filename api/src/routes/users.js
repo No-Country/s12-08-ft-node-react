@@ -7,19 +7,12 @@ usersRouter.use(checkSession)
 
 /**
  * @openapi
- * /api/users/edit/{id}:
+ * /api/users/edit:
  *   put:
  *     tags:
  *       - Users
- *     summary: Edita un usuario existente.
- *     description: Edita un usuario existente con la información proporcionada.
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID del usuario que se va a editar.
- *         schema:
- *           type: string
+ *     summary: Edita el usuario actual.
+ *     description: Edita el usuario actual con la información proporcionada.
  *     requestBody:
  *       description: Datos actualizados del usuario.
  *       required: true
@@ -34,6 +27,9 @@ usersRouter.use(checkSession)
  *               name:
  *                 type: string
  *                 description: Nuevo nombre del usuario.
+ *               username:
+ *                 type: string
+ *                 description: Nuevo username del usuario.
  *               password:
  *                 type: string
  *                 description: Nueva contraseña del usuario.
@@ -44,7 +40,7 @@ usersRouter.use(checkSession)
  *                 type: string
  *                 description: Nueva fecha de nacimiento del usuario en formato YYYY-MM-DD.
  *     responses:
- *       201:
+ *       200:
  *         description: Usuario editado exitosamente.
  *         content:
  *           application/json:
@@ -88,10 +84,89 @@ usersRouter.use(checkSession)
  *                   type: string
  *                   description: Mensaje de error.
 */
-usersRouter.put("/edit/:id" , UserController.editUser)
+usersRouter.put("/edit" , UserController.editUser)
 
+
+/**
+ * @openapi
+ * /api/users/allUser:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Obtiene la lista de todos los usuarios.
+ *     description: Obtiene una lista de todos los usuarios registrados en el sistema, excluyendo la contraseña de cada usuario.
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios obtenida exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       500:
+ *         description: Error del servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error del servidor.
+*/
 usersRouter.get("/allUser", UserController.AllUser);
 
+/**
+ * @openapi
+ * /api/users/{id}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Obtiene los detalles de un usuario específico.
+ *     description: Obtiene los detalles de un usuario específico y su chat asociado, excluyendo la contraseña del usuario.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del usuario del cual se desean obtener los detalles.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Detalles del usuario obtenidos exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: object
+ *                   description: Detalles del usuario.
+ *                 chat:
+ *                   type: object
+ *                   description: Detalles del chat asociado al usuario.
+ *       404:
+ *         description: El usuario no existe.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error indicando que el usuario no existe.
+ *       500:
+ *         description: Error del servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error del servidor.
+*/
 usersRouter.get("/:id", UserController.oneUser);
 
 module.exports = usersRouter;
