@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const chatSchema = new Schema(
   {
+    _id: { type: String, required: true },
     user_id: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },

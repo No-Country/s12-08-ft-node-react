@@ -48,6 +48,11 @@ const Subscription = require("./database/sql/subscriptions.model")(
   Sequelize.DataTypes
 );
 
+const Payment = require("./database/sql/payments.model")(
+  sequelize,
+  Sequelize.DataTypes
+);
+
 // Example.hasMany(Other)
 // Other.belongsTo(Example)
 
@@ -55,6 +60,7 @@ const dbInit = async () => {
   await Example.sync({ alter: true });
   await User.sync({ alter: true });
   await Subscription.sync({ alter: true });
+  await Payment.sync({ alter: true });
 };
 
 module.exports = {
@@ -64,4 +70,6 @@ module.exports = {
   Example,
   mongoDbConnection,
   User,
+  Subscription,
+  Payment,
 };
