@@ -8,8 +8,10 @@
   box-sizing: border-box;
 }
 
-:root {
+/* :root {
   @apply font-Lexend
 }
 
-
+.lexend {
+  font-family: 'Lexend', sans-serif;
+} */

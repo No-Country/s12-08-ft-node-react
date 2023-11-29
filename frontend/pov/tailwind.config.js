@@ -2,22 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
       fontFamily: {
-        Lexend: ["Lexend"],
-      },
-    },
+        lexend: ["Lexend"],
+     },
   },
-<<<<<<< HEAD
-  plugins: [require('daisyui')],
- daisyui: {
-   themes: ["false"],
-  }
-}
-=======
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["false"],
+    themes: ["light"],
   },
 };
->>>>>>> 8fd910e4b08f4fd9bedb9bc6e4150da06cddbe13
