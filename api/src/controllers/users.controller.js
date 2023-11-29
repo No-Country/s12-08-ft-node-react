@@ -152,6 +152,22 @@ class UserController {
     next(error);  
     }
   }
+
+  static async oneUser(req, res, next){
+    try {
+      const { id } = req.params;
+      const user = await User.findOne({
+        where: { id: id },
+        attributes: { exclude: ['password'] } 
+      });
+      const userChat = await Chat.findOne({ _id: id });
+
+      res.status(200).json({ user: user, chat: userChat });
+    } catch (error) {
+      next(error)
+      
+    }
+  }
 }
 
 module.exports = { UserController };
