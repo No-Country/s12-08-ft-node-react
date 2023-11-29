@@ -53,8 +53,8 @@ const ContainerSubscriptions = () => {
     };
 
     return (
-        <div className="container mx-1 my-8 p-8 bg-gray-100 sm:w-full">
-            <h2 className="text-2xl font-bold mb-4">Suscripciones</h2>
+        <div className="container my-8  bg-gray-100 sm:w-full">
+            <h2 className="text-2xl font-bold">Suscripciones</h2>
             <p className='subtitle'>Te dejamos algunos perfiles que podrían interesarte.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
                 {renderSubscriptions()}
