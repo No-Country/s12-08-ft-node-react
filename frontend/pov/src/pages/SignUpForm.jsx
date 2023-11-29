@@ -58,87 +58,85 @@ export const SignUpForm = () => {
 
   // Renderizado del componente del formulario de registro
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <h4 className="text-5xl font-">Crea tu cuenta</h4>
-          <p className="py-6">Regístrate y disfruta de tus famosos favoritos</p>
-          <form className="card-body" onSubmit={handleSignUp}>
-            <div className="form-control">
-              {/* Input de Usuario */}
-              <input
-                className="input input-bordered"
-                type="text"
-                name="user"
-                value={user}
-                placeholder="Usuario"
-                onChange={onInputChange}
-              />
-              {!!userValid && formSubmited && (
-                <div>
-                  <span style={{ color: "red" }}>{userValid}</span>
-                </div>
-              )}
+    <main className="flex min-h-screen justify-center items-center font-Lexend ">
+      <form className="" onSubmit={handleSignUp}>
+        <h4 className="text-5xl font-bold ">Crea tu cuenta</h4>
+        <p className="py-6">Regístrate y disfruta de tus famosos favoritos</p>
+        <div className="form-control">
+          {/* Input de Usuario */}
+          <input
+            //className="input input-bordered w-345px h-60px"
+            className="mb-[20px] flex w-96 h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30 bg-gray-400"
+            type="text"
+            name="user"
+            value={user}
+            placeholder="Usuario"
+            onChange={onInputChange}
+          />
 
-              {/* Input de Nombre y Apellido */}
-              <input
-                className="input input-bordered"
-                type="text"
-                name="username"
-                placeholder="Nombre y apellido"
-                value={username}
-                onChange={onInputChange}
-              />
-              {!!usernameValid && formSubmited && (
-                <div>
-                  <span style={{ color: "red" }}>{usernameValid}</span>
-                </div>
-              )}
-
-              {/* Input de Correo Electrónico */}
-              <input
-                className="input input-bordered"
-                type="email"
-                name="email"
-                placeholder="Correo electrónico"
-                value={email}
-                onChange={onInputChange}
-              />
-              {!!emailValid && formSubmited && (
-                <div>
-                  <span style={{ color: "red" }}>{emailValid}</span>
-                </div>
-              )}
-
-              {/* Input de Contraseña */}
-              <input
-                className="input input-bordered"
-                type="password"
-                name="password"
-                placeholder="Contraseña"
-                value={password}
-                onChange={onInputChange}
-              />
-              {!!passwordValid && formSubmited && (
-                <div>
-                  <span style={{ color: "red" }}>{passwordValid}</span>
-                </div>
-              )}
+          {!!userValid && formSubmited && (
+            <div>
+              <span style={{ color: "red" }}>{userValid}</span>
             </div>
-            {/* Botón de Envío */}
-            <div className="form-control mt-6">
-              <button
-                className="btn sm:btn-sm md:btn-md lg:btn-lg"
-                type="submit"
-                //disabled={!isFormValid}
-              >
-                Continuar
-              </button>
+          )}
+
+          {/* Input de Nombre y Apellido */}
+          <input
+            className="mb-[20px] flex w-96 h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30 bg-gray-400"
+            type="text"
+            name="username"
+            placeholder="Nombre y apellido"
+            value={username}
+            onChange={onInputChange}
+          />
+          {!!usernameValid && formSubmited && (
+            <div>
+              <span style={{ color: "red" }}>{usernameValid}</span>
             </div>
-          </form>
+          )}
+
+          {/* Input de Correo Electrónico */}
+
+          <input
+            className=" mb-[20px] flex w-96 h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30 bg-gray-400"
+            type="email"
+            name="email"
+            placeholder="Correo electrónico"
+            value={email}
+            onChange={onInputChange}
+          />
+          {!!emailValid && formSubmited && (
+            <div>
+              <span style={{ color: "red" }}>{emailValid}</span>
+            </div>
+          )}
+
+          {/* Input de Contraseña */}
+          <input
+            className=" mb-[20px] flex w-96 h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30 bg-gray-400"
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={onInputChange}
+          />
+          {!!passwordValid && formSubmited && (
+            <div>
+              <span style={{ color: "red" }}>{passwordValid}</span>
+            </div>
+          )}
         </div>
-      </div>
-    </div>
+        {/* Botón de Envío */}
+        <div className="form-control mt-6">
+          <button
+            className="btn flex w-96 h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-md bg-gray-800"
+            type="submit"
+          >
+            Continuar
+          </button>
+        </div>
+      </form>
+    </main>
   );
 };
 

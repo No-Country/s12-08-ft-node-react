@@ -12,7 +12,7 @@ export default {
     },
   },
   plugins: [require('daisyui')],
-  daisyui: {
-    themes: ["cupcake"],
+ daisyui: {
+   themes: ["false"],
   }
 }
