@@ -13,38 +13,26 @@ const registerSlice = createSlice({
   initialState, // Estado inicial del slice
   reducers: {
     // Reducer para la acción userLogin
-    userRegister: (state, action) => {
+    userRegister: async (state, action) => {
       console.log(action.payload);
+      const url = "https://pov.azurewebsites.net/api/auth";
+      try {
+        const DATA = {
+          email: action.payload.email, 
+          name: action.payload.mame,
+          password: action.payload.password,
+          date_of_birth: action.payload.date_of_birth
+        };
+
+        const response = await axios.post(`${url}/register`, DATA);
+        state.token = response.data.token;
+      } catch (error) {
+        console.error("Error en el register", error);
+      }
+
       // Actualiza el estado con el token proporcionado en la acción
       state.token = action.payload.token;
     },
-  },
-  extraReducers: (builder) => {
-    // Manejo de acciones adicionales (fuera del slice) con extraReducers
-    // Agrega un caso para la acción 'userRegister'
-    builder.addCase(registerSlice.actions.userRegister, async (state, action) => {
-      try {
-        // Crea un objeto DATA con user, name, email y password de la acción
-        const DATA = {
-          user: action.payload.user,
-          name: action.payload.name,
-          email: action.payload.email,
-          password: action.payload.password,
-        };
-
-        // Realiza una solicitud POST al servidor para registrar al usuario
-        const response = await axios.post(
-          "https://api.example.com/login",
-          DATA
-        );
-
-        // Actualiza el estado con el token de la respuesta del servidor
-        state.token = response.data.token;
-      } catch (error) {
-        // Maneja errores en caso de fallo en la solicitud
-        console.error("Error en el login:", error);
-      }
-    });
   },
 });
 
