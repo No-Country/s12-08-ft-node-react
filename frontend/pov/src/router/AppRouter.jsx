@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar/NavBar";
 import { Home } from "../pages/Home";
 import Registerlogin from "../pages/regiterlogin/regiterlogin";
 import "../index.css";
+import { ChatsUsers } from "../components/Chats/ChatsUsers";
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Registerlogin />} />
           <Route path="/login" element={<Registerlogin />} />
+          <Route path="/chats" element={<ChatsUsers />} />
         </Routes>
       </BrowserRouter>
     </>
