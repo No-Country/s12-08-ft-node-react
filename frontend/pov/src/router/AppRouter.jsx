@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NavBar from "../components/NavBar/NavBar";
 import { Home } from "../pages/Home";
 import Registerlogin from "../pages/regiterlogin/regiterlogin";
 import "../index.css";
 
 const AppRouter = () => {
-  
-  
   return (
     <>
       <BrowserRouter>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Registerlogin />} />

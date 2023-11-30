@@ -16,18 +16,12 @@ const Menu = () => {
         className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-52 bg-white"
       >
         <li>
-          <Link to="/" className="justify-between">
-            Home
+          <Link to="/login" className="justify-between">
+            Log In
           </Link>
         </li>
         <li>
-          <Link to="/">Seccion 1</Link>
-        </li>
-        <li>
-          <Link to="/">Seccion 2</Link>
-        </li>
-        <li>
-          <Link to="/">Logout</Link>
+          <Link to="/register">Registrar Cuenta</Link>
         </li>
       </ul>
     </div>
