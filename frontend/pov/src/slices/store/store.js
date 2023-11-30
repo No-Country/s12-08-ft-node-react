@@ -5,7 +5,8 @@ import rootReducer from "../rootReducer/combineReducers.js";
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk]
+  middleware: [thunk],
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export default store;
