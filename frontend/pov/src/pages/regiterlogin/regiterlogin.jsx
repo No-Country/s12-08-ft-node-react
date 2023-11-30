@@ -111,7 +111,7 @@ export const Registerlogin = () => {
       } else if (location.pathname === "/login") {
         console.log("login exitoso con:", email, password);
         dispatch(userLogin({ email, password }));
-        //popup
+        //Hacer popup 
         navigate("/")
       }
     } else {
