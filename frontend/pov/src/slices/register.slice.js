@@ -43,6 +43,7 @@ const registerSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(userRegister.fulfilled, (state, action) => {
+      
       state.message= action.payload.data.message
       state.user.id= action.payload.data.user.id
       state.user.role= action.payload.data.user.role

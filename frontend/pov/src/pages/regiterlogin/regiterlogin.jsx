@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -10,15 +11,14 @@ import { Apple } from "../../components/Svg/Apple";
 
 const location = window.location;
 const pathname = location.pathname;
-  
-  user: pathname ==="/register"? "" : "usuario",
-  username: pathname==="/register"? "" : "username",
-  date_of_birth: pathname==="/register"? "" : "",
+
+const initialSignUpForm = {
+  user: pathname === "/register" ? "" : "Usuario",
+  username: pathname === "/register" ? "" : "Username",
+  date_of_birth: "2023-12-12",
   email: "",
   password: "",
-
 };
-
 const signUpValidations = {
   user: [(value) => value.trim() !== "", "El Usuario es obligatorio"],
   username: [
@@ -33,12 +33,12 @@ const signUpValidations = {
     (value) => value.length >= 6,
     "La contraseña debe tener al menos 6 caracteres",
   ],
-  date_of_birth:[
-    (value) => value.trim() !== "","La fecha de nacimiento es obligtoria",
+  date_of_birth: [
+    (value) => value.trim() !== "",
+    "La fecha de nacimiento es obligtoria",
   ],
 };
-
-
+export const Registerlogin = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -47,8 +47,18 @@ const signUpValidations = {
 
   // Custom hook useForm para manejar el estado del formulario y las validaciones
 
-  
-  let user, username, email, password, date_of_birth, date_of_birthvalid, userValid, usernameValid, emailValid, passwordValid, isFormValid, onInputChange;
+  let user,
+    username,
+    email,
+    password,
+    date_of_birth,
+    date_of_birthvalid,
+    userValid,
+    usernameValid,
+    emailValid,
+    passwordValid,
+    isFormValid,
+    onInputChange;
 
   if (location.pathname === "/register") {
     ({
@@ -65,7 +75,6 @@ const signUpValidations = {
       isFormValid,
       onInputChange,
     } = useForm(initialSignUpForm, signUpValidations));
-    
   } else if (location.pathname === "/login") {
     ({
       email,
@@ -81,56 +90,23 @@ const signUpValidations = {
   const handleSignUp = (e) => {
     e.preventDefault();
     setformSubmited(true);
-    console.log("hola", isFormValid, email, password, date_of_birth)
+
+    console.log("hola", isFormValid, email, password, date_of_birth);
     // Lógica de registro si el formulario es válido
     if (isFormValid) {
       if (location.pathname === "/register") {
-        dispatch(userRegister({user, username, email, password, date_of_birth}));
+        dispatch(
+          userRegister({ user, username, email, password, date_of_birth })
+        );
         console.log("Registro exitoso con:", user, username, email, password);
       } else if (location.pathname === "/login") {
         console.log("login exitoso con:", email, password);
-        dispatch(userLogin({email, password}));
+        dispatch(userLogin({ email, password }));
       }
     } else {
-        console.log("Formulario no válido. Por favor, corrija los errores.");
-      }
-    };
-
-  // Renderizado del componente del formulario de registro
-  // return (
-  //   <main className=" font-Lexend font-sans flex min-h-screen justify-center items-center font-Lexend ">
-  //     <div class="flex items-center justify-center h-screen">
-  //       <div class="bg-gray-200 p-6 rounded-lg">
-  //        
-  //       </div>
-  //       <div className=" flex justify-end">
-  //         <button className="m-2 p-2">
-  //           <Google />
-  //         </button>
-  //         <button className="m-2 p-2">
-  //           <Facebook />
-  //         </button>
-  //         <button className=" m-2 p-2">
-  //           <Apple />
-  //         </button>
-  //         {location.pathname === "/register" ? (
-  //           <div>
-  //             <p className=" mt-2 mb-[36px] text-[12px]">
-  //               ¿Ya tienes una cuenta? <strong>Inicia sesión</strong>
-  //             </p>
-  //           </div>
-  //         ) : (
-  //           <div>
-  //             <p className=" mt-2 mb-[36px] text-[12px]">
-  //               ¿No tienes cuenta todavía?
-  //               <strong>Regístrate</strong>
-  //             </p>
-  //           </div>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </main>
-  // );
+      console.log("Formulario no válido. Por favor, corrija los errores.");
+    }
+  };
 
   return (
     <main className="flex items-center justify-center min-h-screen min-w-screen">
@@ -145,49 +121,12 @@ const signUpValidations = {
                 Regístrate y disfruta de tus famosos favoritos
               </p>
             </div>
-
-          <form className="card-body" onSubmit={handleSignUp}>
-            {location.pathname === "/register" ? (
-              <div className="form-control">
-                {/* Input de Usuario */}
-                <input
-                  className="input input-bordered"
-                  type="text"
-                  name="user"
-                  value={user}
-                  placeholder="Usuario"
-                  onChange={onInputChange}
-                />
-                {!!userValid && formSubmited && (
-                  <div>
-                    <span style={{ color: "red" }}>{userValid}</span>
-                  </div>
-                )}
-
-                {/* Input de Nombre y Apellido */}
-                <input
-                  className="input input-bordered"
-                  type="text"
-                  name="username"
-                  placeholder="Nombre y apellido"
-                  value={username}
-                  onChange={onInputChange}
-                />
-                {!!usernameValid && formSubmited && (
-                  <div>
-                    <span style={{ color: "red" }}>{usernameValid}</span>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <h4 className="text-5xl font-">Ingresar</h4>
-            )}
-
-
-            <div className="form-control">
-              {/* Input de Correo Electrónico */}
+          ) : null}
+          {location.pathname === "/register" ? (
+            <div className=" form-control">
+              {/* Input de Usuario */}
               <input
-                className="mb-[20px] flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
+                className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
                 type="text"
                 name="user"
                 value={user}
@@ -195,14 +134,13 @@ const signUpValidations = {
                 onChange={onInputChange}
               />
               {!!userValid && formSubmited && (
-                <div>
+                <div className="mb-2">
                   <span style={{ color: "red" }}>{userValid}</span>
                 </div>
               )}
-
               {/* Input de Nombre y Apellido */}
               <input
-                className="mb-[20px] flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30   bg-[#A5A5A5]"
+                className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30   bg-[#A5A5A5]"
                 type="text"
                 name="username"
                 placeholder="Nombre y apellido"
@@ -210,12 +148,24 @@ const signUpValidations = {
                 onChange={onInputChange}
               />
               {!!usernameValid && formSubmited && (
-                <div>
+                <div className="mb-2">
                   <span style={{ color: "red" }}>{usernameValid}</span>
                 </div>
               )}
 
-              
+              <input
+                className="input mb-2 flex w-full h-16  items-center gap-2 flex-shrink-0 border border-gray-300 p-2"
+                type="date"
+                name="date_of_birth"
+                value={date_of_birth}
+                onChange={onInputChange}
+                placeholder="Fecha Nacimiento"
+              />
+              {!!date_of_birthvalid && formSubmited && (
+                <div className="mb-2">
+                  <span style={{ color: "red" }}>{date_of_birthvalid}</span>
+                </div>
+              )}
             </div>
           ) : (
             <div>
@@ -231,7 +181,7 @@ const signUpValidations = {
           <div className="form-control">
             {/* Input de Correo Electrónico */}
             <input
-              className="mb-[20px] flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5] "
+              className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5] "
               type="email"
               name="email"
               placeholder="Correo electrónico"
@@ -239,14 +189,14 @@ const signUpValidations = {
               onChange={onInputChange}
             />
             {!!emailValid && formSubmited && (
-              <div>
+              <div className="mb-2">
                 <span style={{ color: "red" }}>{emailValid}</span>
               </div>
             )}
 
             {/* Input de Contraseña */}
             <input
-              className="mb-[20px] flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
+              className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               type="password"
               name="password"
               placeholder="Contraseña"
@@ -254,7 +204,7 @@ const signUpValidations = {
               onChange={onInputChange}
             />
             {!!passwordValid && formSubmited && (
-              <div>
+              <div className="mb-2">
                 <span style={{ color: "red" }}>{passwordValid}</span>
               </div>
             )}
