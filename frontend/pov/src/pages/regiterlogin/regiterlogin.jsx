@@ -8,11 +8,15 @@ import { Google } from "../../components/Svg/Google";
 import { Facebook } from "../../components/Svg/Facebook";
 import { Apple } from "../../components/Svg/Apple";
 
-const initialSignUpForm = {
-  user: "Usuario",
-  username: "Username",
+const location = window.location;
+const pathname = location.pathname;
+  
+  user: pathname ==="/register"? "" : "usuario",
+  username: pathname==="/register"? "" : "username",
+  date_of_birth: pathname==="/register"? "" : "",
   email: "",
   password: "",
+
 };
 
 const signUpValidations = {
@@ -29,74 +33,104 @@ const signUpValidations = {
     (value) => value.length >= 6,
     "La contraseña debe tener al menos 6 caracteres",
   ],
+  date_of_birth:[
+    (value) => value.trim() !== "","La fecha de nacimiento es obligtoria",
+  ],
 };
 
-export const Registerlogin = () => {
-   const location = useLocation();
-   const dispatch = useDispatch();
 
-   console.log(location);
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-   // Estado para controlar si el formulario ha sido enviado
-   const [formSubmited, setformSubmited] = useState(false);
+  // Estado para controlar si el formulario ha sido enviado
+  const [formSubmited, setformSubmited] = useState(false);
 
-   // Custom hook useForm para manejar el estado del formulario y las validaciones
+  // Custom hook useForm para manejar el estado del formulario y las validaciones
 
-   let user,
-     username,
-     email,
-     password,
-     userValid,
-     usernameValid,
-     emailValid,
-     passwordValid,
-     isFormValid,
-     onInputChange;
+  
+  let user, username, email, password, date_of_birth, date_of_birthvalid, userValid, usernameValid, emailValid, passwordValid, isFormValid, onInputChange;
 
-   if (location.pathname === "/register") {
-     ({
-       user,
-       username,
-       email,
-       password,
-       userValid,
-       usernameValid,
-       emailValid,
-       passwordValid,
-       isFormValid,
-       onInputChange,
-     } = useForm(initialSignUpForm, signUpValidations));
-   } else if (location.pathname === "/login") {
-     ({
-       email,
-       password,
-       emailValid,
-       passwordValid,
-       isFormValid,
-       onInputChange,
-     } = useForm(initialSignUpForm, signUpValidations));
-   }
+  if (location.pathname === "/register") {
+    ({
+      user,
+      username,
+      email,
+      password,
+      userValid,
+      usernameValid,
+      emailValid,
+      date_of_birth,
+      date_of_birthvalid,
+      passwordValid,
+      isFormValid,
+      onInputChange,
+    } = useForm(initialSignUpForm, signUpValidations));
+    
+  } else if (location.pathname === "/login") {
+    ({
+      email,
+      password,
+      emailValid,
+      passwordValid,
+      isFormValid,
+      onInputChange,
+    } = useForm(initialSignUpForm, signUpValidations));
+  }
 
-   // Manejador para el evento de envío del formulario
-   const handleSignUp = (e) => {
-     e.preventDefault();
-     setformSubmited(true);
+  // Manejador para el evento de envío del formulario
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    setformSubmited(true);
+    console.log("hola", isFormValid, email, password, date_of_birth)
+    // Lógica de registro si el formulario es válido
+    if (isFormValid) {
+      if (location.pathname === "/register") {
+        dispatch(userRegister({user, username, email, password, date_of_birth}));
+        console.log("Registro exitoso con:", user, username, email, password);
+      } else if (location.pathname === "/login") {
+        console.log("login exitoso con:", email, password);
+        dispatch(userLogin({email, password}));
+      }
+    } else {
+        console.log("Formulario no válido. Por favor, corrija los errores.");
+      }
+    };
 
-     // Lógica de registro si el formulario es válido
-     if (isFormValid) {
-       if (location.pathname === "/register") {
-         dispatch(userRegister(user, username, email, password));
-         console.log("Registro exitoso con:", user, username, email, password);
-       } else if (location.pathname === "/login") {
-         console.log("login exitoso con:", email, password);
-         dispatch(userLogin({ email, password }));
-       }
-     } else {
-       console.log("Formulario no válido. Por favor, corrija los errores.");
-     }
-   };
-
-
+  // Renderizado del componente del formulario de registro
+  // return (
+  //   <main className=" font-Lexend font-sans flex min-h-screen justify-center items-center font-Lexend ">
+  //     <div class="flex items-center justify-center h-screen">
+  //       <div class="bg-gray-200 p-6 rounded-lg">
+  //        
+  //       </div>
+  //       <div className=" flex justify-end">
+  //         <button className="m-2 p-2">
+  //           <Google />
+  //         </button>
+  //         <button className="m-2 p-2">
+  //           <Facebook />
+  //         </button>
+  //         <button className=" m-2 p-2">
+  //           <Apple />
+  //         </button>
+  //         {location.pathname === "/register" ? (
+  //           <div>
+  //             <p className=" mt-2 mb-[36px] text-[12px]">
+  //               ¿Ya tienes una cuenta? <strong>Inicia sesión</strong>
+  //             </p>
+  //           </div>
+  //         ) : (
+  //           <div>
+  //             <p className=" mt-2 mb-[36px] text-[12px]">
+  //               ¿No tienes cuenta todavía?
+  //               <strong>Regístrate</strong>
+  //             </p>
+  //           </div>
+  //         )}
+  //       </div>
+  //     </div>
+  //   </main>
+  // );
 
   return (
     <main className="flex items-center justify-center min-h-screen min-w-screen">
@@ -111,10 +145,47 @@ export const Registerlogin = () => {
                 Regístrate y disfruta de tus famosos favoritos
               </p>
             </div>
-          ) : null}
-          {location.pathname === "/register" ? (
-            <div className=" form-control">
-              {/* Input de Usuario */}
+
+          <form className="card-body" onSubmit={handleSignUp}>
+            {location.pathname === "/register" ? (
+              <div className="form-control">
+                {/* Input de Usuario */}
+                <input
+                  className="input input-bordered"
+                  type="text"
+                  name="user"
+                  value={user}
+                  placeholder="Usuario"
+                  onChange={onInputChange}
+                />
+                {!!userValid && formSubmited && (
+                  <div>
+                    <span style={{ color: "red" }}>{userValid}</span>
+                  </div>
+                )}
+
+                {/* Input de Nombre y Apellido */}
+                <input
+                  className="input input-bordered"
+                  type="text"
+                  name="username"
+                  placeholder="Nombre y apellido"
+                  value={username}
+                  onChange={onInputChange}
+                />
+                {!!usernameValid && formSubmited && (
+                  <div>
+                    <span style={{ color: "red" }}>{usernameValid}</span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <h4 className="text-5xl font-">Ingresar</h4>
+            )}
+
+
+            <div className="form-control">
+              {/* Input de Correo Electrónico */}
               <input
                 className="mb-[20px] flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
                 type="text"
@@ -143,6 +214,8 @@ export const Registerlogin = () => {
                   <span style={{ color: "red" }}>{usernameValid}</span>
                 </div>
               )}
+
+              
             </div>
           ) : (
             <div>
