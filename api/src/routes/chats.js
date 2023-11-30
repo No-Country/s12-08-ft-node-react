@@ -1,11 +1,13 @@
 const express = require("express");
 const chatsRouter = express.Router();
-const { ChatController } = require("../controllers/chats.controller");
 const { MessageController } = require("../controllers/messages.controller");
+const { CommentController } = require("../controllers/comments.controller")
 const { checkSession } = require("../middlewares/session/session");
 
 //chatsRouter.get("/", ChatController.example);
 
+
+chatsRouter.use(checkSession)
 
 /**
  * @openapi
@@ -73,6 +75,8 @@ const { checkSession } = require("../middlewares/session/session");
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-chatsRouter.post("/chat",checkSession, MessageController.create);
+chatsRouter.post("/chat", MessageController.create);
+
+chatsRouter.post("/chat/:id/comment" , CommentController.create)
 
 module.exports = chatsRouter;
