@@ -8,11 +8,17 @@ import { Google } from "../../components/Svg/Google";
 import { Facebook} from "../../components/Svg/Facebook";
 import { Apple} from "../../components/Svg/Apple";
 
+const location = window.location;
+const pathname = location.pathname;
+
 const initialSignUpForm = {
-  user: "usuario",
-  username: "username",
+  
+  user: pathname ==="/register"? "" : "usuario",
+  username: pathname==="/register"? "" : "username",
+  date_of_birth: pathname==="/register"? "" : "",
   email: "",
   password: "",
+
 };
 
 const signUpValidations = {
@@ -29,6 +35,9 @@ const signUpValidations = {
     (value) => value.length >= 6,
     "La contraseña debe tener al menos 6 caracteres",
   ],
+  date_of_birth:[
+    (value) => value.trim() !== "","La fecha de nacimiento es obligtoria",
+  ],
 };
 
 export const Registerlogin = () => {
@@ -43,7 +52,7 @@ export const Registerlogin = () => {
   // Custom hook useForm para manejar el estado del formulario y las validaciones
 
   
-  let user, username, email, password, userValid, usernameValid, emailValid, passwordValid, isFormValid, onInputChange;
+  let user, username, email, password, date_of_birth, date_of_birthvalid, userValid, usernameValid, emailValid, passwordValid, isFormValid, onInputChange;
 
   if (location.pathname === "/register") {
     ({
@@ -54,6 +63,8 @@ export const Registerlogin = () => {
       userValid,
       usernameValid,
       emailValid,
+      date_of_birth,
+      date_of_birthvalid,
       passwordValid,
       isFormValid,
       onInputChange,
@@ -74,11 +85,11 @@ export const Registerlogin = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
     setformSubmited(true);
-    console.log("hola", isFormValid, email, password)
+    console.log("hola", isFormValid, email, password, date_of_birth)
     // Lógica de registro si el formulario es válido
     if (isFormValid) {
       if (location.pathname === "/register") {
-        dispatch(userRegister(user, username, email, password));
+        dispatch(userRegister({user, username, email, password, date_of_birth}));
         console.log("Registro exitoso con:", user, username, email, password);
       } else if (location.pathname === "/login") {
         console.log("login exitoso con:", email, password);
@@ -170,7 +181,6 @@ export const Registerlogin = () => {
                     <span style={{ color: "red" }}>{usernameValid}</span>
                   </div>
                 )}
-
               </div>
             ) : (
               <h4 className="text-5xl font-">Ingresar</h4>
@@ -207,6 +217,8 @@ export const Registerlogin = () => {
                   <span style={{ color: "red" }}>{passwordValid}</span>
                 </div>
               )}
+
+              
             </div>
             {/* Botón de Envío */}
             <div className="form-control mt-6">
