@@ -10,12 +10,13 @@ import { Apple} from "../../components/Svg/Apple";
 
 const location = window.location;
 const pathname = location.pathname;
+const DATE = new Date()
 
 const initialSignUpForm = {
   
   user: pathname ==="/register"? "" : "usuario",
   username: pathname==="/register"? "" : "username",
-  date_of_birth: pathname==="/register"? "" : "",
+  date_of_birth: "",
   email: "",
   password: "",
 
@@ -99,42 +100,6 @@ export const Registerlogin = () => {
         console.log("Formulario no válido. Por favor, corrija los errores.");
       }
     };
-
-  // Renderizado del componente del formulario de registro
-  // return (
-  //   <main className=" font-Lexend font-sans flex min-h-screen justify-center items-center font-Lexend ">
-  //     <div class="flex items-center justify-center h-screen">
-  //       <div class="bg-gray-200 p-6 rounded-lg">
-  //        
-  //       </div>
-  //       <div className=" flex justify-end">
-  //         <button className="m-2 p-2">
-  //           <Google />
-  //         </button>
-  //         <button className="m-2 p-2">
-  //           <Facebook />
-  //         </button>
-  //         <button className=" m-2 p-2">
-  //           <Apple />
-  //         </button>
-  //         {location.pathname === "/register" ? (
-  //           <div>
-  //             <p className=" mt-2 mb-[36px] text-[12px]">
-  //               ¿Ya tienes una cuenta? <strong>Inicia sesión</strong>
-  //             </p>
-  //           </div>
-  //         ) : (
-  //           <div>
-  //             <p className=" mt-2 mb-[36px] text-[12px]">
-  //               ¿No tienes cuenta todavía?
-  //               <strong>Regístrate</strong>
-  //             </p>
-  //           </div>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </main>
-  // );
   return (
 
     <div className="hero min-h-screen bg-base-200">
@@ -181,6 +146,21 @@ export const Registerlogin = () => {
                     <span style={{ color: "red" }}>{usernameValid}</span>
                   </div>
                 )}
+
+                  {/* Input de Fecha Nacimiento */}
+                <input
+                  className="input input-bordered"
+                  type="date"
+                  name="date_of_birth"
+                  value={date_of_birth}
+                  onChange={onInputChange}
+                />
+                {!!date_of_birthvalid && formSubmited && (
+                  <div>
+                    <span style={{ color: "red" }}>{date_of_birthvalid}</span>
+                  </div>
+                )}
+
               </div>
             ) : (
               <h4 className="text-5xl font-">Ingresar</h4>
