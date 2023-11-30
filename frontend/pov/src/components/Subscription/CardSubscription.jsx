@@ -7,7 +7,7 @@ const CardSubscription = ({ subscription }) => {
   const { image, name } = subscription;
 
   return (
-    <div className="card bg-white text-neutral-content relative rounded-[20px]  bg-[#D9D9D9]">
+    <div className="card text-neutral-content relative rounded-[20px]   bg-slate-50">
       <div className="card-body items-center text-center relative">
         <div className="dropdown dropdown-end  right-0 top-0 absolute">
           {/* Option */}
@@ -17,27 +17,39 @@ const CardSubscription = ({ subscription }) => {
               height="8"
               viewBox="0 0 13 3"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <circle cx="1.5" cy="1.5" r="1.5" transform="rotate(180 1.5 1.5)" fill="#2F2F2F" />
-              <circle cx="6.5" cy="1.5" r="1.5" transform="rotate(180 6.5 1.5)" fill="#2F2F2F" />
-              <circle cx="11.5" cy="1.5" r="1.5" transform="rotate(180 11.5 1.5)" fill="#2F2F2F" />
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="1.5"
+                cy="1.5"
+                r="1.5"
+                transform="rotate(180 1.5 1.5)"
+                fill="#2F2F2F"
+              />
+              <circle
+                cx="6.5"
+                cy="1.5"
+                r="1.5"
+                transform="rotate(180 6.5 1.5)"
+                fill="#2F2F2F"
+              />
+              <circle
+                cx="11.5"
+                cy="1.5"
+                r="1.5"
+                transform="rotate(180 11.5 1.5)"
+                fill="#2F2F2F"
+              />
             </svg>
           </label>
           <ul
             tabIndex={0}
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-24 text-black bg-white border border-black"
           >
-            <li>
-              Opcion 1
-            </li>
-            <li>
-              Opcion 2
-            </li>
-            <li>
-              Option 3
-            </li>
+            <li>Opcion 1</li>
+            <li>Opcion 2</li>
+            <li>Option 3</li>
           </ul>
-
         </div>
       </div>
       <div className="card-actions bg-[#949494] rounded-b-[20px] grid grid-rows-[auto,auto] gap-2 items-center">
