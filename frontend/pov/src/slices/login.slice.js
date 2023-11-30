@@ -42,6 +42,7 @@ const loginSlice = createSlice({
     userLogout: (state, action) => {
       // Actualiza el estado con el token proporcionado en la acción
       state.token = "";
+      localStorage.removeItem("TOKEN")
     },
   },
   extraReducers(builder) {
@@ -55,6 +56,7 @@ const loginSlice = createSlice({
       state.user.profile_picture = action.payload.data.user.profile_picture;
       state.user.role = action.payload.data.user.role;
       state.user.username = action.payload.data.user.username;
+      localStorage.setItem("TOKEN", JSON.stringify(action.payload.data.token))
     });
   },
 });
