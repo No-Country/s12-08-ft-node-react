@@ -6,7 +6,7 @@ export const Home = () => {
     <>
       <section className="flex flex-col pt-28 px-5">
         <History />
-        <ContainerSubscriptions />
+        <ContainerSubscriptions/>
       </section>
     </>
   );

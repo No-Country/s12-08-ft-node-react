@@ -16,7 +16,7 @@ const initialSignUpForm = {
   
   user: pathname ==="/register"? "" : "usuario",
   username: pathname==="/register"? "" : "username",
-  date_of_birth: "",
+  date_of_birth: "2023-12-12",
   email: "",
   password: "",
 
