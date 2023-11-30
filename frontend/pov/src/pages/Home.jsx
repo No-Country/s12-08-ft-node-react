@@ -1,7 +1,6 @@
-import ContainerSubscriptions from '../components/Subscription/ContainerSubscriptions';
-import { History } from '../components/Histories/History';
-import  NavBar  from "../components/NavBar/NavBar";
-
+import ContainerSubscriptions from "../components/Subscription/ContainerSubscriptions";
+import { History } from "../components/Histories/History";
+import NavBar from "../components/NavBar/NavBar";
 
 export const Home = () => {
   return (
