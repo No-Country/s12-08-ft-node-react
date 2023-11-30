@@ -6,6 +6,10 @@ const chatsRouter = require('./chats');
 
 const router = Router();
 
+router.get("/", async (req, res) => {
+    res.redirect(301, '/api/docs')
+});
+
 router.use('/users', usersRouter);
 
 router.use('/auth', authRouter);
