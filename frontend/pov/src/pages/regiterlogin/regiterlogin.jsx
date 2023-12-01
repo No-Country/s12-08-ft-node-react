@@ -1,5 +1,4 @@
 
-
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -85,7 +84,7 @@ export const Registerlogin = () => {
       isFormValid,
       onInputChange,
     } = useForm(initialSignUpForm, signUpValidations));
-  } else if (location.pathname === "/login") {
+  } else if (location.pathname === "/") {
     ({
       email,
       password,
@@ -119,7 +118,7 @@ export const Registerlogin = () => {
         }, 3000);
 
         console.log("Registro exitoso con:", user, username, email, password);
-      } else if (location.pathname === "/login") {
+      } else if (location.pathname === "/") {
         console.log("login exitoso con:", email, password);
         dispatch(userLogin({ email, password }));
         //Anexe esto para las validaciones
@@ -128,6 +127,7 @@ export const Registerlogin = () => {
         setTimeout(() => {
           navigate("/");
         }, 3000);
+
       }
     } else {
       //Anexe esto para las validaciones
