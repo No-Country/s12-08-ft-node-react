@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { LogoHistory } from '../Svg/Logo';
+import { LogoHistory } from '../Svg/Svgs';
 
 const Histories = [
   {

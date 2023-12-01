@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
+import { ChatsUsers } from "../pages/Chats/ChatsUsers";
+import Profile from "../pages/Profile";
 import Registerlogin from "../pages/regiterlogin/regiterlogin";
 import "../index.css";
-import Profile from "../pages/Profile";
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
           <Route path="/register" element={<Registerlogin />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/chats" element={<ChatsUsers />} />
         </Routes>
       </BrowserRouter>
     </>
