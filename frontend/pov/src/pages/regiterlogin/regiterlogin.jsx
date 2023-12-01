@@ -122,7 +122,7 @@ export const Registerlogin = () => {
         setShowAlert(true);
         toast.success("Bienvenido a POV");
         setTimeout(() => {
-          navigate("/register");
+          navigate("/home");
         }, 3000);
       }
     } else {
