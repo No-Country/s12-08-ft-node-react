@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -85,7 +83,7 @@ export const Registerlogin = () => {
       isFormValid,
       onInputChange,
     } = useForm(initialSignUpForm, signUpValidations));
-  } else if (location.pathname === "/login") {
+  } else if (location.pathname === "/") {
     ({
       email,
       password,
@@ -101,9 +99,7 @@ export const Registerlogin = () => {
   // Manejador para el evento de envío del formulario
   const handleSignUp = (e) => {
     e.preventDefault();
-
     setformSubmited(true);
-
     console.log("hola", isFormValid, email, password, date_of_birth);
     // Lógica de registro si el formulario es válido
     if (isFormValid) {
@@ -115,18 +111,18 @@ export const Registerlogin = () => {
         setShowAlert(true);
         toast.success("Su cuenta fue Creada con Exito!!");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/");
         }, 3000);
 
         console.log("Registro exitoso con:", user, username, email, password);
-      } else if (location.pathname === "/login") {
+      } else if (location.pathname === "/") {
         console.log("login exitoso con:", email, password);
         dispatch(userLogin({ email, password }));
         //Anexe esto para las validaciones
         setShowAlert(true);
         toast.success("Bienvenido a POV");
         setTimeout(() => {
-          navigate("/");
+          navigate("/register");
         }, 3000);
       }
     } else {
@@ -276,7 +272,7 @@ export const Registerlogin = () => {
             <p className="mt-2 mb-4 text-sm ">
               ¿Ya tienes una cuenta?
               <strong>
-                <Link to="/login" className="text-[#5D73E9]">
+                <Link to="/" className="text-[#5D73E9]">
                   Inicia sesión
                 </Link>
               </strong>
