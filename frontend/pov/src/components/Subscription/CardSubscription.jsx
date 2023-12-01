@@ -1,6 +1,6 @@
 
 import PropTypes from 'prop-types';
-import './CardSubscription.css';
+
 
 
 const CardSubscription = ({ subscription }) => {
