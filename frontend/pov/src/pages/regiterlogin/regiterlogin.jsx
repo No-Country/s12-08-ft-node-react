@@ -1,6 +1,7 @@
 
+
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "../../hooks/UseForm";
 import { userLogin } from "../../slices/login.slice";
@@ -8,10 +9,10 @@ import { userRegister } from "../../slices/register.slice";
 import { Google } from "../../components/Svg/Google";
 import { Facebook } from "../../components/Svg/Facebook";
 import { Apple } from "../../components/Svg/Apple";
+import toast, { Toaster } from "react-hot-toast";
 
 const location = window.location;
 const pathname = location.pathname;
-
 
 const initialSignUpForm = {
   user: pathname === "/register" ? "" : "Usuario",
@@ -30,21 +31,29 @@ const signUpValidations = {
     (value) => value.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     "Ingrese un correo electrónico válido",
   ],
+  //anexe las validaciones de la contrase;a
   password: [
-    (value) => value.length >= 6,
-    "La contraseña debe tener al menos 6 caracteres",
+    (value) =>
+      value.length >= 6 &&
+      /[0-9]/.test(value) &&
+      /[A-Z]/.test(value) &&
+      /[!@#$%^&*(),.?":{}|<>]/.test(value),
+    "Contraseña: 6 caracteres, 1 mayúscula, 1 carácter especial.",
   ],
   date_of_birth: [
     (value) => value.trim() !== "",
     "La fecha de nacimiento es obligtoria",
   ],
 };
+
 export const Registerlogin = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
   // Estado para controlar si el formulario ha sido enviado
   const [formSubmited, setformSubmited] = useState(false);
+  // Anexe : Estado para controlar las alertas de envio
+  const [showAlert, setShowAlert] = useState(false);
 
   // Custom hook useForm para manejar el estado del formulario y las validaciones
 
@@ -87,17 +96,13 @@ export const Registerlogin = () => {
     } = useForm(initialSignUpForm, signUpValidations));
   }
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // Manejador para el evento de envío del formulario
   const handleSignUp = (e) => {
-
     e.preventDefault();
 
     setformSubmited(true);
-
-   
-
 
     console.log("hola", isFormValid, email, password, date_of_birth);
     // Lógica de registro si el formulario es válido
@@ -106,15 +111,27 @@ export const Registerlogin = () => {
         dispatch(
           userRegister({ user, username, email, password, date_of_birth })
         );
-        navigate("/login")
+        //Anexe esto para las validaciones 
+        setShowAlert(true);
+        toast.success("Su cuenta fue Creada con Exito!!");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+
         console.log("Registro exitoso con:", user, username, email, password);
       } else if (location.pathname === "/login") {
         console.log("login exitoso con:", email, password);
         dispatch(userLogin({ email, password }));
-        //Hacer popup 
-        navigate("/")
+        //Anexe esto para las validaciones
+        setShowAlert(true);
+        toast.success("Bienvenido a POV");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
       }
     } else {
+      //Anexe esto para las validaciones
+      toast.error("Formulario no válido. Por favor, corrija los errores.");
       console.log("Formulario no válido. Por favor, corrija los errores.");
     }
   };
@@ -223,14 +240,23 @@ export const Registerlogin = () => {
           {/* Botón de Envío */}
           <div className="form-control mt-6">
             <button
-              className="btn text-white hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-md bg-[#232322] "
+              className="btn text-white hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-md bg-[#5D73E9] "
               type="submit"
-              //disabled={!isFormValid}
+              //  disabled={!isFormValid}
             >
               Continuar
             </button>
+
+            {/* anexe este div para las alerta Alerta */}
+            {showAlert && (
+              <>
+                <div>
+                  <Toaster position="top-center" reverseOrder={false} />
+                </div>
+              </>
+            )}
           </div>
-          <div className="divider ">O continua con</div>
+          <div className="divider divider-neutral ">O continua con</div>
         </form>
 
         <div className="flex justify-between w-full ">
@@ -244,17 +270,27 @@ export const Registerlogin = () => {
             <Apple />
           </button>
         </div>
+        {/* **Anexe lanavegacion entre login y registro */}
         {location.pathname === "/register" ? (
           <div className="flex items-center justify-center">
             <p className="mt-2 mb-4 text-sm ">
-              ¿Ya tienes una cuenta? <strong>Inicia sesión</strong>
+              ¿Ya tienes una cuenta?
+              <strong>
+                <Link to="/login" className="text-[#5D73E9]">
+                  Inicia sesión
+                </Link>
+              </strong>
             </p>
           </div>
         ) : (
           <div className="flex items-center justify-center">
             <p className="mt-2 mb-4 text-sm items-center">
               ¿No tienes cuenta todavía?
-              <strong>Regístrate</strong>
+              <strong>
+                <Link to="/register" className="text-[#5D73E9]">
+                  Regístrate
+                </Link>
+              </strong>
             </p>
           </div>
         )}
