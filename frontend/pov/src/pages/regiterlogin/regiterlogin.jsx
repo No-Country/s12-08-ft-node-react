@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -11,7 +10,6 @@ import { Apple } from "../../components/Svg/Apple";
 
 const location = window.location;
 const pathname = location.pathname;
-
 
 const initialSignUpForm = {
   user: pathname === "/register" ? "" : "Usuario",
@@ -76,7 +74,7 @@ export const Registerlogin = () => {
       isFormValid,
       onInputChange,
     } = useForm(initialSignUpForm, signUpValidations));
-  } else if (location.pathname === "/login") {
+  } else if (location.pathname === "/") {
     ({
       email,
       password,
@@ -87,17 +85,13 @@ export const Registerlogin = () => {
     } = useForm(initialSignUpForm, signUpValidations));
   }
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // Manejador para el evento de envío del formulario
   const handleSignUp = (e) => {
-
     e.preventDefault();
 
     setformSubmited(true);
-
-   
-
 
     console.log("hola", isFormValid, email, password, date_of_birth);
     // Lógica de registro si el formulario es válido
@@ -106,13 +100,13 @@ export const Registerlogin = () => {
         dispatch(
           userRegister({ user, username, email, password, date_of_birth })
         );
-        navigate("/login")
+        navigate("/home");
         console.log("Registro exitoso con:", user, username, email, password);
-      } else if (location.pathname === "/login") {
+      } else if (location.pathname === "/") {
         console.log("login exitoso con:", email, password);
         dispatch(userLogin({ email, password }));
-        //Hacer popup 
-        navigate("/")
+        //Hacer popup
+        navigate("/home");
       }
     } else {
       console.log("Formulario no válido. Por favor, corrija los errores.");
