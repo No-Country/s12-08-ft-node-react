@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import avatar from "../../assets/avatars/user.webp";
 import { useDispatch } from "react-redux";
-import { userLogout } from "../../slices/login.slice";
+import { logout } from "../../slices/login.slice";
 
 const Menu = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,10 @@ const Menu = () => {
 
   const Logout = () => {
     console.log("Cerrando Sesión BYE!");
-    dispatch(userLogout());
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("duration");
+    dispatch(logout());
     navigate("/");
   };
 
