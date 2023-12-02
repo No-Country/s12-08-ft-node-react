@@ -1,9 +1,12 @@
 const Chat = require("../database/mongo/chats.model.js");
 const Messages = require("../database/mongo/messages.model.js");
 const BadRequest = require("../errorClasses/BadRequest.js");
+const NotFound = require("../errorClasses/NotFound.js");
 const {
   createMessageValidation,
+  editMessageValidation
 } = require("../validations/messages.validations.js");
+const { cloudinary } = require("../config/cloudinary/index.js");
 
 class MessageController {
   static async create(req, res, next) {
@@ -36,6 +39,55 @@ class MessageController {
       // call db methods after validations have passed
     } catch (err) {
       next(err);
+    }
+  }
+
+  static async editMessage(req, res, next){
+    try {
+      const user_id = req.user_id
+      const message_id = req.params.id
+
+      if(!message_id){
+        throw new BadRequest("El id del mensaje es necesario")
+      }
+
+      const { error, value } = editMessageValidation.validate(req.body);
+      if (error) {
+        throw new BadRequest(error.details[0].message);
+      }
+
+      const chat = await Chat.findById( user_id )
+
+      const messageExist = chat.messages.includes( message_id )
+
+      if(!messageExist){
+        throw new NotFound("El mensaje no existe en el chat")
+      }
+
+      const { text, content } = value;
+
+      if(content !== 'text'){
+        const valueCont = value[content]
+        const uploadResponse = await cloudinary.uploader.upload(valueCont, {
+          resource_type: "auto",
+          folder: "pov",
+        });
+
+        value[content] = uploadResponse.secure_url;
+      }
+
+      const newMessage = await Messages.findByIdAndUpdate(message_id ,{
+        content,
+        text,
+        image: value.image,
+        video: value.video,
+        gif: value.gif,
+      }, {new: true})
+
+
+    res.status(201).json({ message: "Mensaje editado exitosamente", newMessage: newMessage });
+    } catch (error) {
+      next(error);
     }
   }
 }

@@ -75,4 +75,6 @@ const { checkSession } = require("../middlewares/session/session");
 */
 chatsRouter.post("/chat",checkSession, MessageController.create);
 
+chatsRouter.put("/chat/:id",checkSession, MessageController.editMessage)
+
 module.exports = chatsRouter;
