@@ -65,3 +65,49 @@ const ContainerSubscriptions = () => {
 };
 
 export default ContainerSubscriptions;
+
+
+
+
+
+// import { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchSubscriptions } from "../../slices/subscriptionsSlice";
+// import CardSubscription from "./CardSubscription";
+
+// const ContainerSubscriptions = () => {
+//     const dispatch = useDispatch();
+//     const { subscriptions, status, error } = useSelector((state) => state.subscriptions);
+
+//     useEffect(() => {
+//         if (status === "idle") {
+//             dispatch(fetchSubscriptions());
+//         }
+//     }, [status, dispatch]);
+
+//     if (status === "loading") {
+//         return <p>Cargando suscripciones...</p>;
+//     }
+
+//     if (status === "failed") {
+//         return <p>Error al cargar suscripciones: {error}</p>;
+//     }
+
+//     return (
+//         <div className="container my-8 sm:w-full">
+//             <h2 className="text-2xl font-bold">Suscripciones</h2>
+//             <p className="subtitle">Te dejamos algunos perfiles que podrían interesarte.</p>
+//             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
+//                 {subscriptions.map((subscription) => (
+//                     <CardSubscription key={subscription.id} subscription={subscription} />
+//                 ))}
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default ContainerSubscriptions;
+
+
+
+

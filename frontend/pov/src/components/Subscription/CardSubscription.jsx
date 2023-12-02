@@ -7,7 +7,7 @@ const CardSubscription = ({ subscription }) => {
   const { image, name } = subscription;
 
   return (
-    <div className="card text-neutral-content relative rounded-[20px]   bg-slate-50">
+    <div className="card text-neutral-content relative rounded-[20px] bg-slate-50">
       <div className="card-body items-center text-center relative">
         <div className="dropdown dropdown-end  right-0 top-0 absolute">
           {/* Option */}
@@ -56,7 +56,7 @@ const CardSubscription = ({ subscription }) => {
         <div className="row-start-1 row-end-3">
           <div
             id="avatar"
-            className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 transform -translate-y-1/2 ml-4"
+            className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 bg-slate-500 transform -translate-y-1/2 ml-4"
           >
             <img
               src={image}
@@ -69,7 +69,7 @@ const CardSubscription = ({ subscription }) => {
           <div className="text-black ml-0 mt-[-25px]">{name}</div>
         </div>
       </div>
-    </div>
+      </div>
   );
 };
 
@@ -77,7 +77,7 @@ CardSubscription.propTypes = {
   subscription: PropTypes.shape({
     id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired, // Ajusta las propiedades según tus necesidades
     price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     subscribed: PropTypes.bool.isRequired,
