@@ -1,66 +1,71 @@
-// Importa la función createSlice del paquete "@reduxjs/toolkit" y el módulo axios
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { URL } from '../router/routes';
+import axios from 'axios';
+import { useToken } from '../hooks/useToken';
 
-// Define el estado inicial del slice
-const initialState = {
-  token: "", // Un campo para almacenar el token de autenticación
-  user:{
-    date_of_birth: "",
-    email:"",
-    id: "",
-    name: "",
-    profile_picture:"",
-    role: "",
-    username: "",
+export const loginUser = createAsyncThunk(
+  'auth/login',
+  async (userInformation, { rejectWithValue }) => {
+    try {
+      const response = await axios
+        .post(`${URL}/login`, userInformation)
+        .then((res) => {
+          useToken(res.data.token, new Date().getTime() + 3 * 60 * 60 * 1000);
+          localStorage.setItem('user', JSON.stringify(res.data));
+          return res.data;
+        });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.message);
+    }
   }
-};
+);
 
-const BASE_URL = "https://pov.azurewebsites.net/api/auth";
-
-export const userLogin = createAsyncThunk("post/loginUser", async (payload) => {
-  console.log(payload);
-  const DATA = {
-    identifier: payload.email,
-    password: payload.password,
-  };
-  try {
-    const response = await axios.post(`${BASE_URL}/login`, DATA);
-    console.log(response);
-    return response;
-  } catch (error) {
-    return error.message;
-  }
-});
-
-// Crea un slice de Redux llamado "login" utilizando createSlice
 const loginSlice = createSlice({
-  name: "login", // Nombre del slice
-  initialState, // Estado inicial del slice
+  name: 'login',
+  initialState: {
+    token: '',
+    user: {
+      date_of_birth: '',
+      email: '',
+      id: '',
+      name: '',
+      profile_picture: '',
+      role: '',
+      username: '',
+    },
+    error: null,
+    loading: false,
+  },
   reducers: {
-   
-    userLogout: (state, action) => {
-      // Actualiza el estado con el token proporcionado en la acción
-      state.token = "";
-      localStorage.removeItem("TOKEN")
+    logout: (state) => {
+      state.token = '';
+      state.user = {};
+      state.error = null;
+      state.loading = false;
     },
   },
-  extraReducers(builder) {
-    builder.addCase(userLogin.fulfilled, (state, action) => {
-      console.log(action.payload);
-      state.token = action.payload.data.token;
-      state.user.date_of_birth = action.payload.data.user.date_of_birth;
-      state.user.email = action.payload.data.user.email;
-      state.user.id = action.payload.data.user.id;
-      state.user.name = action.payload.data.user.name;
-      state.user.profile_picture = action.payload.data.user.profile_picture;
-      state.user.role = action.payload.data.user.role;
-      state.user.username = action.payload.data.user.username;
-      localStorage.setItem("TOKEN", JSON.stringify(action.payload.data.token))
+  extraReducers: (builder) => {
+    builder.addCase(loginUser.pending, (state) => {
+      state.token = '';
+      state.user = {};
+      state.loading = true;
+      state.error = null;
+    }),
+    builder.addCase(loginUser.rejected, (state, action) => {
+      state.token = '';
+      state.user = {};
+      state.loading = false;
+      state.error = action.payload;
+    }),
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+      state.loading = false;
+      state.error = null;
     });
   },
 });
 
-// Exporta la acción 'login' y el reducer del slice
-export const { userLogout } = loginSlice.actions;
 export default loginSlice.reducer;
+export const { logout } = loginSlice.actions;
