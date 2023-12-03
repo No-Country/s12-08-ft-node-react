@@ -56,7 +56,7 @@ const CardSubscription = ({ subscription }) => {
         <div className="row-start-1 row-end-3">
           <div
             id="avatar"
-            className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 bg-slate-500 transform -translate-y-1/2 ml-4"
+            className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 transform -translate-y-1/2 ml-4"
           >
             <img
               src={image}
@@ -69,7 +69,7 @@ const CardSubscription = ({ subscription }) => {
           <div className="text-black ml-0 mt-[-25px]">{name}</div>
         </div>
       </div>
-      </div>
+   </div>
   );
 };
 
