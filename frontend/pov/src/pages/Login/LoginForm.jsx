@@ -31,11 +31,7 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token')
-    ? setTimeout(() => {
-        navigate('/home');
-      }, 2000)
-    : null;
+  const token = localStorage.getItem('token') ? navigate('/home') : null;
 
   const SubmitLogin = (data) => {
     dispatch(loginUser(data));
