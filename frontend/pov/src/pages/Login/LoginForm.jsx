@@ -27,22 +27,24 @@ export const LoginForm = () => {
     resolver: zodResolver(schemaLogin),
   });
   const [showAlert, setShowAlert] = useState(false);
-  const { error, loading, token } = useSelector((state) => state.login);
+  const { error, loading } = useSelector((state) => state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const getToken = localStorage.getItem('token');
 
   const SubmitLogin = (data) => {
     dispatch(loginUser(data));
   };
 
   useEffect(() => {
-    if (token) {
+    if (getToken) {
       navigate('/home');
     } else if (error) {
       setShowAlert(true);
       toast.error(error);
     }
-  }, [error, loading, navigate, token]);
+  }, [error, loading, navigate]);
 
   return (
     <main className="flex items-center justify-center min-h-screen min-w-screen">
