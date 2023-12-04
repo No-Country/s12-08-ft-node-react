@@ -220,6 +220,7 @@ class UserController {
         throw new BadRequest('Se debe proporcionar un ID');
       }
       await user.destroy();
+      await Chat.deleteMany({ id: id });
       res.status(204).send("Usuario eliminado con éxito");
     } catch (error) {
       next(error)
