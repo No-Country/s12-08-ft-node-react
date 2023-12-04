@@ -50,4 +50,10 @@ const editMessageValidation = Joi.object({
     return value;
 });
 
-module.exports = {createMessageValidation, editMessageValidation} 
+const deleteMessageValidation = Joi.object({ 
+    user_id: Joi.string().required(),
+    chat_id: Joi.string().required(),
+    message_id: Joi.string().required(),
+});
+
+module.exports = {createMessageValidation, deleteMessageValidation} 

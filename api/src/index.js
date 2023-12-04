@@ -30,6 +30,9 @@ function initializeApp() {
   /*
    * Routes
    */
+  app.get("/", async (req, res) => {
+      res.redirect(301, '/api/docs')
+  });
 
   app.get("/api/health-check", async (req, res) => {
     res.status(200).send("Stable");
