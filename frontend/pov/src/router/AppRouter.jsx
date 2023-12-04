@@ -25,7 +25,6 @@ const AppRouter = () => {
               <Route path="chats" element={<ChatsUsers />} />
             </Route>
             <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
-          
         </Routes>
       </BrowserRouter>
     </>
