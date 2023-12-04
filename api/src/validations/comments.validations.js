@@ -9,7 +9,6 @@ const createCommentValidation = Joi.object({
     gif: Joi.string().allow(null).when('content', { is: 'gif', then: Joi.required() }),
 }).custom((value, helpers) => {
     const { content, image, video, gif } = value;
-    console.log(image !== undefined)
     const mediaCount = [image, video, gif].filter(media => media !== null && media !== undefined).length;
 
     if (content === 'text') {
@@ -17,7 +16,6 @@ const createCommentValidation = Joi.object({
             return helpers.error('any.invalid');
         }
     } else {
-        console.log(mediaCount)
         if (mediaCount !== 1) {
             return helpers.error('any.invalid');
         }
