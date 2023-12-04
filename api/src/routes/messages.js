@@ -5,4 +5,6 @@ const { checkSession } = require("../middlewares/session/session");
 
 messagesRouter.delete("/",checkSession, MessageController.delete);
 
+messagesRouter.put("/reaction", MessageController.putReaction);
+
 module.exports = messagesRouter;
