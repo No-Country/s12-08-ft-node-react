@@ -1,17 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { URL } from '../router/routes';
-import axios from 'axios';
-import { useToken } from '../hooks/useToken';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { URL } from "../router/routes";
+import axios from "axios";
+import { useToken } from "../hooks/useToken";
+import toast from "react-hot-toast";
 
 export const loginUser = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (userInformation, { rejectWithValue }) => {
     try {
       const response = await axios
         .post(`${URL}/login`, userInformation)
         .then((res) => {
           useToken(res.data.token, new Date().getTime() + 3 * 60 * 60 * 1000);
-          localStorage.setItem('user', JSON.stringify(res.data));
+          localStorage.setItem("user", JSON.stringify(res.data));
           return res.data;
         });
       return response;
@@ -22,53 +23,56 @@ export const loginUser = createAsyncThunk(
 );
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState: {
-    token: '',
+    token: "",
     user: {
-      date_of_birth: '',
-      email: '',
-      id: '',
-      name: '',
-      profile_picture: '',
-      role: '',
-      username: '',
+      date_of_birth: "",
+      email: "",
+      id: "",
+      name: "",
+      profile_picture: "",
+      role: "",
+      username: "",
     },
     error: null,
     loading: false,
-    message: ''
+    message: "",
   },
   reducers: {
     logout: (state) => {
-      state.token = '';
+      state.token = "";
       state.user = {};
       state.error = null;
       state.loading = false;
-      state.message = 'Cerrando sesión';
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('duration');
+      state.message = "Cerrando sesión";
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("duration");
+      toast("Cerraste Sesión, BYE!", {
+        icon: "👋",
+      });
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
-      state.token = '';
+      state.token = "";
       state.user = {};
       state.loading = true;
       state.error = null;
     }),
-    builder.addCase(loginUser.rejected, (state, action) => {
-      state.token = '';
-      state.user = {};
-      state.loading = false;
-      state.error = action.payload;
-    }),
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.token = action.payload.token;
-      state.user = action.payload.user;
-      state.loading = false;
-      state.error = null;
-    });
+      builder.addCase(loginUser.rejected, (state, action) => {
+        state.token = "";
+        state.user = {};
+        state.loading = false;
+        state.error = action.payload;
+      }),
+      builder.addCase(loginUser.fulfilled, (state, action) => {
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+        state.loading = false;
+        state.error = null;
+      });
   },
 });
 
