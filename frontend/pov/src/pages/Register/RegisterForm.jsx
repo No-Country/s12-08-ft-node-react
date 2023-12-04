@@ -53,6 +53,9 @@ export const RegisterForm = () => {
     dispatch(registerUser(data));
   };
 
+  const getToken = localStorage.getItem('token')
+
+
   useEffect(() => {
     if (message) {
       setShowAlert(true);
@@ -64,7 +67,11 @@ export const RegisterForm = () => {
       setShowAlert(true);
       toast.error(error);
     }
+    if (getToken) {
+      navigate('/home');
+    }
   }, [message, error]);
+
 
   return (
     <main className="flex items-center justify-center min-h-screen min-w-screen">
