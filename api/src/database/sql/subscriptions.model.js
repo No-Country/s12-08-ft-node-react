@@ -26,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       //   type: DataTypes.UUID,
       //   allowNull: false,
       // },
-      // beneficiary_id: {
-      //   type: DataTypes.UUID,
-      //   allowNull: false,
-      // },
+      beneficiary_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
       start_date: {
         type: DataTypes.DATE,
         allowNull: false,
