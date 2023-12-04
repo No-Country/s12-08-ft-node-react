@@ -5,5 +5,5 @@ export const RequireAuth = () => {
     const location = useLocation()
     const { token } = useSelector((state) => state.login)
 
-    return token ? <Outlet /> : <Navigate to="/login" replace={{ from: location}} />
+    return token ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace/>
 }

@@ -6,7 +6,7 @@ import '../index.css';
 import { LoginForm } from '../pages/Login/LoginForm';
 import { RegisterForm } from '../pages/Register/RegisterForm';
 import { Landing } from '../pages/Landing/Landing';
-import { RequireAuth } from '../slices/auth/requireAuth';
+import { RequireAuth } from '../slices/auth/RequireAuth';
 
 const AppRouter = () => {
   return (

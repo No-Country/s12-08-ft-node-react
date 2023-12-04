@@ -3,7 +3,7 @@ import { Apple } from '../../components/Svg/Apple';
 import { Facebook } from '../../components/Svg/Facebook';
 import { Google } from '../../components/Svg/Google';
 import toast, { Toaster } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../slices/register.slice';
@@ -47,7 +47,7 @@ export const RegisterForm = () => {
   const [showAlert, setShowAlert] = useState(false);
   const { loading, error, message } = useSelector((state) => state.register);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
 
   const SubmitLogin = (data) => {
     dispatch(registerUser(data));
@@ -56,11 +56,13 @@ export const RegisterForm = () => {
   useEffect(() => {
     if (message) {
       setShowAlert(true);
-      loading ? toast.loading('Cargando...') : toast.success(message);
-
+      toast.success(message);
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
     } else if (error) {
       setShowAlert(true);
-      loading ? toast.loading('Cargando...') : toast.error(error);
+      toast.error(error);
     }
   }, [message, loading, error]);
 
