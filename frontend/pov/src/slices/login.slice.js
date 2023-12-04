@@ -36,6 +36,7 @@ const loginSlice = createSlice({
     },
     error: null,
     loading: false,
+    message: ''
   },
   reducers: {
     logout: (state) => {
@@ -43,6 +44,10 @@ const loginSlice = createSlice({
       state.user = {};
       state.error = null;
       state.loading = false;
+      state.message = 'Cerrando sesión';
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('duration');
     },
   },
   extraReducers: (builder) => {
