@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const commentsSchema = new Schema(
   {
+    message_id: { type: String, required: true },
     suscriber_id: { type: String, required: true },
     content: { type: String, required: true },
     text: {
