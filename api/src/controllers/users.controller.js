@@ -195,6 +195,21 @@ class UserController {
       
     }
   }
+
+  static async deleteUser(req, res, next){
+    try {
+      const { id } = req.params;
+
+      const user = await User.findByPk(id);
+      if(!user){
+        throw new BadRequest('Se debe proporcionar un ID');
+      }
+      await user.destroy();
+      res.status(204).send("Usuario eliminado con éxito");
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 module.exports = { UserController };

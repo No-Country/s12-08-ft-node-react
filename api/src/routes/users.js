@@ -169,4 +169,6 @@ usersRouter.get("/allUser", UserController.AllUser);
 */
 usersRouter.get("/:id", UserController.oneUser);
 
+usersRouter.delete("/acc/:id", UserController.deleteUser);
+
 module.exports = usersRouter;
