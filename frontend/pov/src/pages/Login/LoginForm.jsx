@@ -27,7 +27,9 @@ export const LoginForm = () => {
     resolver: zodResolver(schemaLogin),
   });
   const [showAlert, setShowAlert] = useState(false);
-  const { error, loading, message, token } = useSelector((state) => state.login);
+  const { error, loading, message, token } = useSelector(
+    (state) => state.login
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,11 +42,11 @@ export const LoginForm = () => {
       if (message) {
         setShowAlert(true);
         loading ? toast.loading('Cargando...') : toast.success(message);
-      } else if (error) {
-        setShowAlert(true);
-        loading ? toast.loading('Cargando...') : toast.error(error);
       }
       navigate('/home');
+    } else if (error) {
+      setShowAlert(true);
+      loading ? toast.loading('Cargando...') : toast.error(error);
     }
   }, [error, loading, message, navigate]);
 
