@@ -1,4 +1,4 @@
-const { User } = require("../db.js");
+const { User, Subscription } = require("../db.js");
 const BadRequest = require("../errorClasses/BadRequest.js");
 const NotFound = require("../errorClasses/NotFound.js");
 const AlreadyExist = require("../errorClasses/AlreadyExist.js");
@@ -216,28 +216,30 @@ class UserController {
       const { id } = req.params;
       const user = await User.findOne({
         where: { id: id },
+        include: [
+          {
+            model: Subscription,
+            as: "subscriptions",
+            attributes: ["beneficiary_id"],
+            required: false,
+          },
+        ],
         attributes: {
           exclude: ["password"],
-          include: [
-            [
-              sequelize.fn("COUNT", sequelize.col("subscribers.id")),
-              "subscribersCount",
-            ],
-            [
-              sequelize.fn("COUNT", sequelize.col("subscriptions.id")),
-              "subscriptionsCount",
-            ],
-          ],
         },
-        include: [
-          { model: User, as: "subscribers", attributes: [] },
-          { model: User, as: "subscriptions", attributes: [] },
-        ],
-        group: ["User.id"],
       });
-      const userChat = await Chat.findOne({ _id: id });
 
-      res.status(200).json({ user: user, chat: userChat });
+      user.suscribers = await Subscription.count({
+        where: { beneficiary_id: id },
+      });
+
+      user.suscribedTo = await Subscription.count({
+        where: { user_id: id },
+      });
+
+      user.chat = await Chat.findOne({ _id: id });
+
+      res.status(200).json(user);
     } catch (error) {
       next(error);
     }

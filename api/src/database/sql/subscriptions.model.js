@@ -22,10 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       //   type: DataTypes.UUID,
       //   allowNull: false,
       // },
-      // user_id: {
-      //   type: DataTypes.UUID,
-      //   allowNull: false,
-      // },
+      user_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
       beneficiary_id: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -36,7 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       end_date: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
       },
       status: {
         type: DataTypes.BOOLEAN,
