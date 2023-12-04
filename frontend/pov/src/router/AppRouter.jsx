@@ -15,14 +15,14 @@ const AppRouter = () => {
         <Routes>
           {/* Public routes */}
             <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
+            <Route path="login" element={<LoginForm />} />
+            <Route path="register" element={<RegisterForm />} />
 
             {/* Private routes */}
             <Route element={<RequireAuth />}>
-              <Route path="/home" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/chats" element={<ChatsUsers />} />
+              <Route path="home" element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="chats" element={<ChatsUsers />} />
             </Route>
             <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
           
