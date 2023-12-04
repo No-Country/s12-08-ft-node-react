@@ -231,7 +231,7 @@ class UserController {
 
       const suscribers = await Subscription.findAll({
         where: { beneficiary_id: id },
-        attributes: ['user_id']
+        attributes: ["user_id"],
       });
 
       const chat = await Chat.findOne({ _id: id });
