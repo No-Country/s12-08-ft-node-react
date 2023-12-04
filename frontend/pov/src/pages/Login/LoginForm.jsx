@@ -27,11 +27,9 @@ export const LoginForm = () => {
     resolver: zodResolver(schemaLogin),
   });
   const [showAlert, setShowAlert] = useState(false);
-  const { error, loading, message } = useSelector((state) => state.login);
+  const { error, loading, message, token } = useSelector((state) => state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const token = localStorage.getItem('token') ? navigate('/home') : null;
 
   const SubmitLogin = (data) => {
     dispatch(loginUser(data));
@@ -42,12 +40,13 @@ export const LoginForm = () => {
       if (message) {
         setShowAlert(true);
         loading ? toast.loading('Cargando...') : toast.success(message);
+      } else if (error) {
+        setShowAlert(true);
+        loading ? toast.loading('Cargando...') : toast.error(error);
       }
-    } else if (error) {
-      setShowAlert(true);
-      loading ? toast.loading('Cargando...') : toast.error(error);
+      navigate('/home');
     }
-  }, [error, message, loading]);
+  }, [error, loading, message, navigate]);
 
   return (
     <main className="flex items-center justify-center min-h-screen min-w-screen">
