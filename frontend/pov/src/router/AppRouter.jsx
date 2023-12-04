@@ -5,7 +5,7 @@ import Profile from '../pages/Profile';
 import '../index.css';
 import { LoginForm } from '../pages/Login/LoginForm';
 import { RegisterForm } from '../pages/Register/RegisterForm';
-import { Layout } from './Layout/Layout';
+import { Landing } from '../pages/Landing/Landing';
 import { RequireAuth } from '../slices/auth/requireAuth';
 
 const AppRouter = () => {
@@ -13,8 +13,8 @@ const AppRouter = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            {/* Public routes */}
+          {/* Public routes */}
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
 
@@ -25,7 +25,7 @@ const AppRouter = () => {
               <Route path="/chats" element={<ChatsUsers />} />
             </Route>
             <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
-          </Route>
+          
         </Routes>
       </BrowserRouter>
     </>
