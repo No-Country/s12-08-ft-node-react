@@ -229,17 +229,20 @@ class UserController {
         },
       });
 
-      user.suscribers = await Subscription.count({
+      const suscribers = await Subscription.findAll({
         where: { beneficiary_id: id },
+        attributes: ['user_id']
       });
 
-      user.suscribedTo = await Subscription.count({
-        where: { user_id: id },
+      const chat = await Chat.findOne({ _id: id });
+
+      res.status(200).json({
+        ...user.toJSON(),
+        suscribers,
+        chat,
+        suscribersCount: suscribers.length,
+        suscribedToCount: user.subscriptions.length,
       });
-
-      user.chat = await Chat.findOne({ _id: id });
-
-      res.status(200).json(user);
     } catch (error) {
       next(error);
     }
