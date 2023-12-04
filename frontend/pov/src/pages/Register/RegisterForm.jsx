@@ -64,7 +64,7 @@ export const RegisterForm = () => {
       setShowAlert(true);
       toast.error(error);
     }
-  }, [message, loading, error]);
+  }, [message, error]);
 
   return (
     <main className="flex items-center justify-center min-h-screen min-w-screen">
