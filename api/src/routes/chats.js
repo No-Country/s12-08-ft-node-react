@@ -7,6 +7,8 @@ const { checkSession } = require("../middlewares/session/session");
 //chatsRouter.get("/", ChatController.example);
 
 
+chatsRouter.use(checkSession)
+
 /**
  * @openapi
  * /api/chats/chat:
@@ -73,7 +75,7 @@ const { checkSession } = require("../middlewares/session/session");
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-chatsRouter.post("/chat",checkSession, MessageController.create);
+chatsRouter.post("/chat", MessageController.create);
 
 
 /**

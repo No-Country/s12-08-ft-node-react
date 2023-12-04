@@ -4,6 +4,7 @@ const { MessageController } = require("../controllers/messages.controller");
 const { checkSession } = require("../middlewares/session/session");
 
 
+messagesRouter.use(checkSession)
 /**
  * @openapi
  * /api/chats/message:
@@ -74,6 +75,6 @@ const { checkSession } = require("../middlewares/session/session");
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-messagesRouter.delete("/",checkSession, MessageController.delete);
+messagesRouter.delete("/", MessageController.delete);
 
 module.exports = messagesRouter;
