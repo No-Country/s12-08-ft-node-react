@@ -18,15 +18,25 @@ class MessageController {
         throw new BadRequest(error.details[0].message);
       }
 
-      const { user_id , text, image, video, gif, content } = value;
+      const { user_id , text, content } = value;
+
+      if(content !== 'text'){
+        const valueCont = value[content]
+        const uploadResponse = await cloudinary.uploader.upload(valueCont, {
+          resource_type: "auto",
+          folder: "pov",
+        });
+      
+        value[content] = uploadResponse.secure_url;
+      }
 
       const message = await Messages.create({
         user_id,
         content,
         text,
-        image,
-        video,
-        gif,
+        image: value.image,
+        video: value.video,
+        gif: value.gif,
       });
 
       const chat = await Chat.findById(user_id);
