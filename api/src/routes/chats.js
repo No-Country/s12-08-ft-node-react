@@ -7,6 +7,8 @@ const { checkSession } = require("../middlewares/session/session");
 //chatsRouter.get("/", ChatController.example);
 
 
+chatsRouter.use(checkSession)
+
 /**
  * @openapi
  * /api/chats/chat:
@@ -73,6 +75,93 @@ const { checkSession } = require("../middlewares/session/session");
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-chatsRouter.post("/chat",checkSession, MessageController.create);
+chatsRouter.post("/chat", MessageController.create);
+
+
+/**
+ * @openapi
+ * /api/chats/chat/{id}:
+ *   put:
+ *     tags:
+ *       - Chats
+ *     summary: Edita un mensaje específico en el chat del usuario actual.
+ *     description: Edita un mensaje existente en el chat del usuario autenticado.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID del mensaje que se va a editar.
+ *     requestBody:
+ *       description: Datos del mensaje a editar.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               text:
+ *                 type: string
+ *                 description: Nuevo contenido de texto del mensaje.
+ *               image:
+ *                 type: string
+ *                 description: Nueva URL o base64 de una imagen asociada al mensaje.
+ *               video:
+ *                 type: string
+ *                 description: Nueva URL o base64 de un video asociado al mensaje.
+ *               gif:
+ *                 type: string
+ *                 description: Nueva URL o base64 de un gif asociado al mensaje.
+ *               content:
+ *                 type: string
+ *                 enum: [text, image, video, gif]
+ *                 description: Tipo del mensaje. Puede ser 'text', 'image', 'video' o 'gif'.
+ *     responses:
+ *       201:
+ *         description: Mensaje editado exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje indicando que la edición se ha realizado exitosamente.
+ *                 newMessage:
+ *                   type: object
+ *                   description: Detalles del mensaje editado.
+ *       400:
+ *         description: Error en la solicitud debido a datos incorrectos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error.
+ *       404:
+ *         description: El mensaje no existe en el chat.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error indicando que el mensaje no existe en el chat.
+ *       500:
+ *         description: Error del servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error del servidor.
+*/
+chatsRouter.put("/chat/:id", MessageController.editMessage)
 
 module.exports = chatsRouter;
