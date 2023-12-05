@@ -4,9 +4,9 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const { sequelize, dbInit, mongoDbConnection } = require("./db");
-const {swaggerDocs} =  require("./config/swagger")
+const { swaggerDocs } = require("./config/swagger");
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
-const router = require('./routes/index');
+const router = require("./routes/index");
 
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
@@ -31,7 +31,7 @@ function initializeApp() {
    * Routes
    */
   app.get("/", async (req, res) => {
-      res.redirect(301, '/api/docs')
+    res.redirect(301, "/api/docs");
   });
 
   app.get("/api/health-check", async (req, res) => {
@@ -52,7 +52,7 @@ function initializeApp() {
 async function startServer() {
   try {
     // Auth de mongo
-    await mongoDbConnection()
+    await mongoDbConnection();
     // Auth de sequelize
     await sequelize.authenticate();
     console.log("Conexión establecida");
@@ -66,7 +66,7 @@ async function startServer() {
     const app = initializeApp();
     app.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
-      swaggerDocs(app, port)
+      swaggerDocs(app, port);
     });
   } catch (error) {
     console.error("Error al iniciar el servidor:", error);
