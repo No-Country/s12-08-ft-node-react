@@ -1,7 +1,12 @@
 import CardSubscription from './CardSubscription';
+import {useSelector} from 'react-redux';
 import './ContainerSubscriptions.css';
 
 const ContainerSubscriptions = () => {
+    const token = useSelector( (state)=>{
+        return state.login.token;
+    })
+
     const subscriptions = [
         {
             id: 1,
@@ -54,8 +59,8 @@ const ContainerSubscriptions = () => {
 
     return (
         <div className="container my-8 sm:w-full">
-            <h2 className="text-2xl font-bold">Suscripciones</h2>
-            <p className='subtitle'>Te dejamos algunos perfiles que podrían interesarte.</p>
+            <h2 className="text-2xl font-bold">{token? 'Suscripciones' : 'Sugerencias'}</h2>
+            <p className='subtitle'>Algunos perfiles que podrían interesarte.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
                 {renderSubscriptions()}
             </div>

@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 
@@ -44,11 +44,10 @@ const CardSubscription = ({ subscription }) => {
           </label>
           <ul
             tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-24 text-black bg-white border border-black"
+            className="mt-3 z-[1] p-2 gap-4 shadow menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white border border-black"
           >
-            <li>Opcion 1</li>
-            <li>Opcion 2</li>
-            <li>Option 3</li>
+            <li><Link className='text-center' to='/chats'>Ver perfil</Link></li>
+            <li className='hover:cursor-pointer m-0 p-0 ' onClick={() => console.log('Te suscribiste')}>Suscribete</li>
           </ul>
         </div>
       </div>
@@ -61,7 +60,7 @@ const CardSubscription = ({ subscription }) => {
             <img
               src={image}
               alt="Avatar"
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full bg-slate-500"
             />
           </div>
         </div>
@@ -69,7 +68,7 @@ const CardSubscription = ({ subscription }) => {
           <div className="text-black ml-0 mt-[-25px]">{name}</div>
         </div>
       </div>
-   </div>
+    </div>
   );
 };
 
