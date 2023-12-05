@@ -123,54 +123,58 @@ class MessageController {
     }
   }
 
-  static async putReaction(req, res, next){
+  static async putReaction(req, res, next) {
     try {
       const { messageId } = req.params;
       const { user_id, reaction } = req.body;
-
+  
       const message = await Messages.findById(messageId);
-
-      const userReactionIndex = message.users_who_reacted.findIndex(
-        react => react.user_id === user_id
-      );
-
-      if (reaction && reaction !== '') {
-        if (userReactionIndex !== -1) {
-          // El usuario ya ha reaccionado al mensaje
-          const previousReaction = message.users_who_reacted[userReactionIndex].reaction;
-          if (previousReaction === reaction) {
-            // El usuario toca la misma reacción, por lo tanto, elimina la reacción
-            message.reactions[previousReaction] -= 1; // Decrementar el contador de la reacción
-            message.users_who_reacted.splice(userReactionIndex, 1); // Eliminar la reacción del usuario
-          } else {
-            // Cambiar la reacción del usuario
-            message.reactions[previousReaction] -= 1; // Decrementar el contador de la reacción anterior
-            message.reactions[reaction] = (message.reactions[reaction] || 0) + 1; // Incrementar el contador de la nueva reacción
-            message.users_who_reacted[userReactionIndex].reaction = reaction; // Actualizar la reacción del usuario
-          }
-        } else {
-          // Agregar una nueva reacción del usuario
-          message.reactions[reaction] = (message.reactions[reaction] || 0) + 1; // Incrementar el contador de la nueva reacción
-          message.users_who_reacted.push({ user_id, reaction }); // Agregar la nueva reacción del usuario
-        }
-      } else {
-        // Eliminar la reacción del usuario si la reacción no está presente o es vacía
-        if (userReactionIndex !== -1) {
-          const previousReaction = message.users_who_reacted[userReactionIndex].reaction;
-          message.reactions[previousReaction] -= 1; // Decrementar el contador de la reacción anterior
-          message.users_who_reacted.splice(userReactionIndex, 1); // Eliminar la reacción del usuario
-        } else {
-          return res.status(400).json({ message: 'No se puede eliminar la reacción.' });
-        }
+  
+      if (!message) {
+        throw new BadRequest('Mensaje no encontrado');
       }
+  
+      if (!message.reactions) {
+        message.reactions = {
+          users_who_reacted: []
+        };
+      }
+  
+      const user_reaction = {
+        "user_id": user_id,
+        "reaction": reaction
+      };
+  
+      const isUserReaction = message.reactions.users_who_reacted.find(user => user.user_id === user_id);
 
+      if (isUserReaction && isUserReaction.reaction === reaction) {
+        // Si la reacción es la misma que la anterior, se elimina
+        const indexToRemove = message.reactions.users_who_reacted.findIndex(user => user.user_id === user_id);
+        message.reactions.users_who_reacted.splice(indexToRemove, 1);
+        message.reactions[isUserReaction.reaction]--;
+      } else if (isUserReaction && isUserReaction.reaction !== reaction) {
+        // Si la reacción cambia, se elimina la anterior y se agrega la nueva
+        const indexToRemove = message.reactions.users_who_reacted.findIndex(user => user.user_id === user_id);
+        message.reactions.users_who_reacted.splice(indexToRemove, 1);
+        message.reactions[isUserReaction.reaction]--;
+      //Acá despues de eliminar la reación anterior, agrego la nueva!
+        message.reactions.users_who_reacted.push(user_reaction);
+        message.reactions[reaction] = (message.reactions[reaction] || 0) + 1;
+      } else {
+        // Si el usuario no reacciono nuca, se agrega la nueva reacción
+        message.reactions.users_who_reacted.push(user_reaction);
+        message.reactions[reaction] = (message.reactions[reaction] || 0) + 1;
+      }
+  
       await message.save();
-
+  
       res.status(200).json({ message: 'Reacción actualizada exitosamente', updatedMessage: message });
     } catch (error) {
       next(error);
     }
   }
+  
+  
 };
 
 module.exports = { MessageController };

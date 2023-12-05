@@ -77,6 +77,6 @@ messagesRouter.use(checkSession)
 */
 messagesRouter.delete("/", MessageController.delete);
 
-messagesRouter.put("/reaction", MessageController.putReaction);
+messagesRouter.put("/reaction/:messageId", MessageController.putReaction);
 
 module.exports = messagesRouter;
