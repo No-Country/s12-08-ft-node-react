@@ -211,7 +211,7 @@ usersRouter.get("/:id", UserController.oneUser);
 
 /**
  * @openapi
- * /api/acc/{id}:
+ * /api/users/acc/{id}:
  *   delete:
  *     tags:
  *       - Users
