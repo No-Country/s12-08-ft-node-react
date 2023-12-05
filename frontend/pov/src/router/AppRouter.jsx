@@ -7,6 +7,7 @@ import { LoginForm } from "../pages/Login/LoginForm";
 import { RegisterForm } from "../pages/Register/RegisterForm";
 import { Landing } from "../pages/Landing/Landing";
 import { RequireAuth } from "../slices/auth/RequireAuth";
+import PostList from "../components/Posts/PostList";
 
 const AppRouter = () => {
   return (
@@ -23,6 +24,7 @@ const AppRouter = () => {
             <Route path="home" element={<Home />} />
             <Route path="profile" element={<Profile />} />
             <Route path="chats" element={<ChatsUsers />} />
+            <Route path="posts" element={<PostList />} />
           </Route>
           <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
         </Routes>
