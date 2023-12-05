@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "subscriptions",
         foreignKey: "subscriber_id",
       });
-      
+      User.hasMany(models.Subscription, { foreignKey: "user_id" });
     }
   }
 
