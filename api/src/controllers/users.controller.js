@@ -170,8 +170,23 @@ class UserController {
 
   static async AllUser(req, res, next){
     try {
+      const searchForm = req.query.searchForm
       const users = await User.findAll({
-        attributes: { exclude: ['password'] } 
+        attributes: { exclude: ['password'] } ,
+        where: {
+          [Op.or]: [
+            {
+              name: {
+                [Op.like]: `%${searchForm}%`
+              }
+            },
+            {
+              username: {
+                [Op.like]: `%${searchForm}%`
+              }
+            }
+          ]
+        }
       });
 
       res.status(200).json(users);
@@ -193,6 +208,22 @@ class UserController {
     } catch (error) {
       next(error)
       
+    }
+  }
+
+  static async deleteUser(req, res, next){
+    try {
+      const { id } = req.params;
+
+      const user = await User.findByPk(id);
+      if(!user){
+        throw new BadRequest('Se debe proporcionar un ID');
+      }
+      await user.destroy();
+      await Chat.deleteMany({ id: id });
+      res.status(204).send("Usuario eliminado con éxito");
+    } catch (error) {
+      next(error)
     }
   }
 }
