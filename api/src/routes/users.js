@@ -1,9 +1,9 @@
 const express = require("express");
 const usersRouter = express.Router();
-const {checkSession} = require('../middlewares/session/session')
+const { checkSession } = require("../middlewares/session/session");
 const { UserController } = require("../controllers/users.controller");
 
-usersRouter.use(checkSession)
+usersRouter.use(checkSession);
 
 /**
  * @openapi
@@ -83,9 +83,8 @@ usersRouter.use(checkSession)
  *                 message:
  *                   type: string
  *                   description: Mensaje de error.
-*/
-usersRouter.put("/edit" , UserController.editUser)
-
+ */
+usersRouter.put("/edit", UserController.editUser);
 
 /**
  * @openapi
@@ -121,7 +120,7 @@ usersRouter.put("/edit" , UserController.editUser)
  *                 message:
  *                   type: string
  *                   description: Mensaje de error del servidor.
-*/
+ */
 usersRouter.get("/allUser", UserController.AllUser);
 
 /**
@@ -173,7 +172,7 @@ usersRouter.get("/allUser", UserController.AllUser);
  *                 message:
  *                   type: string
  *                   description: Mensaje de error del servidor.
-*/
+ */
 usersRouter.get("/:id", UserController.oneUser);
 
 usersRouter.delete("/acc/:id", UserController.deleteUser);
