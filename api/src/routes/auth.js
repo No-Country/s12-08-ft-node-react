@@ -22,6 +22,9 @@ const { UserController } = require("../controllers/users.controller");
  *               email:
  *                 type: string
  *                 description: Dirección de correo electrónico del nuevo usuario.
+ *               username:
+ *                 type: string
+ *                 description: Username del nuevo usuario.
  *               name:
  *                 type: string
  *                 description: Nombre del nuevo usuario.

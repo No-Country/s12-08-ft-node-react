@@ -1,9 +1,9 @@
 const express = require("express");
 const usersRouter = express.Router();
-const {checkSession} = require('../middlewares/session/session')
+const { checkSession } = require("../middlewares/session/session");
 const { UserController } = require("../controllers/users.controller");
 
-usersRouter.use(checkSession)
+usersRouter.use(checkSession);
 
 /**
  * @openapi
@@ -83,9 +83,8 @@ usersRouter.use(checkSession)
  *                 message:
  *                   type: string
  *                   description: Mensaje de error.
-*/
-usersRouter.put("/edit" , UserController.editUser)
-
+ */
+usersRouter.put("/edit", UserController.editUser);
 
 /**
  * @openapi
@@ -95,6 +94,13 @@ usersRouter.put("/edit" , UserController.editUser)
  *       - Users
  *     summary: Obtiene la lista de todos los usuarios.
  *     description: Obtiene una lista de todos los usuarios registrados en el sistema, excluyendo la contraseña de cada usuario.
+ *     parameters:
+ *       - in: query
+ *         name: searchForm
+ *         description: Filtro por nombre o username. Puede contener letras específicas.
+ *         required: false
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Lista de usuarios obtenida exitosamente.
@@ -114,7 +120,7 @@ usersRouter.put("/edit" , UserController.editUser)
  *                 message:
  *                   type: string
  *                   description: Mensaje de error del servidor.
-*/
+ */
 usersRouter.get("/allUser", UserController.AllUser);
 
 /**
@@ -166,7 +172,7 @@ usersRouter.get("/allUser", UserController.AllUser);
  *                 message:
  *                   type: string
  *                   description: Mensaje de error del servidor.
-*/
+ */
 usersRouter.get("/:id", UserController.oneUser);
 
 module.exports = usersRouter;
