@@ -1,9 +1,9 @@
 const express = require("express");
 const usersRouter = express.Router();
-const {checkSession} = require('../middlewares/session/session')
+const { checkSession } = require("../middlewares/session/session");
 const { UserController } = require("../controllers/users.controller");
 
-usersRouter.use(checkSession)
+usersRouter.use(checkSession);
 
 /**
  * @openapi
@@ -83,9 +83,8 @@ usersRouter.use(checkSession)
  *                 message:
  *                   type: string
  *                   description: Mensaje de error.
-*/
-usersRouter.put("/edit" , UserController.editUser)
-
+ */
+usersRouter.put("/edit", UserController.editUser);
 
 /**
  * @openapi
@@ -121,38 +120,123 @@ usersRouter.put("/edit" , UserController.editUser)
  *                 message:
  *                   type: string
  *                   description: Mensaje de error del servidor.
-*/
+ */
 usersRouter.get("/allUser", UserController.AllUser);
 
 /**
  * @openapi
  * /api/users/{id}:
- *   get:
+ *  get:
+ *    tags:
+ *      - Users
+ *    summary: Obtiene los detalles de un usuario.
+ *    description: Obtiene los detalles de un usuario basado en el ID proporcionado.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        description: ID del usuario.
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: Usuario encontrado exitosamente.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: UUID
+ *                  description: ID del usuario.
+ *                name:
+ *                  type: string
+ *                  description: Nombre del usuario.
+ *                email:
+ *                  type: string
+ *                  description: Correo electrónico del usuario.
+ *                profile_picture:
+ *                  type: string
+ *                  description: Imagen de perfil del usuario.
+ *                date_of_birth:
+ *                  type: string
+ *                  description: Fecha de nacimiento del usuario.
+ *                beneficiary_id:
+ *                  type: string
+ *                  description: ID del beneficiario del usuario.
+ *                suscribers:
+ *                 type: array
+ *                 description: Lista de usuarios que están suscritos al usuario.
+ *                chat:
+ *                 type: object
+ *                 description: Detalles del chat del usuario.
+ *                suscribersCount:
+ *                 type: integer
+ *                 description: Número de usuarios que están suscritos al usuario.
+ *                suscribedToCount:
+ *                 type: integer
+ *                 description: Número de usuarios a los que el usuario está suscrito.
+ *      400:
+ *        description: Error en la solicitud debido a datos incorrectos.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                 type: string
+ *                 description: Mensaje de error.
+ *      404:
+ *        description: El usuario no existe.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                 type: string
+ *                 description: Mensaje de error.
+ *      500:
+ *        description: Error del servidor.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                 type: string
+ *                 description: Mensaje de error.
+ */
+usersRouter.get("/:id", UserController.oneUser);
+
+/**
+ * @openapi
+ * /api/acc/{id}:
+ *   delete:
  *     tags:
  *       - Users
- *     summary: Obtiene los detalles de un usuario específico.
- *     description: Obtiene los detalles de un usuario específico y su chat asociado, excluyendo la contraseña del usuario.
+ *     summary: Elimina un usuario
+ *     description: Elimina un usuario basado en el ID proporcionado.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID del usuario del cual se desean obtener los detalles.
+ *         description: ID del usuario.
  *         schema:
  *           type: string
  *     responses:
- *       200:
- *         description: Detalles del usuario obtenidos exitosamente.
+ *       204:
+ *         description: Usuario eliminado exitosamente.
+ *       400:
+ *         description: Error en la solicitud debido a datos incorrectos.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 user:
- *                   type: object
- *                   description: Detalles del usuario.
- *                 chat:
- *                   type: object
- *                   description: Detalles del chat asociado al usuario.
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error.
  *       404:
  *         description: El usuario no existe.
  *         content:
@@ -162,7 +246,7 @@ usersRouter.get("/allUser", UserController.AllUser);
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Mensaje de error indicando que el usuario no existe.
+ *                   description: Mensaje de error.
  *       500:
  *         description: Error del servidor.
  *         content:
@@ -172,10 +256,8 @@ usersRouter.get("/allUser", UserController.AllUser);
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Mensaje de error del servidor.
-*/
-usersRouter.get("/:id", UserController.oneUser);
-
+ *                   description: Mensaje de error.
+ */
 usersRouter.delete("/acc/:id", UserController.deleteUser);
 
 module.exports = usersRouter;

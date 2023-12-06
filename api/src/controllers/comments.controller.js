@@ -85,6 +85,55 @@ class CommentController {
       }
     } catch (err) {
       next(err);
+    }}
+  static async putReactionComm(req, res, next) {
+    try {
+      const { commentId } = req.params;
+      const { user_id, reaction } = req.body;
+  
+      const comment = await Comments.findById(commentId);
+  
+      if (!comment) {
+        throw new BadRequest('Comentario no encontrado');
+      }
+  
+      if (!comment.reactions) {
+        comment.reactions = {
+          users_who_reacted: []
+        };
+      }
+  
+      const user_reaction = {
+        "user_id": user_id,
+        "reaction": reaction
+      };
+  
+      const isUserReaction = comment.reactions.users_who_reacted.find(user => user.user_id === user_id);
+
+      if (isUserReaction && isUserReaction.reaction === reaction) {
+        // Si la reacción es la misma que la anterior, se elimina
+        const indexToRemove = comment.reactions.users_who_reacted.findIndex(user => user.user_id === user_id);
+        comment.reactions.users_who_reacted.splice(indexToRemove, 1);
+        comment.reactions[isUserReaction.reaction]--;
+      } else if (isUserReaction && isUserReaction.reaction !== reaction) {
+        // Si la reacción cambia, se elimina la anterior y se agrega la nueva
+        const indexToRemove = comment.reactions.users_who_reacted.findIndex(user => user.user_id === user_id);
+        comment.reactions.users_who_reacted.splice(indexToRemove, 1);
+        comment.reactions[isUserReaction.reaction]--;
+      //Acá despues de eliminar la reación anterior, agrego la nueva!
+        comment.reactions.users_who_reacted.push(user_reaction);
+        comment.reactions[reaction] = (comment.reactions[reaction] || 0) + 1;
+      } else {
+        // Si el usuario no reacciono nuca, se agrega la nueva reacción
+        comment.reactions.users_who_reacted.push(user_reaction);
+        comment.reactions[reaction] = (comment.reactions[reaction] || 0) + 1;
+      }
+  
+      await comment.save();
+  
+      res.status(200).json({ message: 'Reacción actualizada exitosamente', updatedComment: comment });
+    } catch (error) {
+      next(error);
     }
   }
 }

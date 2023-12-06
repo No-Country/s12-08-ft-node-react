@@ -6,5 +6,6 @@ const { checkSession } = require("../middlewares/session/session");
 commentsRouter.use(checkSession)
 
 commentsRouter.delete("/", commentsRouter.delete);
+commentsRouter.put("/reaction/:commentId", CommentController.putReactionComm);
 
 module.exports = commentsRouter;

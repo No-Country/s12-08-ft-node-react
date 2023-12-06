@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const usersRouter = require('./users');
 const authRouter = require('./auth');
-const exampleRouter = require('./examples')
+const exampleRouter = require('./examples');
 const chatsRouter = require('./chats');
 const messagesRouter = require('./messages');
 const commentsRouter = require('./comments');
@@ -22,7 +22,7 @@ router.use('/chats', chatsRouter);
 
 router.use('/message', messagesRouter);
 
-router.use('/comment', commentsRouter);
+router.use('/comments', commentsRouter);
 
 
 module.exports = router

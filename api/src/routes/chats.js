@@ -2,9 +2,8 @@ const express = require("express");
 const chatsRouter = express.Router();
 const { MessageController } = require("../controllers/messages.controller");
 const { CommentController } = require("../controllers/comments.controller")
+const { ChatController } = require("../controllers/chats.controller")
 const { checkSession } = require("../middlewares/session/session");
-
-//chatsRouter.get("/", ChatController.example);
 
 
 chatsRouter.use(checkSession)
@@ -239,5 +238,143 @@ chatsRouter.put("/chat/:id", MessageController.editMessage)
  *                   description: Mensaje de error del servidor.
 */
 chatsRouter.post("/chat/:id/comment" , CommentController.create)
+
+/**
+ * @openapi
+ * /api/chats:
+ *   put:
+ *     tags:
+ *       - Chats
+ *     summary: Edita la información del chat del usuario actual.
+ *     description: Edita la información existente en el chat del usuario autenticado.
+ *     requestBody:
+ *       description: Datos del chat a editar.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nuevo nombre del chat (opcional).
+ *               description:
+ *                 type: string
+ *                 description: Nueva descripción del chat (opcional).
+ *               img:
+ *                 type: string
+ *                 description: base64 en Data URI de una imagen asociada al chat (opcional).
+ *     responses:
+ *       201:
+ *         description: Chat editado exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje indicando que la edición se ha realizado exitosamente.
+ *                 newChat:
+ *                   type: object
+ *                   description: Detalles del chat editado.
+ *       400:
+ *         description: Error en la solicitud debido a datos incorrectos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error.
+ *       500:
+ *         description: Error del servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error del servidor.
+*/
+chatsRouter.put("/", ChatController.editChat)
+
+
+/**
+ * @openapi
+ * /api/chats/chat/{id}:
+ *   get:
+ *     tags:
+ *       - Chats
+ *     summary: Obtiene un chat específico con sus mensajes y comentarios asociados.
+ *     description: Obtiene un chat existente con sus mensajes y comentarios asociados para el usuario autenticado.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID del chat que se va a obtener.
+ *     responses:
+ *       200:
+ *         description: Chat obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: object
+ *                   description: Detalles del usuario asociado al chat.
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       description: ID del usuario.
+ *                     name:
+ *                       type: string
+ *                       description: Nombre del usuario.
+ *                     username:
+ *                       type: string
+ *                       description: Nombre de usuario del usuario.
+ *                     profile_picture:
+ *                       type: string
+ *                       description: URL o base64 de la imagen de perfil del usuario.
+ *                 chat:
+ *                   type: object
+ *                   description: Detalles del chat obtenido con sus mensajes y comentarios asociados.
+ *       400:
+ *         description: Error en la solicitud debido a datos incorrectos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error.
+ *       404:
+ *         description: El chat no existe o el usuario no está disponible.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error indicando que el chat no existe o el usuario no está disponible.
+ *       500:
+ *         description: Error del servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error del servidor.
+*/
+chatsRouter.get("/chat/:id", ChatController.getChatWithMessages)
 
 module.exports = chatsRouter;

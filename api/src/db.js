@@ -55,6 +55,8 @@ const Payment = require("./database/sql/payments.model")(
 
 // Example.hasMany(Other)
 // Other.belongsTo(Example)
+User.hasMany(Subscription, { foreignKey: "user_id" });
+Subscription.belongsTo(User, { foreignKey: "user_id" });
 
 const dbInit = async () => {
   await Example.sync({ alter: true });
