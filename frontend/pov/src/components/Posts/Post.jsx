@@ -3,6 +3,7 @@ import ThreadUnion from "../Svg/ThreadUnion";
 import Response from "./Response";
 // POST toma el objeto post y renderiza su información.
 const Post = ({ post, username, avatar }) => {
+  
   const { message, image, responses } = post;
   console.log(responses[0]);
   return (
