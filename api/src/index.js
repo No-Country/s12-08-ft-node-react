@@ -71,17 +71,23 @@ async function startServer() {
 
     io.on("connection", (socket) => {
       console.log("Un cliente se ha conectado");
+      // Emit is the method for sending messages
+      // and "new-message" is the event name I choose to listen to
+      io.emit("new-message", "boenas");
+      console.log("id", socket.id);
 
-      // Handle reconnection
+      // Here for example, the name of the event we recieve is different
+      socket.on("message", (data) => {
+        console.log("Received from client:", data);
+        // Response to client (try it with Postman)
+        io.emit("new-message", `Gracias por ${data}`);
+      });
+
       socket.on("disconnect", () => {
         console.log("Un cliente se ha desconectado");
       });
     });
 
-    // app.listen(port, () => {
-    //   console.log(`Api listening at http://localhost:${port}`);
-    //   swaggerDocs(app, port);
-    // });
     server.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
       swaggerDocs(app, port);
