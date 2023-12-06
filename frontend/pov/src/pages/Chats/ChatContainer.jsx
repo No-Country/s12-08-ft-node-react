@@ -5,6 +5,10 @@ import userAvatar from "../../assets/avatars/user.webp";
 import noUserAvatar from "../../assets/avatars/no_user.png";
 import PostList from "../../components/Posts/PostList";
 import MessageBar from "../../components/MessageBar/MessageBar";
+// import { useParams } from "react-router-dom";
+// import axios from "axios";
+// import { useEffect, useState } from "react";
+// import { useToken } from "../../hooks/useToken";
 
 const userPosts = [
   {
@@ -477,13 +481,39 @@ const userPosts = [
 ];
 
 const ChatContainer = () => {
-console.log(userPosts);
-  const { username } = userPosts[0];
-  const { subscribersCount } = userPosts[0];
-  const { profile_picture} = userPosts[0];
-  const{post}=userPosts[0]
+ 
+  // const [user, setUser] = useState([]);
+  // const { id } = useParams();
+  // const { token } = useToken();
+  // const getUser = async () => {
+  //   try {
+  //     //URL Para traer los perfiles
+  //     const URL = `https://pov.azurewebsites.net/api/users/${id}`;
 
-console.log(username);
+  //     //URL Para los chat *No Funciona*
+  //     //const URL = `https://pov.azurewebsites.net/api/chats/chat/${id}`;
+  //     const { data } = await axios.get(URL, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     if (data) {
+  //       setUser(data);
+  //     } else setUser([]);
+  //     //  console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // console.log(user);
+  // useEffect(() => {
+  //   getUser();
+  // }, [id]);
+
+  console.log(userPosts);
+  const { username, subscribersCount , profile_picture, posts } = userPosts[0];
+   console.log(username);
+
   return (
     <>
       <header
@@ -497,13 +527,17 @@ console.log(username);
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <img src={profile_picture} alt="" className="w-[44px] h-[44px]" />
+          <img
+            src={profile_picture}
+            alt=""
+            className="w-[44px] h-[44px]"
+          />
           <p className="flex w-full items-center justify-center gap-2 text-white text-[14px]">
             {username}
             <span>{<Cheked />}</span>
           </p>
           <p className="text-white text-[12px] font-thin">
-            <span>{subscribersCount}</span> millones
+             <span>{subscribersCount}</span> millones 
           </p>
         </div>
         <button className="w-[79px] h-[28px] md:w-[120px] text-white text-[10px] rounded-full bg-[#232322] border-none hover:bg-gray-600">
@@ -512,8 +546,8 @@ console.log(username);
       </header>
 
       <main>
-        <PostList posts={post} usernames={username} avatars={profile_picture}/>
-        <MessageBar/>
+        <PostList posts={posts} usernames={username} avatars={profile_picture}/> 
+        <MessageBar />
       </main>
     </>
   );
