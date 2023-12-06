@@ -7,6 +7,8 @@ const { sequelize, dbInit, mongoDbConnection } = require("./db");
 const { swaggerDocs } = require("./config/swagger");
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
 const router = require("./routes/index");
+const http = require("http");
+const socketIO = require("socket.io");
 
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
@@ -64,7 +66,30 @@ async function startServer() {
 
     // start server
     const app = initializeApp();
-    app.listen(port, () => {
+    const server = http.createServer(app);
+    const io = socketIO(server);
+    // Docs > https://socket.io/docs/v4/server-initialization/
+
+    io.on("connection", (socket) => {
+      console.log("Un cliente se ha conectado");
+      // Emit is the method for sending messages
+      // and "new-message" is the event name I choose to listen to
+      io.emit("new-message", "boenas");
+      console.log("id", socket.id);
+
+      // Here for example, the name of the event we recieve is different
+      socket.on("message", (data) => {
+        console.log("Received from client:", data);
+        // Response to client (try it with Postman)
+        io.emit("new-message", `Gracias por ${data}`);
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Un cliente se ha desconectado");
+      });
+    });
+
+    server.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
       swaggerDocs(app, port);
     });
