@@ -75,7 +75,7 @@ messagesRouter.use(checkSession)
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-messagesRouter.delete("/", MessageController.delete);
+messagesRouter.delete("/:id", MessageController.delete);
 /**
  * @openapi
  * /api/message/reaction/{messageId}:
