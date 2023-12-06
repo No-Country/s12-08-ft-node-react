@@ -41,7 +41,7 @@ chatsRouter.use(checkSession)
  *                 description: Tipo del mensaje.
  *     responses:
  *       201:
- *         description: Mensaje creado exitosamente.
+ *         description: Mensaje creado exitosamente. Y io.emit del mensaje creado
  *         content:
  *           application/json:
  *             schema:

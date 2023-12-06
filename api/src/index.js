@@ -58,6 +58,8 @@ function initializeApp() {
   return app;
 }
 
+
+
 async function startServer() {
   try {
     // Auth de mongo
