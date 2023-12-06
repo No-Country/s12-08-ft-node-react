@@ -1,124 +1,73 @@
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { useState } from "react";
+import FileUpload from "../Svg/FileUpload";
+import Send from "../Svg/Send";
+import { toast } from "react-hot-toast";
 
 function MessageBar() {
-    const [message, setMessage] = useState('');
+    const [file, setFile] = useState(null);
+    const [message, setMessage] = useState("");
 
-    const handleFileUpload = async (e) => {
-        const file = e.target.files[0];
-
-        if (file) {
-            const loadingToastId = toast.loading('Cargando imagen...', {
-                position: 'top-center',
-            });
-
-            try {
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                toast.success('Carga exitosa!', { id: loadingToastId });
-                console.log('Archivo cargado:', file);
-            } catch (error) {
-                toast.error('Error al cargar la imagen', { id: loadingToastId });
-            }
-        }
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
     };
 
     const handleSendMessage = () => {
-        // Verifica si el campo de mensaje está vacío antes de enviar
-        if (message.trim() === '') {
-            toast.error('Por favor, escribe un mensaje antes de enviar.');
+        if (!file && !message) {
+            toast.error("Por favor, elija un archivo o escriba un mensaje.");
             return;
         }
 
-        console.log('Mensaje enviado:', message);
+        toast.success("Mensaje enviado con éxito");
 
-        toast.promise(
-            new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve();
-                }, 2000);
-            }),
-            {
-                loading: 'Enviando mensaje...',
-                success: () => {
-                    setMessage('');
-                    return 'Mensaje enviado con éxito!';
-                },
-                error: 'Error al enviar el mensaje.',
-                position: 'top-center',
-            }
-        );
+        // Reinicia el estado del formulario
+        setFile(null);
+        setMessage("");
     };
 
-    const handleTextareaChange = (e) => {
-        if (e.target.value.length <= 60) {
-            setMessage(e.target.value);
-        }
+    const handleFileUpload = () => {
+        toast.info("Cargando archivo...");
     };
 
     return (
-        <div className="message-bar-container ml-4 p-4 border border-none rounded relative">
-            <div className="absolute -left-4 top-1 flex items-center ">
-                <label htmlFor="file-upload" className="pt-8 pl-2 z-50 cursor-pointer">
-                    <svg
-                        width="35"
-                        height="35"
-                        viewBox="0 0 26 26"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <circle
-                            cx="12"
-                            cy="12"
-                            r="11"
-                            stroke="#949494"
-                            strokeWidth="2"
-                            fill="none"
-                        />
-                        <path
-                            d="M12 8V16M8 12H16"
-                            stroke="#949494"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
-                </label>
+        <form className="justify-between h-[44px] mt-4 py-2 flex items-center bg-[#d9d9d9] rounded-full">
+            <label
+                htmlFor="file-upload"
+                className="btn btn-ghost btn-circle avatar px-0 hover:bg-transparent"
+            >
+                <div className="flex items-center">
+                    <FileUpload />
+                </div>
                 <input
                     type="file"
                     id="file-upload"
-                    onChange={handleFileUpload}
                     className="hidden"
+                    onChange={handleFileChange}
                 />
+            </label>
+
+            <textarea
+                type="text"
+                placeholder="Escriba su mensaje aquí"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="bg-transparent text-[12px] h-4 resize-none outline-none w-full"
+            ></textarea>
+
+            <div className="flex items-center mx-2">
+                <button
+                    type="button"
+                    onClick={() => {
+                        handleSendMessage(); // Llama a handleSendMessage primero
+                        handleFileUpload(); // Luego a handleFileUpload
+                    }}
+                    className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600"
+                >
+                    {/* componete exportado */}
+                    <Send />
+                </button>
             </div>
-            <form className="flex items-center ml-4 rounded">
-                <textarea
-                    value={message}
-                    onChange={handleTextareaChange}
-                    placeholder="Escriba máximo 60 caracteres"
-                    className="flex-1 text-center mt-3 pt-2 rounded"
-                />
-                <div className="ml-2">
-                    <button
-                        type="button"
-                        onClick={handleSendMessage}
-                        className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600"
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M13 19V5L20.5 12L13 19ZM4 5H5.5V19H4V5Z"
-                                fill="#FFFFFF"
-                            />
-                        </svg>
-                    </button>
-                </div>
-            </form>
-        </div>
+        </form>
     );
 }
 

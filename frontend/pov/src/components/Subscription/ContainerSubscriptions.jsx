@@ -2,6 +2,7 @@ import CardSubscription from './CardSubscription';
 import {useSelector} from 'react-redux';
 import './ContainerSubscriptions.css';
 
+
 const ContainerSubscriptions = () => {
     const token = useSelector( (state)=>{
         return state.login.token;
@@ -64,6 +65,7 @@ const ContainerSubscriptions = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
                 {renderSubscriptions()}
             </div>
+
         </div>
     );
 
