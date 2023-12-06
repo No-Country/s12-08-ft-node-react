@@ -57,6 +57,7 @@ class MessageController {
     }
   }
 
+
   static async editMessage(req, res, next) {
     try {
       const user_id = req.user_id;
@@ -206,6 +207,7 @@ class MessageController {
       next(error);
     }
   }
+
 }
 
 module.exports = { MessageController };

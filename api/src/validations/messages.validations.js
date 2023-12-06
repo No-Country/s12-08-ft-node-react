@@ -77,3 +77,4 @@ const deleteMessageValidation = Joi.object({
 });
 
 module.exports = { createMessageValidation, deleteMessageValidation };
+

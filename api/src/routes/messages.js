@@ -1,7 +1,6 @@
 const express = require("express");
 const messagesRouter = express.Router();
 const { MessageController } = require("../controllers/messages.controller");
-const { checkSession } = require("../middlewares/session/session");
 
 
 messagesRouter.use(checkSession)
@@ -152,5 +151,6 @@ messagesRouter.delete("/:id", MessageController.delete);
  *                   description: Mensaje de error.
  */
 messagesRouter.put("/reaction/:messageId", MessageController.putReaction);
+
 
 module.exports = messagesRouter;

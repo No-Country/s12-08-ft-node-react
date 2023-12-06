@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Subscription extends Model {
     static associate(models) {
-      
+      Subscription.belongsTo(models.User, { foreignKey: "user_id" });
       Subscription.hasMany(models.Payment, {
         foreignKey: "payment_id",
         as: "payments",
@@ -22,20 +22,21 @@ module.exports = (sequelize, DataTypes) => {
       //   type: DataTypes.UUID,
       //   allowNull: false,
       // },
-      user_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      beneficiary_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
+      // user_id: {
+      //   type: DataTypes.UUID,
+      //   allowNull: false,
+      // },
+      // beneficiary_id: {
+      //   type: DataTypes.UUID,
+      //   allowNull: false,
+      // },
       start_date: {
         type: DataTypes.DATE,
         allowNull: false,
       },
       end_date: {
         type: DataTypes.DATEONLY,
+        allowNull: false,
       },
       status: {
         type: DataTypes.BOOLEAN,

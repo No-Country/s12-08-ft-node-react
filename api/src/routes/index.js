@@ -6,11 +6,8 @@ const chatsRouter = require('./chats');
 const messagesRouter = require('./messages');
 const commentsRouter = require('./comments');
 
-const router = Router();
 
-router.get("/", async (req, res) => {
-    res.redirect(301, '/api/docs')
-});
+const router = Router();
 
 router.use('/users', usersRouter);
 
