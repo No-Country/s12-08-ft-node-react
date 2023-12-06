@@ -5,9 +5,10 @@ import Configurations from "../pages/Configurations";
 import "../index.css";
 import { LoginForm } from "../pages/Login/LoginForm";
 import { RegisterForm } from "../pages/Register/RegisterForm";
-import { Landing } from "../pages/Landing/Landing";
+//import { Landing } from "../pages/Landing/Landing";
 import { RequireAuth } from "../slices/auth/RequireAuth";
 import PostList from "../components/Posts/PostList";
+import ChatContainer from "../pages/Chats/ChatContainer";
 
 const AppRouter = () => {
   return (
