@@ -63,6 +63,7 @@ function MessageBar() {
                     }}
                     className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600"
                 >
+                    {/* componete exportado */}
                     <Send />
                 </button>
             </div>
