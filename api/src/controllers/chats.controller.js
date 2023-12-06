@@ -37,7 +37,11 @@ class ChatController {
 
   static async getChatWithMessages(req, res, next){
     try {
+      const pageSize = 20
+
       const id = req.params.id
+      const page = req.query.page || 1
+      const skip = (page - 1) * pageSize
 
       if(!id){
         throw new BadRequest('El id es necesario')
@@ -49,7 +53,10 @@ class ChatController {
         throw new NotFound('El usuario no existe')
       }
 
-      const chat = await Chat.findById(id).populate({path: 'messages' , populate: { path: 'comments' }})
+      const chat = await Chat.findById(id).populate({path: 'messages', options: {
+        skip,
+        limit: pageSize,
+      },populate: { path: 'comments' }})
 
       if(!chat){
         throw new NotFound('No se encontro el chat')

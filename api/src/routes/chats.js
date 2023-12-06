@@ -317,6 +317,12 @@ chatsRouter.put("/", ChatController.editChat)
  *           type: string
  *         required: true
  *         description: ID del chat que se va a obtener.
+ *       - in: query
+ *         name: page
+ *         description: Pagina con cantidad de mensajes (cada 20) del usuario.
+ *         required: false
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Chat obtenido exitosamente.

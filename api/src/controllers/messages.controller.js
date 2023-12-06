@@ -114,6 +114,8 @@ class MessageController {
 
   static async delete(req, res, next) {
     req.body.user_id = req.user_id;
+    req.body.message_id = req.params.id;
+
     try {
       const { error, value } = deleteMessageValidation.validate(req.body);
       if (error) {
