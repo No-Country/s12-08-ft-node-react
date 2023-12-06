@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
 import { ChatsUsers } from "../pages/Chats/ChatsUsers";
-import Profile from "../pages/Profile";
+import Configurations from "../pages/Configurations";
 import "../index.css";
 import { LoginForm } from "../pages/Login/LoginForm";
 import { RegisterForm } from "../pages/Register/RegisterForm";
@@ -22,7 +22,7 @@ const AppRouter = () => {
           {/* Private routes */}
           <Route element={<RequireAuth />}>
             <Route path="home" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile" element={<Configurations />} />
             <Route path="chats" element={<ChatsUsers />} />
             <Route path="posts" element={<PostList />} />
           </Route>

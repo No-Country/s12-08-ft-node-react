@@ -3,15 +3,15 @@ import ThreadUnion from "../Svg/ThreadUnion";
 import Response from "./Response";
 // POST toma el objeto post y renderiza su información.
 const Post = ({ post, username, avatar }) => {
-  const { message, image, responses } = post;
-  console.log(responses[0]);
+  const { message, imageAdded, responses } = post;
+  console.log(post);
   return (
     <article className="flex flex-col gap-2 px-2 py-4 rounded-lg">
       {/* Post */}
       <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] rounded-lg">
-        {image && (
+        {imageAdded && (
           <img
-            src={image}
+            src={imageAdded}
             alt="imagen adjunta al post"
             className="mb-2 rounded-lg overflow-hidden"
           />
