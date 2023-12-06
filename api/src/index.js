@@ -68,6 +68,7 @@ async function startServer() {
     const app = initializeApp();
     const server = http.createServer(app);
     const io = socketIO(server);
+    // Docs > https://socket.io/docs/v4/server-initialization/
 
     io.on("connection", (socket) => {
       console.log("Un cliente se ha conectado");
