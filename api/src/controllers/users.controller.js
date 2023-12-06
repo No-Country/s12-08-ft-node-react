@@ -2,6 +2,7 @@ const { User, Subscription } = require("../db.js");
 const BadRequest = require("../errorClasses/BadRequest.js");
 const NotFound = require("../errorClasses/NotFound.js");
 const AlreadyExist = require("../errorClasses/AlreadyExist.js");
+const Unauthorized = require("../errorClasses/Unauthorized.js");
 const {
   usersValidation,
   loginValidation,
@@ -250,17 +251,26 @@ class UserController {
 
   static async deleteUser(req, res, next){
     try {
-      const { id } = req.params;
-
-      const user = await User.findByPk(id);
-      if(!user){
-        throw new BadRequest('Se debe proporcionar un ID');
-      }
-      await user.destroy();
-      await Chat.deleteMany({ id: id });
+      await Chat.deleteMany({ userId: id });
       res.status(204).send("Usuario eliminado con éxito");
     } catch (error) {
-      next(error)
+      next(error);
+    }
+  }
+  static async deleteUser(req, res, next) {
+    try {
+      const userId = req.user_id; 
+  
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw new NotFound('Usuario no encontrado');
+      }
+      
+      await user.destroy();
+      await Chat.deleteMany({ _id: userId });     
+      res.status(204).send("Usuario eliminado con éxito");
+    } catch (error) {
+      next(error);
     }
   }
 }

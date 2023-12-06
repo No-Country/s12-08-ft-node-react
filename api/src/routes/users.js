@@ -211,19 +211,12 @@ usersRouter.get("/:id", UserController.oneUser);
 
 /**
  * @openapi
- * /api/acc/{id}:
+ * /api/users/acc:
  *   delete:
  *     tags:
  *       - Users
  *     summary: Elimina un usuario
- *     description: Elimina un usuario basado en el ID proporcionado.
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID del usuario.
- *         schema:
- *           type: string
+ *     description: Elimina la cuenta del usuario autenticado.
  *     responses:
  *       204:
  *         description: Usuario eliminado exitosamente.
@@ -258,6 +251,7 @@ usersRouter.get("/:id", UserController.oneUser);
  *                   type: string
  *                   description: Mensaje de error.
  */
-usersRouter.delete("/acc/:id", UserController.deleteUser);
+
+usersRouter.delete("/acc", UserController.deleteUser);
 
 module.exports = usersRouter;
