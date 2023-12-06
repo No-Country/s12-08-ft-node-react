@@ -7,6 +7,8 @@ const { sequelize, dbInit, mongoDbConnection } = require("./db");
 const { swaggerDocs } = require("./config/swagger");
 const { errorHandler, errorLogger } = require("./middlewares/errors/index");
 const router = require("./routes/index");
+const http = require("http");
+const socketIO = require("socket.io");
 
 const corsOptions = {
   origin: process.env.APP_DOMAIN || "*",
@@ -64,7 +66,23 @@ async function startServer() {
 
     // start server
     const app = initializeApp();
-    app.listen(port, () => {
+    const server = http.createServer(app);
+    const io = socketIO(server);
+
+    io.on("connection", (socket) => {
+      console.log("Un cliente se ha conectado");
+
+      // Handle reconnection
+      socket.on("disconnect", () => {
+        console.log("Un cliente se ha desconectado");
+      });
+    });
+
+    // app.listen(port, () => {
+    //   console.log(`Api listening at http://localhost:${port}`);
+    //   swaggerDocs(app, port);
+    // });
+    server.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
       swaggerDocs(app, port);
     });
