@@ -1,10 +1,15 @@
-const { User } = require('../db.js');
-const BadRequest = require('../errorClasses/BadRequest.js');
-const NotFound = require('../errorClasses/NotFound.js');
-const AlreadyExist = require('../errorClasses/AlreadyExist.js');
-const {usersValidation, loginValidation,editUserValidation} = require('../validations/users.validations.js');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const { User, Subscription } = require("../db.js");
+const BadRequest = require("../errorClasses/BadRequest.js");
+const NotFound = require("../errorClasses/NotFound.js");
+const AlreadyExist = require("../errorClasses/AlreadyExist.js");
+const Unauthorized = require("../errorClasses/Unauthorized.js");
+const {
+  usersValidation,
+  loginValidation,
+  editUserValidation,
+} = require("../validations/users.validations.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 const Chat = require('../database/mongo/chats.model.js');
@@ -193,6 +198,31 @@ class UserController {
     } catch (error) {
       next(error)
       
+    }
+  }
+
+  static async deleteUser(req, res, next){
+    try {
+      await Chat.deleteMany({ userId: id });
+      res.status(204).send("Usuario eliminado con éxito");
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async deleteUser(req, res, next) {
+    try {
+      const userId = req.user_id; 
+  
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw new NotFound('Usuario no encontrado');
+      }
+      
+      await user.destroy();
+      await Chat.deleteMany({ _id: userId });     
+      res.status(204).send("Usuario eliminado con éxito");
+    } catch (error) {
+      next(error);
     }
   }
 }
