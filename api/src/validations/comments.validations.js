@@ -52,8 +52,7 @@ const editCommentValidation = Joi.object({
 
 const deleteCommentValidation = Joi.object({ 
     user_id: Joi.string().required(),
-    chat_id: Joi.string().required(),
-    comment_id: Joi.string().required(),
+    comment_id: Joi.string().required()
 });
 
 module.exports = { createCommentValidation, deleteCommentValidation, editCommentValidation }

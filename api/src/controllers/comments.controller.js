@@ -60,7 +60,7 @@ class CommentController {
         throw new BadRequest(error.details[0].message);
       }
 
-      const { user_id , chat_id, comment_id } = value;
+      const { user_id , comment_id } = value;
 
       const comment = await Comments.findById(comment_id);
 
@@ -68,7 +68,7 @@ class CommentController {
         throw new BadRequest("Comentario no existe");
       }
 
-      if ((user_id === chat_id || user_id === comment.suscriber_id)) {
+      if ((user_id === comment.suscriber_id)) {
         comment.deleteOne()
         const message = await Messages.findById(comment.message_id);
         message.comments = message.comments.flatMap((item) => {
@@ -88,6 +88,7 @@ class CommentController {
     } catch (err) {
       next(err);
     }}
+    
     static async editComment(req, res, next){
       try {
         req.body.user_id = req.user_id
@@ -138,7 +139,8 @@ class CommentController {
   static async putReactionComm(req, res, next) {
     try {
       const { commentId } = req.params;
-      const { user_id, reaction } = req.body;
+      const user_id = req.user_id
+      const { reaction } = req.body;
   
       const comment = await Comments.findById(commentId);
   
