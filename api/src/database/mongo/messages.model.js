@@ -18,7 +18,18 @@ const messagesSchema = new Schema(
     gif: {
       type: String,
     },
-    reactions: { type: [{ user_id: String, type: String }], default: []},
+    reactions: {
+      love: { type: Number, default: 0 },
+      sad: { type: Number, default: 0 },
+      fun: { type: Number, default: 0 },
+      interesting: { type: Number, default: 0 },
+      users_who_reacted: [
+        {
+          user_id: { type: String },
+          reaction: { type: String, enum: ['love', 'sad', 'fun', 'interesting'] },
+        },
+      ],
+    },
   },
   {
     timestamps: true,
