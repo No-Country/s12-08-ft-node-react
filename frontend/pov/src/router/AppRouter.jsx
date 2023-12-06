@@ -22,7 +22,7 @@ const AppRouter = () => {
           <Route element={<RequireAuth />}>
             <Route path="home" element={<Home />} />
             <Route path="config" element={<Configurations />} />
-            <Route path="chats" element={<ChatContainer />} />
+            <Route path="chats/:id" element={<ChatContainer />} />
           </Route>
           <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
         </Routes>

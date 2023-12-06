@@ -1,10 +1,11 @@
 import BackBtn from "../../components/Svg/BackBtn";
+import { useParams } from "react-router-dom";
+import PostList from "../../components/Posts/PostList";
+import MessageBar from "../../components/MessageBar/MessageBar";
 import fondo from "../../assets/avatars/fondo1.jpg";
 import Cheked from "../../components/Svg/Cheked";
 import userAvatar from "../../assets/avatars/user.webp";
 import noUserAvatar from "../../assets/avatars/no_user.png";
-import PostList from "../../components/Posts/PostList";
-import MessageBar from "../../components/MessageBar/MessageBar";
 // import { useParams } from "react-router-dom";
 // import axios from "axios";
 // import { useEffect, useState } from "react";
@@ -481,9 +482,9 @@ const userPosts = [
 ];
 
 const ChatContainer = () => {
- 
   // const [user, setUser] = useState([]);
-  // const { id } = useParams();
+  const { id } = useParams();
+  console.log(id);
   // const { token } = useToken();
   // const getUser = async () => {
   //   try {
@@ -510,9 +511,8 @@ const ChatContainer = () => {
   //   getUser();
   // }, [id]);
 
-  console.log(userPosts);
-  const { username, subscribersCount , profile_picture, posts } = userPosts[0];
-   console.log(username);
+  const { username, subscribersCount, profile_picture, posts } =
+    userPosts[id - 1];
 
   return (
     <>
@@ -527,17 +527,13 @@ const ChatContainer = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <img
-            src={profile_picture}
-            alt=""
-            className="w-[44px] h-[44px]"
-          />
+          <img src={profile_picture} alt="" className="w-[44px] h-[44px]" />
           <p className="flex w-full items-center justify-center gap-2 text-white text-[14px]">
             {username}
             <span>{<Cheked />}</span>
           </p>
           <p className="text-white text-[12px] font-thin">
-             <span>{subscribersCount}</span> millones 
+            <span>{subscribersCount}</span> millones
           </p>
         </div>
         <button className="w-[79px] h-[28px] md:w-[120px] text-white text-[10px] rounded-full bg-[#232322] border-none hover:bg-gray-600">
@@ -546,7 +542,11 @@ const ChatContainer = () => {
       </header>
 
       <main>
-        <PostList posts={posts} usernames={username} avatars={profile_picture}/> 
+        <PostList
+          posts={posts}
+          userName={username}
+          userAvatar={profile_picture}
+        />
         <MessageBar />
       </main>
     </>
