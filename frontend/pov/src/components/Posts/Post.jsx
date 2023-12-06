@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import Reaction from "./Reaction";
 import ThreadUnion from "../Svg/ThreadUnion";
 import Response from "./Response";
-// POST toma el objeto post y renderiza su información.
-const Post = ({ post, username, avatar }) => {
+
+const Post = ({ post, userName, userAvatar }) => {
   const { message, imageAdded, responses } = post;
-  console.log(post);
+
   return (
     <article className="flex flex-col gap-2 px-2 py-4 rounded-lg">
       {/* Post */}
@@ -17,20 +18,29 @@ const Post = ({ post, username, avatar }) => {
           />
         )}
         <div className="w-full flex gap-2 items-center">
-          <img src={avatar} alt="user avatar" className="w-[24px]" />
-          <p className="w-full text-[12px]">
-            <span className="font-black">{username}: </span>
+          <img
+            src={userAvatar}
+            alt={`avatar de ${userName}`}
+            className="w-[24px]"
+          />
+          <p className="w-full p-2 text-[12px]">
+            <span className="font-black">{userName}: </span>
             {message}
           </p>
         </div>
       </div>
-      {/* Respuestas al post */}
+
+      {/* Link a Respuestas del post */}
       <div className="flex gap-1 pl-[28px]">
         <ThreadUnion />
-        <div className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg">
+        <Link
+          to=""
+          className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
+        >
           <Response response={responses[0]} />
-        </div>
+        </Link>
       </div>
+
       {/* Reacciones con Emojis */}
       <div className="flex gap-1">
         {post &&

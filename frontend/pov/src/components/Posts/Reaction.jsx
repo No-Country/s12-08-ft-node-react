@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
 import "./Reaction.css";
 
 // Cada boton Reaction es capas de recibir el total de reactiones y enviar una reaccion por click
 const Reaction = ({ reaction }) => {
-  //Aqui useState recibe las reacciones actuales
   const { image, amount } = reaction;
 
   return (
