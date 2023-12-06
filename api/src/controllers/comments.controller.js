@@ -1,6 +1,6 @@
 const Comments = require('../database/mongo/comments.model.js');
 const Messages = require("../database/mongo/messages.model.js");
-const {createCommentValidation} = require('../validations/comments.validations.js');
+const {createCommentValidation, deleteCommentValidation} = require('../validations/comments.validations.js');
 const { cloudinary } = require("../config/cloudinary/index.js");
 const BadRequest = require("../errorClasses/BadRequest.js");
 
@@ -48,6 +48,43 @@ class CommentController {
       return res.status(201).json({ message: 'Comentario editado exitosamente' , comment: comment });
     } catch (error) {
       next(error);
+    }
+  }
+  static async delete(req, res, next) {
+    req.body.user_id = req.user_id
+    try {
+      const { error, value } = deleteCommentValidation.validate(req.body);
+      if (error) {
+        throw new BadRequest(error.details[0].message);
+      }
+
+      const { user_id , chat_id, comment_id } = value;
+
+      const comment = await Messages.findById(comment_id);
+
+      if (!comment) {
+        throw new BadRequest("Comentario no existe");
+      }
+
+      if ((user_id === chat_id || user_id === comment.suscriber_id)) {
+        deletedComment = comment.deleteOne()
+        const message = await Messages.findById(comment.message_id);
+        message.comments = message.comments.flatMap((item) => {
+          if (item.toString() === comment_id) {
+            return []
+          }
+          return item
+        })
+        message.markModified("comments")
+        message.save()
+        res
+        .status(201)
+        .json({ message: "Comentario borrado exitosamente", deletedComment });
+      }else {
+        throw new Unauthorized("No es el propietario del mensaje");
+      }
+    } catch (err) {
+      next(err);
     }
   }
 }
