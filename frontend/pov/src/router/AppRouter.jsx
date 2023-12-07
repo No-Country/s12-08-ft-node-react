@@ -7,7 +7,7 @@ import { RequireAuth } from "../slices/auth/RequireAuth";
 import ChatContainer from "../pages/Chats/ChatContainer";
 
 import "../index.css";
-import NotFound from "../components/NotFound/NotFound";
+import NotFound from "../pages/NotFound/NotFound";
 
 const AppRouter = () => {
   return (

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 // import NF5 from '../../assets/notFound/NF5.png';
-import NtFound from '../Svg/NtFound';
+import NtFound from '../../components/Svg/NtFound';
 
 const NotFound = () => {
     return (
