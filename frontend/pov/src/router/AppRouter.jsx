@@ -7,6 +7,7 @@ import { RequireAuth } from "../slices/auth/RequireAuth";
 import ChatContainer from "../pages/Chats/ChatContainer";
 
 import "../index.css";
+import NotFound from "../components/NotFound/NotFound";
 
 const AppRouter = () => {
   return (
@@ -24,7 +25,7 @@ const AppRouter = () => {
             <Route path="config" element={<Configurations />} />
             <Route path="chats/:id" element={<ChatContainer />} />
           </Route>
-          <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
       </BrowserRouter>
     </>
