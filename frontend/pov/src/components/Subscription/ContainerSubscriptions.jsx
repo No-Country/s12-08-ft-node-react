@@ -1,6 +1,7 @@
 import CardSubscription from './CardSubscription';
 import {useSelector} from 'react-redux';
 import './ContainerSubscriptions.css';
+// import MessageBar from '../MessageBar/MessageBar';
 
 
 const ContainerSubscriptions = () => {
@@ -65,7 +66,7 @@ const ContainerSubscriptions = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
                 {renderSubscriptions()}
             </div>
-
+        {/* <MessageBar/> */}
         </div>
     );
 

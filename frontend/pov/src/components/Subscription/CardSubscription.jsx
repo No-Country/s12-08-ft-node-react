@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Option from '../Svg/Option';
 
 const CardSubscription = ({ subscription }) => {
   const { image, name } = subscription;
@@ -10,35 +11,7 @@ const CardSubscription = ({ subscription }) => {
         <div className="dropdown dropdown-end right-0 top-0 absolute">
           {/* Option */}
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <svg
-              width="20"
-              height="8"
-              viewBox="0 0 13 3"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="1.5"
-                cy="1.5"
-                r="1.5"
-                transform="rotate(180 1.5 1.5)"
-                fill="#2F2F2F"
-              />
-              <circle
-                cx="6.5"
-                cy="1.5"
-                r="1.5"
-                transform="rotate(180 6.5 1.5)"
-                fill="#2F2F2F"
-              />
-              <circle
-                cx="11.5"
-                cy="1.5"
-                r="1.5"
-                transform="rotate(180 11.5 1.5)"
-                fill="#2F2F2F"
-              />
-            </svg>
+            <Option/>
           </label>
           <ul
             tabIndex={0}
@@ -60,7 +33,7 @@ const CardSubscription = ({ subscription }) => {
       </div>
       <div className="card-actions bg-[#949494] rounded-b-[20px] grid grid-rows-[auto,auto] gap-2 items-center">
         <div className="row-start-1 row-end-3">
-          <Link to="/chats"> {/* Cambiar a la ruta que se va a utilizar */}
+          <Link to="/config"> {/* Cambiar a la ruta que se va a utilizar */}
             <div
               id="avatar"
               className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 transform -translate-y-1/2 ml-4"
