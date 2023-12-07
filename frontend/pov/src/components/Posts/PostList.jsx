@@ -473,7 +473,7 @@ import Post from "./Post";
 // POSTLIST toma los posts que es un array de objetos post y los lista.-
 const PostList = ({ posts, userName, userAvatar }) => {
   return (
-    <section className="py-4 flex flex-col gap-4 px-[16px]">
+    <section className="w-full max-w-[780px] mx-auto py-4 flex flex-col gap-4 px-[16px]">
       {posts.map((post) => (
         <Post
           key={post.id}

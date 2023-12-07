@@ -517,7 +517,7 @@ const ChatContainer = () => {
   return (
     <>
       <header
-        className="flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
+        className="w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${fondo})`,
         }}
@@ -541,7 +541,7 @@ const ChatContainer = () => {
         </button>
       </header>
 
-      <main>
+      <main className="w-full md:max-w-[1000px] lg:mx-auto">
         <PostList
           posts={posts}
           userName={username}
