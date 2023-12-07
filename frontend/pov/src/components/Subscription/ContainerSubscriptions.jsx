@@ -64,7 +64,9 @@ const ContainerSubscriptions = () => {
       <h2 className="text-[20px] font-bold">
         {token ? "Suscripciones" : "Sugerencias"}
       </h2>
-      <p className="subtitle">Algunos perfiles que podrían interesarte.</p>
+      <p className="text-[12px] mb-4">
+        Algunos perfiles que podrían interesarte.
+      </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
         {renderSubscriptions()}
       </div>
