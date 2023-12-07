@@ -1,6 +1,5 @@
 import CardSubscription from "./CardSubscription";
 import { useSelector } from "react-redux";
-import "./ContainerSubscriptions.css";
 
 const ContainerSubscriptions = () => {
   const token = useSelector((state) => {
