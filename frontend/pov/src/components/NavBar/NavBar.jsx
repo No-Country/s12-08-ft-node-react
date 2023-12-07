@@ -9,7 +9,7 @@ const NavBar = () => {
   return (
     <div className="w-screen fixed left-0 top-0 px-[24px] 3xl:px-0 bg-white shadow-md z-10">
       <Toaster />
-      <nav className="max-w-[1200px] mx-auto p-0 navbar">
+      <nav className="max-w-[1000px] mx-auto p-0 navbar">
         {/*  Section LOGO */}
         <section className="flex-1">
           <Link to="/home" className="btn btn-ghost px-0 hover:bg-transparent">
