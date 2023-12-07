@@ -2,31 +2,83 @@ import { useState } from "react";
 import FileUpload from "../Svg/FileUpload";
 import Send from "../Svg/Send";
 import { toast } from "react-hot-toast";
+import LoadingSpinner from "../Accessories/LoadingSpinner";
 
 function MessageBar() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState("");
+    const [imagePreview, setImagePreview] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
+
+        // Mostrar vista previa de la imagen
+        if (selectedFile) {
+            const reader = new FileReader();
+
+            setLoading(true);
+
+            // Agregar un retraso de 2 segundos antes de mostrar la vista previa
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            reader.onloadend = () => {
+                setLoading(false);
+                setImagePreview(reader.result);
+            };
+
+            reader.readAsDataURL(selectedFile);
+
+            // Espera a que handleFileUpload termine antes de continuar
+            await handleFileUpload();
+        } else {
+            setLoading(false);
+            setImagePreview(null);
+        }
     };
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (!file && !message) {
             toast.error("Por favor, elija un archivo o escriba un mensaje.");
             return;
         }
 
-        toast.success("Mensaje enviado con éxito");
+        try {
+            await toast.promise(
+                new Promise((resolve) => setTimeout(resolve, 2000)),
+                {
+                    loading: "Enviando mensaje...",
+                    success: "Mensaje enviado con éxito",
+                    error: "Error al enviar el mensaje",
+                }
+            );
 
-        // Reinicia el estado del formulario
-        setFile(null);
-        setMessage("");
+            // Reinicia el estado del formulario
+            setFile(null);
+            setMessage("");
+            setImagePreview(null);
+        } catch (error) {
+            // Maneja errores si es necesario
+        }
     };
 
-    const handleFileUpload = () => {
-        toast.info("Cargando archivo...");
+    const handleFileUpload = async () => {
+        if (file) {
+            try {
+                setLoading(true);
+
+                // Espera 2 segundos antes de simular la carga del archivo
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+
+                // Acá se puede realizar cualquier acción adicional necesaria después de cargar el archivo
+
+                setLoading(false);
+            } catch (error) {
+                // Maneja errores si es necesario
+                setLoading(false);
+            }
+        }
     };
 
     return (
@@ -46,6 +98,21 @@ function MessageBar() {
                 />
             </label>
 
+            {/* Mostrar la vista previa de la imagen */}
+            {loading ? (
+                <div className="loading-indicator"> <LoadingSpinner /></div>
+            ) : (
+                imagePreview && (
+                    <div className="image-preview">
+                        <img
+                            src={imagePreview}
+                            alt="Vista previa"
+                            style={{ width: 35, height: 35, objectFit: "cover" }}
+                        />
+                    </div>
+                )
+            )}
+
             <textarea
                 type="text"
                 placeholder="Escriba su mensaje aquí"
@@ -57,13 +124,11 @@ function MessageBar() {
             <div className="flex items-center mx-2">
                 <button
                     type="button"
-                    onClick={() => {
-                        handleSendMessage(); // Llama a handleSendMessage primero
-                        handleFileUpload(); // Luego a handleFileUpload
+                    onClick={async () => {
+                        await handleSendMessage();
                     }}
                     className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600"
                 >
-                    {/* componete exportado */}
                     <Send />
                 </button>
             </div>

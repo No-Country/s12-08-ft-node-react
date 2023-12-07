@@ -60,7 +60,7 @@ const CardSubscription = ({ subscription }) => {
       </div>
       <div className="card-actions bg-[#949494] rounded-b-[20px] grid grid-rows-[auto,auto] gap-2 items-center">
         <div className="row-start-1 row-end-3">
-          <Link to="/chats"> {/* Cambiar a la ruta que se va a utilizar */}
+          <Link to="/config"> {/* Cambiar a la ruta que se va a utilizar */}
             <div
               id="avatar"
               className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 transform -translate-y-1/2 ml-4"
