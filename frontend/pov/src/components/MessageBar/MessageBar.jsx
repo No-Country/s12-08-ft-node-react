@@ -2,7 +2,7 @@ import { useState } from "react";
 import FileUpload from "../Svg/FileUpload";
 import Send from "../Svg/Send";
 import { toast } from "react-hot-toast";
-import LoadingSpinner from "../Accessories/LoadingSpinner";
+import LoadingSpinner from "../Svg/LoadingSpinner";
 
 function MessageBar() {
     const [file, setFile] = useState(null);
@@ -103,11 +103,11 @@ function MessageBar() {
                 <div className="loading-indicator"> <LoadingSpinner /></div>
             ) : (
                 imagePreview && (
-                    <div className="image-preview">
+                    <div className="image-preview p-1">
                         <img
                             src={imagePreview}
                             alt="Vista previa"
-                            style={{ width: 35, height: 35, objectFit: "cover" }}
+                            style={{ width: 35, height: 35,border: "2px solid rgb(100 116 139 / var(--tw-bg-opacity))",borderRadius:"8px", objectFit: "cover" }}
                         />
                     </div>
                 )
@@ -127,7 +127,7 @@ function MessageBar() {
                     onClick={async () => {
                         await handleSendMessage();
                     }}
-                    className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600"
+                    className="bg-[#232322] text-white rounded-full p-2 hover:bg-[#3f3f2e]"
                 >
                     <Send />
                 </button>
