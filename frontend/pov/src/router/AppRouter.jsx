@@ -7,8 +7,10 @@ import { RequireAuth } from "../slices/auth/RequireAuth";
 import ChatContainer from "../pages/Chats/ChatContainer";
 
 import "../index.css";
-import NotFound from "../components/NotFound/NotFound";
+
+import NotFound from "../pages/NotFound/NotFound";
 import ProfileContainer from "../pages/Profile/ProfileContainer";
+
 
 const AppRouter = () => {
   return (
@@ -27,7 +29,7 @@ const AppRouter = () => {
             <Route path="chats/:id" element={<ChatContainer />} />
             <Route path="Profile" element={<ProfileContainer />} />
           </Route>
-          <Route path="*" element={<NotFound/>} />
+          <Route path="*" element={<NotFound/>} /> 
         </Routes>
       </BrowserRouter>
     </>
