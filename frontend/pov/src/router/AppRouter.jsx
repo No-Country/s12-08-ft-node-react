@@ -8,6 +8,7 @@ import ChatContainer from "../pages/Chats/ChatContainer";
 
 import "../index.css";
 import NotFound from "../components/NotFound/NotFound";
+import ProfileContainer from "../pages/Profile/ProfileContainer";
 
 const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ const AppRouter = () => {
             <Route path="home" element={<Home />} />
             <Route path="config" element={<Configurations />} />
             <Route path="chats/:id" element={<ChatContainer />} />
+            <Route path="Profile" element={<ProfileContainer />} />
           </Route>
           <Route path="*" element={<NotFound/>} />
         </Routes>
