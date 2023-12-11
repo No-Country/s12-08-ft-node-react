@@ -58,7 +58,7 @@ const Payment = require("./database/sql/payments.model")(
 
 const dbInit = async () => {
   await Example.sync({ alter: true });
-  await User.sync({ alter: true });
+  await User.sync({ alter: false });
   await Subscription.sync({ alter: true });
   await Payment.sync({ alter: true });
 };
