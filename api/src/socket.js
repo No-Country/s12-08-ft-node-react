@@ -9,6 +9,11 @@ function initializeIO(server) {
     console.log("Un cliente se ha conectado");
     console.log("id", socket.id);
 
+    // Unirse a una sala en especifico (grupo de chat)
+    socket.on("join-room", (data) => {
+      socket.join(data.user_id);
+    });
+
     socket.on("message", (data) => {
       console.log("Received from client:", data);
     });
