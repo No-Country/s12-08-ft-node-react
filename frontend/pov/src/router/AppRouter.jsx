@@ -1,11 +1,30 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import '../index.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Home } from "../pages/Home";
+import Configurations from "../pages/Configurations";
+import { LoginForm } from "../pages/Login/LoginForm";
+import { RegisterForm } from "../pages/Register/RegisterForm";
+import { RequireAuth } from "../slices/auth/RequireAuth";
+import ChatContainer from "../pages/Chats/ChatContainer";
+
+import "../index.css";
+
 const AppRouter = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<h1>Home</h1>} />
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="login" element={<LoginForm />} />
+          <Route path="register" element={<RegisterForm />} />
+
+          {/* Private routes */}
+          <Route element={<RequireAuth />}>
+            <Route path="home" element={<Home />} />
+            <Route path="config" element={<Configurations />} />
+            <Route path="chats/:id" element={<ChatContainer />} />
+          </Route>
+          <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
         </Routes>
       </BrowserRouter>
     </>
