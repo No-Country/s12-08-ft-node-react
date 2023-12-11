@@ -29,7 +29,7 @@ class MessageController {
           folder: "pov",
         });
 
-        value[content] = uploadResponse.secure_url;
+        value[content] = uploadResponse.secure_url; 
       }
 
       const message = await Messages.create({
