@@ -46,7 +46,7 @@ class MessageController {
       chat.save();
 
       const io = getIO();
-      io.emit("new-message", message);
+      io.to(user_id).emit("new-message", message);
 
       res
         .status(201)
