@@ -53,7 +53,7 @@ const ProfileContainer = () => {
 
       <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
         <ProfileSuscripciones />
-        <button className="btn mt-auto text-white hover:bg-gray-500 flex h-14 px-10 justify-center w-full items-center gap-4 border rounded-md bg-[#232322]">
+        <button className="btn mt-auto text-white hover:bg-gray-500 flex h-14 px-10 justify-center w-full items-center gap-4 border rounded-md bg-[#5D73E9]">
           <span className=" text-white">Ir al chat</span>
           <MessageChatCircle />
         </button>
