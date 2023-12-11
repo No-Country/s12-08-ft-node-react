@@ -6,10 +6,9 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  color: #232322;
 }
 
 :root {
-  @apply font-lexend
+  @apply font-lexend;
 }
-
-

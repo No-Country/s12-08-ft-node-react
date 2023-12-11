@@ -1,10 +1,15 @@
-const { User } = require('../db.js');
-const BadRequest = require('../errorClasses/BadRequest.js');
-const NotFound = require('../errorClasses/NotFound.js');
-const AlreadyExist = require('../errorClasses/AlreadyExist.js');
-const {usersValidation, loginValidation,editUserValidation} = require('../validations/users.validations.js');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const { User, Subscription } = require("../db.js");
+const BadRequest = require("../errorClasses/BadRequest.js");
+const NotFound = require("../errorClasses/NotFound.js");
+const AlreadyExist = require("../errorClasses/AlreadyExist.js");
+const Unauthorized = require("../errorClasses/Unauthorized.js");
+const {
+  usersValidation,
+  loginValidation,
+  editUserValidation,
+} = require("../validations/users.validations.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 const Chat = require('../database/mongo/chats.model.js');
@@ -97,9 +102,9 @@ class UserController {
 
   static async editUser(req,res,next) {
     try {
-      const { id } = req.params
+      const { user_id } = req
 
-      if(!id){
+      if(!user_id){
         throw new BadRequest('Se debe proporcionar un ID');
       }
 
@@ -108,11 +113,38 @@ class UserController {
         throw new BadRequest(error.details[0].message);
       }
 
-      const user = await User.findByPk( id )
+      const user = await User.findByPk( user_id )
 
       if(!user){
         throw new NotFound("El usuario no existe")
       }
+
+
+      if (value.email) {
+        const emailExists = await User.findOne({
+          where: {
+            email: value.email,
+            id: { [Op.ne]: user_id }, 
+          },
+        });
+        if (emailExists) {
+          throw new AlreadyExist("El email ya está registrado por otro usuario");
+        }
+      }
+
+      if (value.username) {
+        const usernameExists = await User.findOne({
+          where: {
+            username: value.username,
+            id: { [Op.ne]: user_id },
+          },
+        });
+
+        if (usernameExists) {
+          throw new AlreadyExist("El nombre de usuario ya está registrado por otro usuario");
+        }
+      }
+        
 
       if(value.password){
         value.password = await bcrypt.hash(password, 10);
@@ -150,6 +182,47 @@ class UserController {
       res.status(200).json(users);
     } catch (error) {
     next(error);  
+    }
+  }
+
+  static async oneUser(req, res, next){
+    try {
+      const { id } = req.params;
+      const user = await User.findOne({
+        where: { id: id },
+        attributes: { exclude: ['password'] } 
+      });
+      const userChat = await Chat.findOne({ _id: id });
+
+      res.status(200).json({ user: user, chat: userChat });
+    } catch (error) {
+      next(error)
+      
+    }
+  }
+
+  static async deleteUser(req, res, next){
+    try {
+      await Chat.deleteMany({ userId: id });
+      res.status(204).send("Usuario eliminado con éxito");
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async deleteUser(req, res, next) {
+    try {
+      const userId = req.user_id; 
+  
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw new NotFound('Usuario no encontrado');
+      }
+      
+      await user.destroy();
+      await Chat.deleteMany({ _id: userId });     
+      res.status(204).send("Usuario eliminado con éxito");
+    } catch (error) {
+      next(error);
     }
   }
 }

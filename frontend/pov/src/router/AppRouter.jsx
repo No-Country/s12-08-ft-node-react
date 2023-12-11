@@ -1,12 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
-import { ChatsUsers } from "../pages/Chats/ChatsUsers";
-import Profile from "../pages/Profile";
-import "../index.css";
+import Configurations from "../pages/Configurations";
 import { LoginForm } from "../pages/Login/LoginForm";
 import { RegisterForm } from "../pages/Register/RegisterForm";
-import { Landing } from "../pages/Landing/Landing";
 import { RequireAuth } from "../slices/auth/RequireAuth";
+import ChatContainer from "../pages/Chats/ChatContainer";
+
+import "../index.css";
+
+import NotFound from "../pages/NotFound/NotFound";
+import ProfileContainer from "../pages/Profile/ProfileContainer";
+
 
 const AppRouter = () => {
   return (
@@ -21,10 +25,11 @@ const AppRouter = () => {
           {/* Private routes */}
           <Route element={<RequireAuth />}>
             <Route path="home" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="chats" element={<ChatsUsers />} />
+            <Route path="config" element={<Configurations />} />
+            <Route path="chats/:id" element={<ChatContainer />} />
+            <Route path="Profile" element={<ProfileContainer />} />
           </Route>
-          <Route path="*" element={<h1>404, ups esta página no existe</h1>} />
+          <Route path="*" element={<NotFound/>} /> 
         </Routes>
       </BrowserRouter>
     </>
