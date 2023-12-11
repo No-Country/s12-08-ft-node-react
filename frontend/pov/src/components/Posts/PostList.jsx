@@ -471,15 +471,19 @@ import Post from "./Post";
 // ];
 
 // POSTLIST toma los posts que es un array de objetos post y los lista.-
-const PostList = ({ posts, userName, userAvatar }) => {
+const PostList = ({ chat, user }) => {
+  console.log(chat);
+  console.log(user);
+  const { profile_picture } = user;
+  const { messages, name } = chat;
   return (
     <section className="w-full max-w-[780px] mx-auto py-4 flex flex-col gap-4 px-[16px]">
-      {posts.map((post) => (
+      {messages.map((message, index) => (
         <Post
-          key={post.id}
-          post={post}
-          userName={userName}
-          userAvatar={userAvatar}
+          key={index}
+          post={message}
+          userName={name}
+          userAvatar={profile_picture}
         />
       ))}
     </section>
