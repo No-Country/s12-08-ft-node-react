@@ -1,5 +1,8 @@
 const Joi = require('joi');
 
-const paymentsValidation = Joi.object({ });
+const createOrderValidation = Joi.object({
+    email: Joi.string().email().allow(null),
+    name: Joi.string().allow(null)
+});
 
-module.exports = paymentsValidation 
+module.exports = {createOrderValidation} 

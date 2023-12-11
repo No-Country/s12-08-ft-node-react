@@ -1,7 +1,10 @@
 const express = require("express");
 const paymentsRouter = express.Router();
-const { PaymentController } = require("../controllers/payments.controller");
+const { PaymentController } = require("../controllers/payments.paypal.controller");
+const { checkSession } = require("../middlewares/session/session");
 
-paymentsRouter.get("/", PaymentController.example);
+paymentsRouter.use(checkSession)
+
+paymentsRouter.post("/createorder", PaymentController.createOrder);
 
 module.exports = paymentsRouter;
