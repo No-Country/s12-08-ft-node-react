@@ -15,6 +15,7 @@ require("dotenv").config();
 const Chat = require('../database/mongo/chats.model.js');
 const mongoose = require('mongoose');
 const { Op } = require('sequelize');
+const stripe = require("../stripe.js");
 
 class UserController {
 
@@ -55,9 +56,34 @@ class UserController {
         description: "Chat de " + newUser.username
       });
 
+      const plan = await stripe.prices.create({
+        currency: 'usd',
+        unit_amount: 500,
+        recurring: {
+          interval: 'month',
+        },
+        product_data: {
+          name: "Suscription to " + newUser.username,
+          metadata:{
+            user_id:newUser.id
+          }
+        },
+        metadata:{
+          user_id:newUser.id
+        }
+      });
+
+      const customer = await stripe.customers.create({
+        name: newUser.name,
+        email: newUser.email,
+        metadata:{
+          user_id:newUser.id
+        }
+      });
+
       delete newUser.dataValues.password
 
-      res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser, chat: newChat });
+      res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser, chat: newChat, customer, plan });
     } catch (err) {
       next(err);
     }

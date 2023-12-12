@@ -1,5 +1,8 @@
 const Joi = require('joi');
 
-const paymentsValidation = Joi.object({ });
+const createSubscriptionStripeValidation = Joi.object({
+    suscriber_id: Joi.string().required(),
+    chat_id: Joi.string().required(),
+ });
 
-module.exports = paymentsValidation 
+module.exports = {createSubscriptionStripeValidation} 
