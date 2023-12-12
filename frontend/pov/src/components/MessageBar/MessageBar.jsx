@@ -79,66 +79,68 @@ function MessageBar() {
   };
 
   return (
-    <form className="max-w-[780px] mx-auto h-[44px] mt-4 py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
-      <label
-        htmlFor="file-upload"
-        className="btn btn-ghost btn-circle avatar px-0 hover:bg-transparent"
-      >
-        <div className="flex items-center">
-          <FileUpload />
-        </div>
-        <input
-          type="file"
-          id="file-upload"
-          className="hidden"
-          onChange={handleFileChange}
-        />
-      </label>
-
-      {/* Mostrar la vista previa de la imagen */}
-      {loading ? (
-        <div className="loading-indicator">
-          {" "}
-          <LoadingSpinner />
-        </div>
-      ) : (
-        imagePreview && (
-          <div className="image-preview p-1">
-            <img
-              src={imagePreview}
-              alt="Vista previa"
-              style={{
-                width: 35,
-                height: 35,
-                border: "2px solid rgb(100 116 139 / var(--tw-bg-opacity))",
-                borderRadius: "8px",
-                objectFit: "cover",
-              }}
-            />
-          </div>
-        )
-      )}
-
-      <textarea
-        type="text"
-        placeholder="Escriba su mensaje aquí"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        className="bg-transparent text-[12px] h-4 resize-none outline-none w-full"
-      ></textarea>
-
-      <div className="flex items-center mx-2">
-        <button
-          type="button"
-          onClick={async () => {
-            await handleSendMessage();
-          }}
-          className="bg-[#232322] text-white rounded-full p-2 hover:bg-[#3f3f2e]"
+    <div className="fixed bottom-0 left-1/2 -translate-x-1/2  w-full p-1 bg-white">
+      <form className="w-[90%] max-w-[780px] mx-auto h-[44px] mt-4 py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
+        <label
+          htmlFor="file-upload"
+          className="btn btn-ghost btn-circle avatar px-0 hover:bg-transparent"
         >
-          <Send />
-        </button>
-      </div>
-    </form>
+          <div className="flex items-center">
+            <FileUpload />
+          </div>
+          <input
+            type="file"
+            id="file-upload"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+        </label>
+
+        {/* Mostrar la vista previa de la imagen */}
+        {loading ? (
+          <div className="loading-indicator">
+            {" "}
+            <LoadingSpinner />
+          </div>
+        ) : (
+          imagePreview && (
+            <div className="image-preview p-1">
+              <img
+                src={imagePreview}
+                alt="Vista previa"
+                style={{
+                  width: 35,
+                  height: 35,
+                  border: "2px solid rgb(100 116 139 / var(--tw-bg-opacity))",
+                  borderRadius: "8px",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+          )
+        )}
+
+        <textarea
+          type="text"
+          placeholder="Escriba su mensaje aquí"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="bg-transparent text-[12px] h-4 resize-none outline-none w-full"
+        ></textarea>
+
+        <div className="flex items-center mx-2">
+          <button
+            type="button"
+            onClick={async () => {
+              await handleSendMessage();
+            }}
+            className="bg-[#5D73E9] text-white rounded-full p-2 hover:bg-[#3f3f2e]"
+          >
+            <Send />
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 
