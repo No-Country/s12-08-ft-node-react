@@ -52,8 +52,7 @@ class ChatController {
         throw new BadRequest("El id es necesario");
       }
 
-      const user = await User.findByPk({
-        id,
+      const user = await User.findByPk(id, {
         include: [
           {
             model: Subscription,
@@ -68,7 +67,7 @@ class ChatController {
         },
       });
 
-      console.log("USUARIO EXCLUIDO >>>>>>>>>>>>>>>>>>>>", user);
+      const plainUser = user.get({ plain: true });
 
       if (!user) {
         throw new NotFound("El usuario no existe");
@@ -87,7 +86,19 @@ class ChatController {
         throw new NotFound("No se encontro el chat");
       }
 
-      return res.status(200).json({ user: user, chat: chat });
+      const finalUser = {
+        id: plainUser.id,
+        name: plainUser.name,
+        username: plainUser.username,
+        profile_picture: plainUser.profile_picture,
+        subCount: user.subscriptions.length,
+      };
+  
+
+      return res.status(200).json({
+        user: finalUser,
+        chat: chat,
+      });
     } catch (error) {
       next(error);
     }
