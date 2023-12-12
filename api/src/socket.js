@@ -5,6 +5,7 @@ let io;
 
 function initializeIO(server) {
   io = socketIO(server, {
+    // cors
     cors: {
       origin: process.env.APP_DOMAIN || "*",
       methods: ["GET", "POST", "PUT", "DELETE"],
