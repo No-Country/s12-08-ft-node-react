@@ -119,19 +119,12 @@ usersRouter.get("/allUser", UserController.AllUser);
 
 /**
  * @openapi
- * /api/users/{id}:
+ * /api/users/:
  *  get:
  *    tags:
  *      - Users
  *    summary: Obtiene los detalles de un usuario.
  *    description: Obtiene los detalles de un usuario basado en el ID proporcionado.
- *    parameters:
- *      - in: path
- *        name: id
- *        required: true
- *        description: ID del usuario.
- *        schema:
- *          type: string
  *    responses:
  *      200:
  *        description: Usuario encontrado exitosamente.
@@ -201,7 +194,7 @@ usersRouter.get("/allUser", UserController.AllUser);
  *                 type: string
  *                 description: Mensaje de error.
  */
-usersRouter.get("/:id", UserController.oneUser);
+usersRouter.get("/", UserController.oneUser);
 
 /**
  * @openapi
