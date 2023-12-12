@@ -1,9 +1,18 @@
 const socketIO = require("socket.io");
+require("dotenv").config();
+
 
 let io;
 
 function initializeIO(server) {
-  io = socketIO(server);
+  io = socketIO(server, {
+    cors: {
+      origin: process.env.APP_DOMAIN || "*",
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true,
+    },
+  });
 
   io.on("connection", (socket) => {
     console.log("Un cliente se ha conectado");
