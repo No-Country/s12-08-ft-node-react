@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Option from '../Svg/Option';
 
 const CardSubscription = ({ subscription }) => {
-  const { image, name } = subscription;
+  const { id, image, name, subscribersCount } = subscription;
 
   return (
     <div className="card text-neutral-content relative rounded-[20px] bg-slate-50">
@@ -11,14 +11,14 @@ const CardSubscription = ({ subscription }) => {
         <div className="dropdown dropdown-end right-0 top-0 absolute">
           {/* Option */}
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <Option/>
+            <Option />
           </label>
           <ul
             tabIndex={0}
             className="mt-3 z-[1] p-2 gap-4 shadow menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white border border-black"
           >
             <li>
-              <Link className="text-center" to="/chats">
+              <Link to={`/chats/${id}`}>
                 Ver perfil
               </Link>
             </li>
@@ -33,7 +33,7 @@ const CardSubscription = ({ subscription }) => {
       </div>
       <div className="card-actions bg-[#949494] rounded-b-[20px] grid grid-rows-[auto,auto] gap-2 items-center">
         <div className="row-start-1 row-end-3">
-          <Link to="/config"> {/* Cambiar a la ruta que se va a utilizar */}
+          <Link to={`/chats/${id}`}> {/* Actualizado el enlace */}
             <div
               id="avatar"
               className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 transform -translate-y-1/2 ml-4"
@@ -48,6 +48,7 @@ const CardSubscription = ({ subscription }) => {
         </div>
         <div className="row-start-3 col-span-full text-center flex items-center ml-5 mt-[-15px]">
           <div className="text-black ml-0 mt-[-25px]">{name}</div>
+          <div className="text-gray-500 ml-1 mt-[-25px]">{subscribersCount} subscriptores</div>
         </div>
       </div>
     </div>
@@ -61,6 +62,7 @@ CardSubscription.propTypes = {
     title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    subscribersCount: PropTypes.number.isRequired, // Ajustado el nombre
     subscribed: PropTypes.bool.isRequired,
   }).isRequired,
 };
