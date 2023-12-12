@@ -1,5 +1,5 @@
 const Chat = require("../database/mongo/chats.model.js");
-const { User , Subscription} = require("../db.js");
+const { User, Subscription } = require("../db.js");
 const { editValidation } = require("../validations/chats.validations.js");
 const { cloudinary } = require("../config/cloudinary/index.js");
 const NotFound = require("../errorClasses/NotFound.js");
@@ -67,6 +67,8 @@ class ChatController {
           exclude: ["password"],
         },
       });
+
+      console.log("USUARIO EXCLUIDO >>>>>>>>>>>>>>>>>>>>", user);
 
       if (!user) {
         throw new NotFound("El usuario no existe");
