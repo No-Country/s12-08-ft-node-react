@@ -248,7 +248,7 @@ class UserController {
         attributes: ["user_id"],
       });
 
-      const chat = await Chat.findOne({ _id: id });
+      const chat = await Chat.findOne({ _id: req.user_id });
 
       res.status(200).json({
         ...user.toJSON(),
