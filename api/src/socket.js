@@ -1,7 +1,6 @@
 const socketIO = require("socket.io");
 require("dotenv").config();
 
-
 let io;
 
 function initializeIO(server) {
@@ -9,8 +8,12 @@ function initializeIO(server) {
     cors: {
       origin: process.env.APP_DOMAIN || "*",
       methods: ["GET", "POST", "PUT", "DELETE"],
-      allowedHeaders: ["my-custom-header"],
-      credentials: true,
+      allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "X-Custom-Header",
+      ],
     },
   });
 
