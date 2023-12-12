@@ -53,6 +53,9 @@ const Payment = require("./database/sql/payments.model")(
   Sequelize.DataTypes
 );
 
+User.hasMany(Subscription, { foreignKey: "user_id" });
+Subscription.belongsTo(User, { foreignKey: "user_id" });
+
 // Example.hasMany(Other)
 // Other.belongsTo(Example)
 
