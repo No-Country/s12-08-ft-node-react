@@ -1,15 +1,10 @@
-const { User, Subscription } = require("../db.js");
-const BadRequest = require("../errorClasses/BadRequest.js");
-const NotFound = require("../errorClasses/NotFound.js");
-const AlreadyExist = require("../errorClasses/AlreadyExist.js");
-const Unauthorized = require("../errorClasses/Unauthorized.js");
-const {
-  usersValidation,
-  loginValidation,
-  editUserValidation,
-} = require("../validations/users.validations.js");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { User } = require('../db.js');
+const BadRequest = require('../errorClasses/BadRequest.js');
+const NotFound = require('../errorClasses/NotFound.js');
+const AlreadyExist = require('../errorClasses/AlreadyExist.js');
+const {usersValidation, loginValidation,editUserValidation} = require('../validations/users.validations.js');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 const Chat = require('../database/mongo/chats.model.js');
@@ -175,8 +170,23 @@ class UserController {
 
   static async AllUser(req, res, next){
     try {
+      const searchForm = req.query.searchForm
       const users = await User.findAll({
-        attributes: { exclude: ['password'] } 
+        attributes: { exclude: ['password'] } ,
+        where: {
+          [Op.or]: [
+            {
+              name: {
+                [Op.like]: `%${searchForm}%`
+              }
+            },
+            {
+              username: {
+                [Op.like]: `%${searchForm}%`
+              }
+            }
+          ]
+        }
       });
 
       res.status(200).json(users);
@@ -203,26 +213,31 @@ class UserController {
 
   static async deleteUser(req, res, next){
     try {
-      await Chat.deleteMany({ userId: id });
+      const { id } = req.params;
+
+      const user = await User.findByPk(id);
+      if(!user){
+        throw new BadRequest('Se debe proporcionar un ID');
+      }
+      await user.destroy();
+      await Chat.deleteMany({ id: id });
       res.status(204).send("Usuario eliminado con éxito");
     } catch (error) {
-      next(error);
+      next(error)
     }
   }
-  static async deleteUser(req, res, next) {
+
+  static async subs(req, res, next){
     try {
-      const userId = req.user_id; 
-  
-      const user = await User.findByPk(userId);
-      if (!user) {
-        throw new NotFound('Usuario no encontrado');
-      }
+      const user_id = req.user_id;
+
+      const user = await User.findByPk(user_id);
       
-      await user.destroy();
-      await Chat.deleteMany({ _id: userId });     
-      res.status(204).send("Usuario eliminado con éxito");
+      if(!user){
+        throw new BadRequest('Se debe proporcionar un ID');
+      }
     } catch (error) {
-      next(error);
+      
     }
   }
 }
