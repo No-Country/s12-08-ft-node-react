@@ -25,6 +25,9 @@ const { UserController } = require("../controllers/users.controller");
  *               name:
  *                 type: string
  *                 description: Nombre del nuevo usuario.
+ *               username:
+ *                 type: string
+ *                 description: Nombre de usuario.
  *               password:
  *                 type: string
  *                 description: Contraseña del nuevo usuario.
