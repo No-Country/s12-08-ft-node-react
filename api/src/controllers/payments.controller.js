@@ -105,8 +105,9 @@ class PaymentController {
           const start_date = format(new Date(), 'yyyy-MM-dd')
           const end_date = format(addMonths(new Date(), 1), 'yyyy-MM-dd')
 
-          const payment = await Payment.create({amount: paymentIntent.total / 100, pay_date: start_date, method: 'stripe', status: 'ok'})
-          const subscription = await Subscription.create({payment_id: payment.id, user_id: userId, beneficiary_id: chatId, start_date, end_date, status: true})
+          const subscription = await Subscription.create({user_id: userId, beneficiary_id: chatId, start_date, end_date, status: true})
+
+          const payment = await Payment.create({amount: paymentIntent.total / 100, pay_date: start_date, method: 'stripe', status: 'ok', subscription_id: subscription.id})
 
           if(!subscription){
             throw new Error('Error creando la suscripción');
