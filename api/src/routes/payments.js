@@ -3,7 +3,7 @@ const paymentsRouter = express.Router();
 const { PaymentController } = require("../controllers/payments.controller");
 const { checkSession } = require("../middlewares/session/session");
 
-paymentsRouter.use(checkSession)
+//paymentsRouter.use(checkSession)
 /**
  * @openapi
  * /api/payments/subscribe/{id}:
@@ -19,22 +19,6 @@ paymentsRouter.use(checkSession)
  *           type: string
  *         required: true
  *         description: ID del chat al que se suscribirá el usuario.
- *     requestBody:
- *       description: Datos para crear una suscripción utilizando Stripe.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               suscriber_id:
- *                 type: string
- *                 description: ID del suscriptor (JWT token).
- *                 required: true
- *               chat_id:
- *                 type: string
- *                 description: ID del chat al que se suscribirá el usuario (params).
- *                 required: true
  *     responses:
  *       201:
  *         description: Sesión de pago creada exitosamente.
@@ -82,6 +66,8 @@ paymentsRouter.use(checkSession)
  */
 
 
-paymentsRouter.post("/subscribe/:id", PaymentController.createSubscriptionStripe);
+paymentsRouter.post("/subscribe/:id",checkSession, PaymentController.createSubscriptionStripe);
+
+paymentsRouter.post("/webhook", PaymentController.captureOrder);
 
 module.exports = paymentsRouter;
