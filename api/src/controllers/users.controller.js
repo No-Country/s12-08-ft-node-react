@@ -279,7 +279,7 @@ class UserController {
     try {
       const userId = req.user_id;
       const userSubscriptions = await Subscription.findAll({
-        where: { user_id: userId },
+        where: { user_id: userId},
         attributes: ['beneficiary_id'], 
       });
   
