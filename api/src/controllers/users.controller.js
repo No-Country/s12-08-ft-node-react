@@ -1,21 +1,17 @@
-const { User, Subscription } = require("../db.js");
-const BadRequest = require("../errorClasses/BadRequest.js");
-const NotFound = require("../errorClasses/NotFound.js");
-const AlreadyExist = require("../errorClasses/AlreadyExist.js");
-const Unauthorized = require("../errorClasses/Unauthorized.js");
-const {
-  usersValidation,
-  loginValidation,
-  editUserValidation,
-} = require("../validations/users.validations.js");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { User } = require('../db.js');
+const BadRequest = require('../errorClasses/BadRequest.js');
+const NotFound = require('../errorClasses/NotFound.js');
+const AlreadyExist = require('../errorClasses/AlreadyExist.js');
+const {usersValidation, loginValidation,editUserValidation} = require('../validations/users.validations.js');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 const Chat = require("../database/mongo/chats.model.js");
 const mongoose = require("mongoose");
 const { Op } = require("sequelize");
 const stripe = require("../stripe.js");
+const { Subscription } = require("../db.js");
 
 class UserController {
   static async createUser(req, res, next) {
@@ -264,14 +260,6 @@ class UserController {
 
   static async deleteUser(req, res, next) {
     try {
-      await Chat.deleteMany({ userId: id });
-      res.status(204).send("Usuario eliminado con éxito");
-    } catch (error) {
-      next(error);
-    }
-  }
-  static async deleteUser(req, res, next) {
-    try {
       const userId = req.user_id;
 
       const user = await User.findByPk(userId);
@@ -286,6 +274,41 @@ class UserController {
       next(error);
     }
   }
+
+  static async subs(req, res, next) {
+    try {
+      const userId = req.user_id;
+      const userSubscriptions = await Subscription.findAll({
+        where: { user_id: userId },
+        attributes: ['beneficiary_id'], // Solo buscamos los IDs de los beneficiarios
+      });
+  
+      const totalSubscriptions = userSubscriptions.length;
+  
+      const subscriptionsWithBeneficiaries = await Promise.all(userSubscriptions.map(async (subscription) => {
+        const beneficiary = await User.findByPk(subscription.beneficiary_id, {
+          attributes: ['id', 'name', 'username', 'profile_picture'],
+        });
+  
+        const beneficiaryChats = await Chat.find({ user_id: subscription.beneficiary_id })
+  
+        return {
+          ...subscription.toJSON(),
+          beneficiary,
+          chats: beneficiaryChats,
+        };
+      }));
+  
+      res.status(200).json({
+        totalSubscriptions,
+        userSubscriptions: subscriptionsWithBeneficiaries,
+      });
+    } catch (err) {
+      console.error('Error:', err);
+      next(err);
+    }
+  }
+   
 }
 
 module.exports = { UserController };

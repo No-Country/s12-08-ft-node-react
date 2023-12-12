@@ -241,5 +241,73 @@ usersRouter.get("/", UserController.oneUser);
 
 usersRouter.delete("/acc", UserController.deleteUser);
 
+/**
+ * @openapi
+ * /api/users/subscribed:
+ *  get:
+ *    tags:
+ *      - Users
+ *    summary: Obtiene los detalles de los usuarios suscritos.
+ *    description: Obtiene los detalles de los usuarios a los que el usuario actual está suscrito.
+ *    responses:
+ *      200:
+ *        description: Detalles de los usuarios suscritos encontrados exitosamente.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                userSubscriptions:
+ *                  type: array
+ *                  description: Detalles de los usuarios suscritos.
+ *                  items:
+ *                    type: object
+ *                    properties:
+ *                      beneficiary_id:
+ *                        type: string
+ *                        description: ID del beneficiario del usuario.
+ *                      suscribersCount:
+ *                        type: integer
+ *                        description: Número total de suscriptores del usuario.
+ *                      chat:
+ *                        type: object
+ *                        description: Detalles del chat del usuario.
+ *                      suscribedToCount:
+ *                        type: integer
+ *                        description: Número de usuarios a los que el usuario está suscrito.
+ *      400:
+ *        description: Error en la solicitud debido a datos incorrectos.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Mensaje de error.
+ *      404:
+ *        description: El usuario no existe.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Mensaje de error.
+ *      500:
+ *        description: Error del servidor.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: Mensaje de error.
+ */
+
+usersRouter.get("/subscribed", UserController.subs);
+
 
 module.exports = usersRouter;
