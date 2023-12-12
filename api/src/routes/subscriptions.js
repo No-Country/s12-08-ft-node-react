@@ -2,6 +2,6 @@ const express = require("express");
 const subscriptionsRouter = express.Router();
 const { SubscriptionController } = require("../controllers/subscriptions.controller");
 
-subscriptionsRouter.get("/", SubscriptionController.example);
+subscriptionsRouter.get("/info/:id", SubscriptionController.infoSubs);
 
 module.exports = subscriptionsRouter;

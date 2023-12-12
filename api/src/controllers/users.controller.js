@@ -280,7 +280,7 @@ class UserController {
       const userId = req.user_id;
       const userSubscriptions = await Subscription.findAll({
         where: { user_id: userId },
-        attributes: ['beneficiary_id'], // Solo buscamos los IDs de los beneficiarios
+        attributes: ['beneficiary_id'], 
       });
   
       const totalSubscriptions = userSubscriptions.length;
