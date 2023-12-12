@@ -11,7 +11,6 @@ const Chat = require("../database/mongo/chats.model.js");
 const mongoose = require("mongoose");
 const { Op } = require("sequelize");
 const stripe = require("../stripe.js");
-const { Sequelize } = require('sequelize');
 const { Subscription } = require("../db.js");
 
 class UserController {
