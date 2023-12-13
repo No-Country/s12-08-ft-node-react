@@ -59,18 +59,17 @@ Subscription.belongsTo(User, { foreignKey: "user_id" });
 User.hasMany(Subscription, { foreignKey: "beneficiary_id" });
 Subscription.belongsTo(User, { foreignKey: "beneficiary_id" });
 
-/* Subscription.hasMany(Payment, { foreignKey: "subscription_id" });
+Subscription.hasMany(Payment, { foreignKey: "subscription_id" });
 Payment.belongsTo(Subscription, { foreignKey: "subscription_id" });
- */
+
 
 // Example.hasMany(Other)
 // Other.belongsTo(Example)
-
 const dbInit = async () => {
   await Example.sync({ alter: true });
   await User.sync({ alter: false });
-  await Payment.sync({ force: true });
-  await Subscription.sync({ force: true });
+  await Payment.sync({ alter: true });
+  await Subscription.sync({ alter: true });
 }; 
 
 module.exports = {
