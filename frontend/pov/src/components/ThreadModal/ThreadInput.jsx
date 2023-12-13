@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import Add from "../Svg/Add";
 import Hashtag from "../Svg/Hashtag";
 import Send from "../Svg/Send";
+import { ChatContext } from "../../context/ChatContext";
 
 const ThreadInput = ({ toggleModal }) => {
+  const { saveChangeText, handleSubmit } = useContext(ChatContext)
   const [text, setText] = useState("");
 
   const emojis = ["😍", "🔥", "👿", "💀", "🤮"];
@@ -13,12 +15,7 @@ const ThreadInput = ({ toggleModal }) => {
     setText(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(text);
-    console.log("El Mensaje fue enviado");
-    toggleModal();
-  };
+
 
   return (
     <motion.div
@@ -55,14 +52,15 @@ const ThreadInput = ({ toggleModal }) => {
       >
         <Hashtag />
         <textarea
-          name=""
-          id=""
           value={text}
           cols="30"
           rows="auto"
           placeholder="Contesta el hilo aquí"
           className="w-full px-2 resize-none overflow-auto bg-transparent text-white outline-none"
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e),
+            saveChangeText(text)
+          }}
         ></textarea>
         <div className="flex items-center mx-2">
           <button

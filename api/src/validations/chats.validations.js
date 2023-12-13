@@ -1,5 +1,9 @@
 const Joi = require('joi');
 
-const chatsValidation = Joi.object({ });
+const editValidation = Joi.object({
+    name: Joi.string().allow(null).optional(),
+    description: Joi.string().allow(null).optional(),
+    img: Joi.string().regex(/^data:image\/\w+;base64,/).allow(null).optional()
+})
 
-module.exports = chatsValidation 
+module.exports = {editValidation}

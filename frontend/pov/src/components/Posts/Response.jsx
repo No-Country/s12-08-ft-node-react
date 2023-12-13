@@ -1,12 +1,13 @@
 const Response = ({ responses }) => {
-  //const { avatar, username, message } = responses;
+  const { createdAt, text,  } = responses;
+  
   return (
     responses && (
       <>
-        <img src={avatar} alt="user avatar" className="w-[24px]" />
+        <img alt="user avatar" className="w-[24px]" />
         <p className="text-[12px] text-black">
-          <span className="font-black">{username}: </span>
-          {message}
+          <span className="font-black">{createdAt} </span>
+          {text}
         </p>
       </>
     )
