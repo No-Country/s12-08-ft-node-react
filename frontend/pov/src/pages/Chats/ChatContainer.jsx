@@ -8,12 +8,18 @@ import BackBtn from "../../components/Svg/BackBtn";
 import fondo from "../../assets/avatars/fondo1.jpg";
 import Cheked from "../../components/Svg/Cheked";
 import axios from "axios";
+import ThreadModal from "../../components/ThreadModal/ThreadModal";
 
 const ChatContainer = () => {
+  const [modal, setModal] = useState(false);
   const [posts, setPosts] = useState(null);
   const { id } = useParams();
   const { token } = useToken();
   const TOKEN = JSON.parse(token);
+
+  const toggleModal = () => {
+    setModal((modal) => !modal);
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -38,6 +44,7 @@ const ChatContainer = () => {
 
   return posts ? (
     <>
+      {modal && <ThreadModal toggleModal={toggleModal} />}
       <header
         className="fixed z-10 left-1/2 -translate-x-1/2 w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
@@ -66,9 +73,12 @@ const ChatContainer = () => {
           Subscribirse
         </button>
       </header>
-
       <main className="w-full md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] pt-[99px] bg-slate-100 relative overflow-scroll ">
-        <PostList chat={posts.chat} user={posts.user} />
+        <PostList
+          chat={posts.chat}
+          user={posts.user}
+          toggleModal={toggleModal}
+        />
         <MessageBar />
       </main>
     </>

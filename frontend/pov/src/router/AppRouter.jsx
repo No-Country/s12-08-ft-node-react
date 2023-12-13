@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
-import Configurations from "../pages/Configurations";
+import Configurations from "../pages/Profile/Configurations";
 import { LoginForm } from "../pages/Login/LoginForm";
 import { RegisterForm } from "../pages/Register/RegisterForm";
 import { RequireAuth } from "../slices/auth/RequireAuth";
@@ -10,7 +10,6 @@ import "../index.css";
 
 import NotFound from "../pages/NotFound/NotFound";
 import ProfileContainer from "../pages/Profile/ProfileContainer";
-
 
 const AppRouter = () => {
   return (
@@ -29,7 +28,7 @@ const AppRouter = () => {
             <Route path="chats/:id" element={<ChatContainer />} />
             <Route path="Profile" element={<ProfileContainer />} />
           </Route>
-          <Route path="*" element={<NotFound/>} /> 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </>

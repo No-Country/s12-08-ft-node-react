@@ -3,11 +3,14 @@ import Reaction from "./Reaction";
 import ThreadUnion from "../Svg/ThreadUnion";
 import Response from "./Response";
 
-const Post = ({ post, userName, userAvatar }) => {
+const Post = ({ post, userName, userAvatar, toggleModal }) => {
   const { text, comments, reactions } = post;
 
   return (
-    <article className="flex flex-col gap-2 px-2 py-4 rounded-lg">
+    <article
+      className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer"
+      onClick={toggleModal}
+    >
       {/* Imagen del Post adjunta */}
       <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] rounded-lg">
         {/* {imageAdded && (
@@ -32,7 +35,6 @@ const Post = ({ post, userName, userAvatar }) => {
       </div>
 
       {/* Link a Respuestas del post */}
-
       {comments.length > 0 && (
         <div className="flex gap-1 pl-[28px]">
           <ThreadUnion />
