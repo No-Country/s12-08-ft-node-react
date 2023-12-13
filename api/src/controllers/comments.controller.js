@@ -26,7 +26,7 @@ class CommentController {
         throw new BadRequest(error.details[0].message);
       }
 
-      const { suscriber_id, text, content } = value;
+      const { suscriber_id, text, content, user_photo, username } = value;
 
       if (content !== "text") {
         const valueCont = value[content];
