@@ -7,6 +7,8 @@ const {
 } = require("../validations/comments.validations.js");
 const { cloudinary } = require("../config/cloudinary/index.js");
 const BadRequest = require("../errorClasses/BadRequest.js");
+const mongoose = require("mongoose")
+
 
 class CommentController {
   static async create(req, res, next) {
@@ -35,6 +37,13 @@ class CommentController {
         value[content] = uploadResponse.secure_url;
       }
 
+
+      const isValidObjectId = mongoose.Types.ObjectId.isValid(message_id);
+      if (!isValidObjectId) throw new BadRequest("Invalid message ID");
+
+      const message = await Messages.findById(message_id);
+      if (!message) throw new BadRequest("Message not found");
+
       const comment = await Comments.create({
         message_id,
         suscriber_id,
@@ -45,15 +54,12 @@ class CommentController {
         content,
       });
 
-      const message = await Messages.findById(message_id);
-      if (!message) throw new BadRequest("Message not found");
-      
       message.comments.push(comment._id);
       await message.save();
 
       return res
         .status(201)
-        .json({ message: "Comentario editado exitosamente", comment: comment });
+        .json({ message: "Comentario creado exitosamente", comment: comment });
     } catch (error) {
       next(error);
     }
@@ -203,12 +209,10 @@ class CommentController {
 
       await comment.save();
 
-      res
-        .status(200)
-        .json({
-          message: "Reacción actualizada exitosamente",
-          updatedComment: comment,
-        });
+      res.status(200).json({
+        message: "Reacción actualizada exitosamente",
+        updatedComment: comment,
+      });
     } catch (error) {
       next(error);
     }
