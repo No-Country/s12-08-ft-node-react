@@ -25,17 +25,16 @@ const AppRouter = () => {
             <Route path="login" element={<LoginForm />} />
             <Route path="register" element={<RegisterForm />} />
 
-            {/* Private routes */}
-            <Route element={<RequireAuth />}>
-              <Route path="home" element={<Home />} />
-              <Route path="config" element={<Configurations />} />
-              <Route path="chats/:id" element={<ChatContainer />} />
-              <Route path="Profile" element={<ProfileContainer />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </ChatProvider>
+          {/* Private routes */}
+          <Route element={<RequireAuth />}>
+            <Route path="home" element={<Home />} />
+            <Route path="config" element={<Configurations />} />
+            <Route path="chats/:id" element={<ChatContainer />} />
+            <Route path="Profile" element={<ProfileContainer />} />
+          </Route>
+          <Route path="*" element={<NotFound/>} /> 
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };

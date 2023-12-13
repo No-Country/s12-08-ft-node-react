@@ -471,7 +471,7 @@ import Post from "./Post";
 // ];
 
 // POSTLIST toma los posts que es un array de objetos post y los lista.-
-const PostList = ({ chat, user }) => {
+const PostList = ({ chat, user, toggleModal }) => {
   console.log(chat);
   console.log(user);
   const { profile_picture } = user;
@@ -484,6 +484,7 @@ const PostList = ({ chat, user }) => {
           post={message}
           userName={name}
           userAvatar={profile_picture}
+          toggleModal={toggleModal}
         />
       ))}
     </section>
