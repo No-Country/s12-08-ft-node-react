@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const createCommentValidation = Joi.object({
   suscriber_id: Joi.string().required(),
-  content: Joi.string().valid("image", "video", "text", "gif").required(),
+  content: Joi.string().valid("image", "video", "text", "gif"),
   text: Joi.string().allow(null).optional(),
   image: Joi.string()
     .allow(null)
