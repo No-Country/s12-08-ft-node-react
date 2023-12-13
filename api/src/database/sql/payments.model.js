@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      invoice: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       pay_date: {
         type: DataTypes.DATE,
         allowNull: false,
