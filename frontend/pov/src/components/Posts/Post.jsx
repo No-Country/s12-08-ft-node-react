@@ -1,15 +1,22 @@
-import { Link } from "react-router-dom";
-import Reaction from "./Reaction";
-import ThreadUnion from "../Svg/ThreadUnion";
-import Response from "./Response";
+import { Link } from 'react-router-dom';
+import { useContext } from 'react'
+import ThreadUnion from '../Svg/ThreadUnion';
+import Response from './Response';
+import { ChatContext } from '../../context/ChatContext';
 
 const Post = ({ post, userName, userAvatar, toggleModal }) => {
+  const { saveChangeId, saveSelectedSocket } = useContext(ChatContext)
   const { text, comments, reactions } = post;
+
 
   return (
     <article
       className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer"
-      onClick={toggleModal}
+      onClick={() => {
+        toggleModal();
+        saveChangeId(post._id)
+        saveSelectedSocket(post?.user_id)
+      }}
     >
       {/* Imagen del Post adjunta */}
       <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] rounded-lg">

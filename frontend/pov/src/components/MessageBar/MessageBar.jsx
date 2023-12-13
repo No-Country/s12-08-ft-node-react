@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import FileUpload from '../Svg/FileUpload';
 import Send from '../Svg/Send';
 import { toast } from 'react-hot-toast';
 import LoadingSpinner from '../Svg/LoadingSpinner';
 import { useToken } from '../../hooks/useToken';
+import { ChatContext } from '../../context/ChatContext';
 
 function MessageBar() {
+  const { setPosts } = useContext(ChatContext)
   const { token } = useToken();
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
@@ -49,11 +51,6 @@ function MessageBar() {
     }
 
     try {
-      /*    await toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
-        loading: "Enviando mensaje...",
-        success: "Mensaje enviado con éxito",
-        error: "Error al enviar el mensaje",
-      }); */
       toast.loading('Enviando mensaje...');
 
       const response = await fetch(
@@ -70,12 +67,10 @@ function MessageBar() {
           },
         }
       );
-      console.log(response);
+      console.log(response)
     } catch (error) {
-      toast.error('Error al enviar el mensaje', error);
-    } finally {
-      toast.success('Mensaje enviado con éxito');
-    }
+      throw new Error(error)
+    } 
   };
 
   const handleFileUpload = async () => {
