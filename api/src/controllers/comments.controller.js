@@ -49,6 +49,8 @@ class CommentController {
         message_id,
         suscriber_id,
         text,
+        user_photo,
+        username,
         image: value.image,
         video: value.video,
         gif: value.gif,
