@@ -4,6 +4,7 @@ const { MessageController } = require("../controllers/messages.controller");
 const { CommentController } = require("../controllers/comments.controller")
 const { ChatController } = require("../controllers/chats.controller")
 const { checkSession } = require("../middlewares/session/session");
+const { checkSubscription } = require("../middlewares/subscriptions/subscriptions");
 
 
 chatsRouter.use(checkSession)
@@ -202,7 +203,12 @@ chatsRouter.put("/chat/:id", MessageController.editMessage)
  *                 type: string
  *                 enum: [text, image, video, gif]
  *                 description: Tipo del comentario. Puede ser 'text', 'image', 'video' o 'gif'.
- *     responses:
+ *               user_photo: 
+ *                 type: string
+ *                 description: Foto de la persona creadora del comentario
+ *               username:
+ *                 type: string
+ *                 description: Nombre de usuario, de la persona creadora del comentario
  *       201:
  *         description: Comentario creado exitosamente.
  *         content:
@@ -381,6 +387,6 @@ chatsRouter.put("/", ChatController.editChat)
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-chatsRouter.get("/chat/:id", ChatController.getChatWithMessages)
+chatsRouter.get("/chat/:id",checkSubscription, ChatController.getChatWithMessages)
 
 module.exports = chatsRouter;
