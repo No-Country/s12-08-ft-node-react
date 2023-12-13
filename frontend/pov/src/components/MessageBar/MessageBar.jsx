@@ -79,8 +79,8 @@ function MessageBar() {
   };
 
   return (
-    <div className="fixed bottom-0 left-1/2 -translate-x-1/2  w-full p-1 bg-white">
-      <form className="w-[90%] max-w-[780px] mx-auto h-[44px] mt-4 py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
+    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full py-2 flex items-center bg-white">
+      <form className="w-[90%] max-w-[780px] mx-auto h-[44px] py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
         <label
           htmlFor="file-upload"
           className="btn btn-ghost btn-circle avatar px-0 hover:bg-transparent"
