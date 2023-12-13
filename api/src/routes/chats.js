@@ -202,12 +202,7 @@ chatsRouter.put("/chat/:id", MessageController.editMessage)
  *                 type: string
  *                 enum: [text, image, video, gif]
  *                 description: Tipo del comentario. Puede ser 'text', 'image', 'video' o 'gif'.
- *               user_photo: 
- *                 type: string
- *                 description: Foto de la persona creadora del comentario
- *               username:
- *                 type: string
- *                 description: Nombre de usuario, de la persona creadora del comentario
+ *     responses:
  *       201:
  *         description: Comentario creado exitosamente.
  *         content:

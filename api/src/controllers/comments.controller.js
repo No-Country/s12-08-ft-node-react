@@ -7,7 +7,6 @@ const {
 } = require("../validations/comments.validations.js");
 const { cloudinary } = require("../config/cloudinary/index.js");
 const BadRequest = require("../errorClasses/BadRequest.js");
-const { getIO } = require("../socket.js");
 const mongoose = require("mongoose")
 
 
@@ -26,7 +25,7 @@ class CommentController {
         throw new BadRequest(error.details[0].message);
       }
 
-      const { suscriber_id, text, content, user_photo, username } = value;
+      const { suscriber_id, text, content } = value;
 
       if (content !== "text") {
         const valueCont = value[content];
@@ -49,8 +48,6 @@ class CommentController {
         message_id,
         suscriber_id,
         text,
-        user_photo,
-        username,
         image: value.image,
         video: value.video,
         gif: value.gif,
@@ -59,9 +56,6 @@ class CommentController {
 
       message.comments.push(comment._id);
       await message.save();
-
-      const io = getIO();
-      io.to(req.user_id).emit("new-message", message);
 
       return res
         .status(201)
