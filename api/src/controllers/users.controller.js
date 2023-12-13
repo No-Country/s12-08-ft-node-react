@@ -181,7 +181,7 @@ class UserController {
       }
 
       if (value.password) {
-        value.password = await bcrypt.hash(password, 10);
+        value.password = await bcrypt.hash(value.password, 10);
       }
 
       if (value.profile_picture) {
