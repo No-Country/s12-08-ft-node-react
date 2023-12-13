@@ -1,14 +1,17 @@
-import { useState } from "react";
-import FileUpload from "../Svg/FileUpload";
-import Send from "../Svg/Send";
-import { toast } from "react-hot-toast";
-import LoadingSpinner from "../Svg/LoadingSpinner";
+import { useState } from 'react';
+import FileUpload from '../Svg/FileUpload';
+import Send from '../Svg/Send';
+import { toast } from 'react-hot-toast';
+import LoadingSpinner from '../Svg/LoadingSpinner';
+import { useToken } from '../../hooks/useToken';
 
 function MessageBar() {
+  const { token } = useToken();
   const [file, setFile] = useState(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const parseToken = JSON.parse(token);
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
@@ -38,25 +41,40 @@ function MessageBar() {
     }
   };
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
     if (!file && !message) {
-      toast.error("Por favor, elija un archivo o escriba un mensaje.");
+      toast.error('Por favor, elija un archivo o escriba un mensaje.');
       return;
     }
 
     try {
-      await toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
+      /*    await toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
         loading: "Enviando mensaje...",
         success: "Mensaje enviado con éxito",
         error: "Error al enviar el mensaje",
-      });
+      }); */
+      toast.loading('Enviando mensaje...');
 
-      // Reinicia el estado del formulario
-      setFile(null);
-      setMessage("");
-      setImagePreview(null);
+      const response = await fetch(
+        `https://pov.azurewebsites.net/api/chats/chat`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            text: message,
+            content: 'text',
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${parseToken}`,
+          },
+        }
+      );
+      console.log(response);
     } catch (error) {
-      // Maneja errores si es necesario
+      toast.error('Error al enviar el mensaje', error);
+    } finally {
+      toast.success('Mensaje enviado con éxito');
     }
   };
 
@@ -80,7 +98,7 @@ function MessageBar() {
 
   return (
     <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full py-2 flex items-center bg-white">
-      <form className="w-[90%] max-w-[780px] mx-auto h-[44px] py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
+      <form onSubmit={handleSendMessage} className="w-[90%] max-w-[780px] mx-auto h-[44px] py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
         <label
           htmlFor="file-upload"
           className="btn btn-ghost btn-circle avatar px-0 hover:bg-transparent"
@@ -99,7 +117,6 @@ function MessageBar() {
         {/* Mostrar la vista previa de la imagen */}
         {loading ? (
           <div className="loading-indicator">
-            {" "}
             <LoadingSpinner />
           </div>
         ) : (
@@ -111,29 +128,27 @@ function MessageBar() {
                 style={{
                   width: 35,
                   height: 35,
-                  border: "2px solid rgb(100 116 139 / var(--tw-bg-opacity))",
-                  borderRadius: "8px",
-                  objectFit: "cover",
+                  border: '2px solid rgb(100 116 139 / var(--tw-bg-opacity))',
+                  borderRadius: '8px',
+                  objectFit: 'cover',
                 }}
               />
             </div>
           )
         )}
 
-        <textarea
+        <input
           type="text"
           placeholder="Escriba su mensaje aquí"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="bg-transparent text-[12px] h-4 resize-none outline-none w-full"
-        ></textarea>
+        />
 
         <div className="flex items-center mx-2">
           <button
-            type="button"
-            onClick={async () => {
-              await handleSendMessage();
-            }}
+            
+            type="submit"
             className="bg-[#5D73E9] text-white rounded-full p-2 hover:bg-[#3f3f2e]"
           >
             <Send />
