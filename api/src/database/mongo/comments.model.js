@@ -18,12 +18,6 @@ const commentsSchema = new Schema(
     gif: {
       type: String,
     },
-    user_photo: {
-      type: String,
-    },
-    username: {
-      type: String,
-    },
     reactions: {
       love: { type: Number, default: 0 },
       sad: { type: Number, default: 0 },

@@ -4,8 +4,6 @@ const createCommentValidation = Joi.object({
   suscriber_id: Joi.string().required(),
   content: Joi.string().valid("image", "video", "text", "gif"),
   text: Joi.string().allow(null).optional(),
-  user_photo: Joi.string().required(),
-  username: Joi.string().required(),
   image: Joi.string()
     .allow(null)
     .when("content", { is: "image", then: Joi.required() }),
