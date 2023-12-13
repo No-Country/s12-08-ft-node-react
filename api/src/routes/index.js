@@ -6,6 +6,7 @@ const chatsRouter = require('./chats');
 const messagesRouter = require('./messages');
 const commentsRouter = require('./comments');
 const paymentsRouter = require('./payments');
+const subscriptionsRouter = require('./subscriptions');
 
 
 const router = Router();
@@ -23,6 +24,8 @@ router.use('/message', messagesRouter);
 router.use('/comments', commentsRouter);
 
 router.use('/payments', paymentsRouter);
+
+router.use('/subscriptions', subscriptionsRouter);
 
 
 module.exports = router
