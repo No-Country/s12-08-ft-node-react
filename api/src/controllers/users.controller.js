@@ -327,6 +327,7 @@ class UserController {
   }
 
   static async suggestion(req, res, next){
+    console.log('suggestion')
     try {
       const suggestions = await User.findAll({limit: 10, attributes: ['id', 'name', 'username', 'profile_picture'], include: [
         {
