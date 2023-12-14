@@ -1,19 +1,17 @@
 import { useContext, useState } from 'react';
 import FileUpload from '../Svg/FileUpload';
 import Send from '../Svg/Send';
-import { toast } from 'react-hot-toast';
 import LoadingSpinner from '../Svg/LoadingSpinner';
-import { useToken } from '../../hooks/useToken';
 import { ChatContext } from '../../context/ChatContext';
 
 function MessageBar() {
-  const { setPosts } = useContext(ChatContext)
-  const { token } = useToken();
+  const { handleSendMessage } = useContext(ChatContext)
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
-  const parseToken = JSON.parse(token);
+  
+
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
@@ -43,35 +41,6 @@ function MessageBar() {
     }
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (!file && !message) {
-      toast.error('Por favor, elija un archivo o escriba un mensaje.');
-      return;
-    }
-
-    try {
-      toast.loading('Enviando mensaje...');
-
-      const response = await fetch(
-        `https://pov.azurewebsites.net/api/chats/chat`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            text: message,
-            content: 'text',
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${parseToken}`,
-          },
-        }
-      );
-      console.log(response)
-    } catch (error) {
-      throw new Error(error)
-    } 
-  };
 
   const handleFileUpload = async () => {
     if (file) {
@@ -93,7 +62,7 @@ function MessageBar() {
 
   return (
     <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full py-2 flex items-center bg-white">
-      <form onSubmit={handleSendMessage} className="w-[90%] max-w-[780px] mx-auto h-[44px] py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
+      <form onSubmit={(e) => handleSendMessage(e, message)} className="w-[90%] max-w-[780px] mx-auto h-[44px] py-2 flex justify-between items-center bg-[#d9d9d9] rounded-full">
         <label
           htmlFor="file-upload"
           className="btn btn-ghost btn-circle avatar px-0 hover:bg-transparent"

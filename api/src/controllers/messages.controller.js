@@ -47,6 +47,7 @@ class MessageController {
 
       const io = getIO();
       io.to(user_id).emit("new-message", message);
+      console.log('new-message', message)
 
       res
         .status(201)
