@@ -9,7 +9,7 @@ export const loginUser = createAsyncThunk(
   async (userInformation, { rejectWithValue }) => {
     try {
       const response = await axios
-        .post(`${URL}/login`, userInformation)
+        .post(`${URL}/auth/login`, userInformation)
         .then((res) => {
           useToken(res.data.token, new Date().getTime() + 3 * 60 * 60 * 1000);
           localStorage.setItem(

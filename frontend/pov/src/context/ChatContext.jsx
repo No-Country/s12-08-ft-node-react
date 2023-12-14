@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { useToken } from '../hooks/useToken';
 
 export const ChatContext = createContext();
-const socket = io('https://pov.azurewebsites.net/');
+const socket = io('http://localhost:3000/');
 
 export const ChatProvider = ({ children, user }) => {
   const { token } = useToken();
@@ -22,7 +22,7 @@ export const ChatProvider = ({ children, user }) => {
     if (socket === null) return
 
     socket.emit('join-room', {
-      user_id: '23c5f1f2-7ac8-4ed3-885b-162228b7502c' //selectedSocket
+      user_id: user.user.id //selectedSocket
     })
 
     return () => {
@@ -34,6 +34,7 @@ export const ChatProvider = ({ children, user }) => {
     if (socket === null) return
 
     socket.on('new-message', (info) => {
+      console.log(info)
       setMessages((prev) => [...prev, info])
     })
 
@@ -48,7 +49,7 @@ export const ChatProvider = ({ children, user }) => {
         setLoadingMessages(true);
         //URL Para los chat
         //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-        const URL = `https://pov.azurewebsites.net/api/chats/chat/e0c3ed5c-2116-47ed-8e65-a388df2353b2`;
+        const URL = `http://localhost:3000/api/chats/chat/${user.user.id}`;
         const response = await axios.get(URL, {
           headers: {
             Authorization: `Bearer ${TOKEN}`,
@@ -65,7 +66,7 @@ export const ChatProvider = ({ children, user }) => {
       }
     };
     getMessages();
-  }, []);
+  }, [TOKEN, user.user.id]);
 
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
@@ -81,10 +82,11 @@ export const ChatProvider = ({ children, user }) => {
   }, [])
 
   const handleSubmit = async (e) => {
+    console.log(selectedId)
     e.preventDefault();
     try {
       await fetch(
-        `https://pov.azurewebsites.net/api/chats/chat/${selectedId}/comment`,
+        `http://localhost:3000/api/chats/chat/${selectedId}/comment`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -100,29 +102,7 @@ export const ChatProvider = ({ children, user }) => {
     } catch (error) {
       throw new Error("Error al enviar el mensaje", error);
     }
-  };
-
-  const handleSendMessage = async (e, message) => {
-    e.preventDefault();
-    try {
-      await fetch(`https://pov.azurewebsites.net/api/chats/chat`, {
-        method: 'POST',
-        body: JSON.stringify({
-          text: message,
-          content: 'text',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      });
-    } catch (error) {
-      throw new Error(error);
-    }
-    
-  /*   setUserChat([...userChat, message]); */
-  };
- 
+  }; 
 
   return (
     <ChatContext.Provider
@@ -134,7 +114,6 @@ export const ChatProvider = ({ children, user }) => {
         handleSubmit,
         saveChangeText,
         saveSelectedSocket,
-        handleSendMessage,
         loadingMessages,
 
       }}

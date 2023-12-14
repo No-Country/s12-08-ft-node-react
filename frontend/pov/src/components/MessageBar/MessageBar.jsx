@@ -1,15 +1,16 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import FileUpload from '../Svg/FileUpload';
 import Send from '../Svg/Send';
 import LoadingSpinner from '../Svg/LoadingSpinner';
-import { ChatContext } from '../../context/ChatContext';
+import { useToken } from '../../hooks/useToken';
 
 function MessageBar() {
-  const { handleSendMessage } = useContext(ChatContext)
+  const { token } = useToken();
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const TOKEN = JSON.parse(token);
 
 
 
@@ -57,6 +58,29 @@ function MessageBar() {
         // Maneja errores si es necesario
         setLoading(false);
       }
+    }
+  };
+
+  
+  const handleSendMessage = async (e, message) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:3000/api/chats/chat`, {
+        method: 'POST',
+        body: JSON.stringify({
+          text: message,
+          content: 'text',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+      if(response.status === 201){
+        setMessage('')
+      }
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
