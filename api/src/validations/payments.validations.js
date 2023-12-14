@@ -5,4 +5,8 @@ const createSubscriptionStripeValidation = Joi.object({
     chat_id: Joi.string().required(),
  });
 
-module.exports = {createSubscriptionStripeValidation} 
+const cancelSubscriptionStripeValidation = Joi.object({
+    chat_id: Joi.string().required()
+})
+
+module.exports = {createSubscriptionStripeValidation, cancelSubscriptionStripeValidation} 
