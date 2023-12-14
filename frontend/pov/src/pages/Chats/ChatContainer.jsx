@@ -1,4 +1,3 @@
-
 import { useContext, useState } from 'react';
 import { ChatContext } from '../../context/ChatContext';
 import PostList from '../../components/Posts/PostList';
@@ -14,12 +13,12 @@ const ChatContainer = () => {
   const { userChat, messages, loadingMessages } = useContext(ChatContext)
   const [modal, setModal] = useState(false);
 
-  console.log(userChat)
+
   const toggleModal = () => {
     setModal((modal) => !modal);
   };
 
-  return !loadingMessages && userChat.user ? (
+  return !loadingMessages && userChat.user ?  (
     <>
       {modal && <ThreadModal toggleModal={toggleModal} />}
       <header
@@ -33,7 +32,6 @@ const ChatContainer = () => {
             <BackBtn color={"white"} />
           </Link>
         </div>
-
         <div className="flex flex-col items-center justify-center">
           <img
             src={userChat.user.profile_picture}

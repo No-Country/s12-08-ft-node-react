@@ -3,8 +3,8 @@ import { createContext, useCallback, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useToken } from '../hooks/useToken';
 
-
 export const ChatContext = createContext();
+const socket = io('https://pov.azurewebsites.net/');
 
 export const ChatProvider = ({ children, user }) => {
   const { token } = useToken();
@@ -15,37 +15,32 @@ export const ChatProvider = ({ children, user }) => {
   const [selectedSocket, setSelectedSocket] = useState(null);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const TOKEN = JSON.parse(token);
-  console.log();
-  useEffect(() => {
-    const newSocket = io('http://localhost:3000');
-    if (newSocket === null) return
+  
 
-    newSocket.emit('join-room', {
-      user_id: '23c5f1f2-7ac8-4ed3-885b-162228b7502c', //selectedSocket
-    });
+
+  useEffect(() => {
+    if (socket === null) return
+
+    socket.emit('join-room', {
+      user_id: '23c5f1f2-7ac8-4ed3-885b-162228b7502c' //selectedSocket
+    })
 
     return () => {
-      newSocket.off('join-room');
+      socket.off('join-room')
     }
   }, [])
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3000');
-    if (newSocket === null) return;
-    console.log(newSocket)
+    if (socket === null) return
 
-
-    newSocket.on('new-message', (info) => {
-      console.log(info);
+    socket.on('new-message', (info) => {
       setMessages((prev) => [...prev, info])
-    });
-
-    console.log(messages)
+    })
 
     return () => {
-      newSocket.off('new-message');
-    };
-  }, [user]);
+      socket.off('new-message')
+    }
+  }, [])
 
   useEffect(() => {
     const getMessages = async () => {
@@ -53,7 +48,7 @@ export const ChatProvider = ({ children, user }) => {
         setLoadingMessages(true);
         //URL Para los chat
         //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-        const URL = `https://pov.azurewebsites.net/api/chats/chat/23c5f1f2-7ac8-4ed3-885b-162228b7502c`;
+        const URL = `https://pov.azurewebsites.net/api/chats/chat/e0c3ed5c-2116-47ed-8e65-a388df2353b2`;
         const response = await axios.get(URL, {
           headers: {
             Authorization: `Bearer ${TOKEN}`,
@@ -74,6 +69,7 @@ export const ChatProvider = ({ children, user }) => {
 
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
+    console.log(id);
   }, []);
 
   const saveChangeText = useCallback(async (text) => {
@@ -82,7 +78,7 @@ export const ChatProvider = ({ children, user }) => {
 
   const saveSelectedSocket = useCallback(async (userId) => {
     setSelectedSocket(userId);
-  }, []);
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,21 +86,19 @@ export const ChatProvider = ({ children, user }) => {
       await fetch(
         `https://pov.azurewebsites.net/api/chats/chat/${selectedId}/comment`,
         {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify({
             text: saveText,
             content: 'text',
-            user_photo: 'foto',
-            username: user?.user?.username,
           }),
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${TOKEN}`,
           },
         }
       );
     } catch (error) {
-      throw new Error('Error al enviar el mensaje', error);
+      throw new Error("Error al enviar el mensaje", error);
     }
   };
 
@@ -142,6 +136,7 @@ export const ChatProvider = ({ children, user }) => {
         saveSelectedSocket,
         handleSendMessage,
         loadingMessages,
+
       }}
     >
       {children}

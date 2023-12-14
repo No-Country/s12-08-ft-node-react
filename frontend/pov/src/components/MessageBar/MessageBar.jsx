@@ -7,10 +7,10 @@ import { ChatContext } from '../../context/ChatContext';
 function MessageBar() {
   const { handleSendMessage } = useContext(ChatContext)
   const [file, setFile] = useState(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+
 
 
   const handleFileChange = async (e) => {
@@ -92,9 +92,9 @@ function MessageBar() {
                 style={{
                   width: 35,
                   height: 35,
-                  border: '2px solid rgb(100 116 139 / var(--tw-bg-opacity))',
-                  borderRadius: '8px',
-                  objectFit: 'cover',
+                  border: "2px solid rgb(100 116 139 / var(--tw-bg-opacity))",
+                  borderRadius: "8px",
+                  objectFit: "cover",
                 }}
               />
             </div>
@@ -111,7 +111,6 @@ function MessageBar() {
 
         <div className="flex items-center mx-2">
           <button
-            
             type="submit"
             className="bg-[#5D73E9] text-white rounded-full p-2 hover:bg-[#3f3f2e]"
           >
