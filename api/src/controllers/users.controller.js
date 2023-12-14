@@ -1,10 +1,14 @@
-const { User } = require('../db.js');
-const BadRequest = require('../errorClasses/BadRequest.js');
-const NotFound = require('../errorClasses/NotFound.js');
-const AlreadyExist = require('../errorClasses/AlreadyExist.js');
-const {usersValidation, loginValidation,editUserValidation} = require('../validations/users.validations.js');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const { User } = require("../db.js");
+const BadRequest = require("../errorClasses/BadRequest.js");
+const NotFound = require("../errorClasses/NotFound.js");
+const AlreadyExist = require("../errorClasses/AlreadyExist.js");
+const {
+  usersValidation,
+  loginValidation,
+  editUserValidation,
+} = require("../validations/users.validations.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 const Chat = require("../database/mongo/chats.model.js");
@@ -84,15 +88,13 @@ class UserController {
 
       delete newUser.dataValues.password;
 
-      res
-        .status(201)
-        .json({
-          message: "Usuario creado exitosamente",
-          user: newUser,
-          chat: newChat,
-          customer,
-          plan,
-        });
+      res.status(201).json({
+        message: "Usuario creado exitosamente",
+        user: newUser,
+        chat: newChat,
+        customer,
+        plan,
+      });
     } catch (err) {
       next(err);
     }
@@ -223,9 +225,10 @@ class UserController {
   }
 
   static async oneUser(req, res, next) {
+    const { other_user_id } = req.body;
     try {
       const user = await User.findOne({
-        where: { id: req.user_id },
+        where: { id: other_user_id ? other_user_id : req.user_id },
         include: [
           {
             model: Subscription,
@@ -240,11 +243,13 @@ class UserController {
       });
 
       const suscribers = await Subscription.findAll({
-        where: { beneficiary_id: req.user_id },
+        where: { beneficiary_id: other_user_id ? other_user_id : req.user_id },
         attributes: ["user_id"],
       });
 
-      const chat = await Chat.findOne({ _id: req.user_id });
+      const chat = await Chat.findOne({
+        _id: other_user_id ? other_user_id : req.user_id,
+      });
 
       res.status(200).json({
         ...user.toJSON(),
@@ -279,36 +284,39 @@ class UserController {
     try {
       const userId = req.user_id;
       const userSubscriptions = await Subscription.findAll({
-        where: { user_id: userId, status: true},
-        attributes: ['beneficiary_id'], 
+        where: { user_id: userId, status: true },
+        attributes: ["beneficiary_id"],
       });
-  
+
       const totalSubscriptions = userSubscriptions.length;
-  
-      const subscriptionsWithBeneficiaries = await Promise.all(userSubscriptions.map(async (subscription) => {
-        const beneficiary = await User.findByPk(subscription.beneficiary_id, {
-          attributes: ['id', 'name', 'username', 'profile_picture'],
-        });
-  
-        const beneficiaryChats = await Chat.find({ user_id: subscription.beneficiary_id })
-  
-        return {
-          ...subscription.toJSON(),
-          beneficiary,
-          chats: beneficiaryChats,
-        };
-      }));
-  
+
+      const subscriptionsWithBeneficiaries = await Promise.all(
+        userSubscriptions.map(async (subscription) => {
+          const beneficiary = await User.findByPk(subscription.beneficiary_id, {
+            attributes: ["id", "name", "username", "profile_picture"],
+          });
+
+          const beneficiaryChats = await Chat.find({
+            user_id: subscription.beneficiary_id,
+          });
+
+          return {
+            ...subscription.toJSON(),
+            beneficiary,
+            chats: beneficiaryChats,
+          };
+        })
+      );
+
       res.status(200).json({
         totalSubscriptions,
         userSubscriptions: subscriptionsWithBeneficiaries,
       });
     } catch (err) {
-      console.error('Error:', err);
+      console.error("Error:", err);
       next(err);
     }
   }
-   
 }
 
 module.exports = { UserController };
