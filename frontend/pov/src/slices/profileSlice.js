@@ -1,66 +1,76 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { URL } from "../router/routes";
-import { useToken } from '../hooks/useToken';
+import axios from "axios";
+import { useToken } from "../hooks/useToken";
 
-// Thunk asíncrono para cargar mensajes de chat
-export const fetchEdictProfile = createAsyncThunk(
-  'profile/fetchEdictProfile',
+
+export const fetchEditProfile = createAsyncThunk(
+  'profile/fetchEditProfile',
   async ( userInformacion, { rejectWithValue }) => {
+ const { token } = useToken();
+  const TOKEN = JSON.parse(token);
+console.log(TOKEN);
+
     try {
-      const response = await axios.put(`${URL}/api/users/edit`, userInformacion)
-      // .then((res) => {
-      //     useToken(res.data.token, new Date().getTime() + 3 * 60 * 60 * 1000);
-      //     localStorage.setItem("user", JSON.stringify(res.data));
-      //     return res.data;
-      //   })
-        console.log(response.data);
-   //   return response.data;
+      console.log(userInformacion);
+        const response = await fetch( "https://pov.azurewebsites.net/api/users/edit", {
+        method: 'PUT',
+        body: JSON.stringify({
+        ...userInformacion
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+          console.log(response);
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message || 'Error fetching messages');
   }
 }
 );
 
-// Slice de Redux para el estado del chat
+
 const profileSlice = createSlice({
-  name: 'EdictProfile',
+  name: 'EditProfile',
   initialState: {
   email: "",
   name: "",
   username: "",
   //"password": "prueba",
- // "profile_picture": null,
-  date_of_birth: ""
+  profile_picture: null,
+  date_of_birth: "",
   },
+  reducers:{},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEdictProfile.pending, (state) => {
+      .addCase(fetchEditProfile.pending, (state) => {
         state.email = '';
         state.name= '';
         state.username = '';
         state.date_of_birth = '';
+        state. profile_picture= '';
         state.error = null;
         state.message= 'cargando'
       })
-      .addCase(fetchEdictProfile.fulfilled, (state, action) => {
+      .addCase(fetchEditProfile.fulfilled, (state, action) => {
         state.email =action.payload;
         state.name= action.payload;
         state.username = action.payload;
         state.date_of_birth = action.payload;
+        state. profile_picture=action.payload;
         state.error = null;   
-        state.message= 'cargado'
+        state.message= action.payload;
       })
-      .addCase(fetchEdictProfile.rejected, (state,action) => {
+      .addCase(fetchEditProfile.rejected, (state,action) => {
         state.email = '';
         state.name= '';
         state.username = '';
         state.date_of_birth = '';
+        state. profile_picture= '';
         state.error = action.payload;   
-        state.message= 'Error de carga'
+        state.message= action.payload
       });
   },
 });
 
-//export const { /* Puedes exportar acciones sincrónicas aquí si es necesario */ } = chatSlice.actions;
 export default profileSlice.reducer;

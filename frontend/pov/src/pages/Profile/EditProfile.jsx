@@ -2,36 +2,43 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
 import { useDispatch } from "react-redux";
-import fetchEdictProfile  from "../../slices/profileSlice";
+import { fetchEditProfile } from "../../slices/profileSlice";
 
+const EditProfile = () => {
+  const storage = JSON.parse(localStorage.getItem("user")) ?? {};
+  const { user } = storage;
+  const [userData, setUserData] = useState(user);
+  const [isEdit, setIsEdit] = useState(false)
 
-const EditProfile= () => {
-   const [userData, setUserData] = useState({
-     name: "",
-     email: "",
-     username: "",
-     date_of_birdth: "",
-   });
-  
-  const dispatch = useDispatch();
- 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onInputChange = (e) => {
+    setIsEdit(true)
+
+    
     setUserData((userData) => ({
       ...userData,
       [e.target.name]: e.target.value,
-   //   const newDate = e.target.date_of_birdth;
-    //  console.log(new);
     }));
+
+     const file = e.target.value;
+     if (file) {
+       const reader = new FileReader();
+       reader.onloadend = () => {
+         setImagenBase64(reader.result);
+       };
+       reader.readAsDataURL(file);
+     }
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
 
+    e.preventDefault();
+   
 
- console.log("Valores del formulario:", userData);
- dispatch(fetchEdictProfile(userData));
+   // dispatch(fetchEditProfile(userData));
+    setIsEdit(false)
   };
 
   return (
@@ -43,7 +50,7 @@ const EditProfile= () => {
         </div>
         <button
           className="btn btn-circle btn-ghost bg-gray-200 hover:bg-slate-100"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/profile")}
         >
           <CloseX />
         </button>
@@ -95,8 +102,20 @@ const EditProfile= () => {
               type="date"
               name="date_of_birdth"
               id="date_of_birdth"
-              value={userData.date_of_birdth}
+              value={userData.date_of_birth}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
+              onChange={onInputChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="date_of_birdth">Subir una foto de perfil </label>
+            <input
+              type="file"
+              name="profile_picture"
+              id="profile_picture"
+              value={userData.profile_picture}
+              className="mb-2 flex items-center gap-2 flex-shrink-0 file-input file-input-ghost w-full max-w-xs"
               onChange={onInputChange}
               required
             />
@@ -105,7 +124,7 @@ const EditProfile= () => {
             className="btn w-full h-14 mt-auto px-10 text-white  border rounded-md hover:bg-[#333333] bg-[#5D73E9] "
             type="submit"
           >
-            Continuar
+            {isEdit ? "Editar" : "Cancelar"}
           </button>
         </form>
       </main>
