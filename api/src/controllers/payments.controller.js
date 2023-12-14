@@ -93,7 +93,14 @@ class PaymentController {
   static async cancelSubscriptionStripe(req, res, next) {
     try {
       const user_id = req.user_id;
-      const chat_id = req.params.chat_id
+      req.body.chat_id = req.params.chat_id
+
+      const { error, value } = validations.cancelSubscriptionStripeValidation.validate(req.body);
+      if (error) {
+        throw new BadRequest(error.details[0].message);
+      }
+
+      const { chat_id } = value;
 
       const customers = await stripe.customers.search({
         query: `metadata[\'user_id\']:\'${user_id}\'`,
