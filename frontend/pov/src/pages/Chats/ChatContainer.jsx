@@ -1,4 +1,3 @@
-
 import { useContext, useState } from 'react';
 import { ChatContext } from '../../context/ChatContext';
 import PostList from '../../components/Posts/PostList';
@@ -11,13 +10,14 @@ import ThreadModal from '../../components/ThreadModal/ThreadModal';
 import { Link } from 'react-router-dom';
 
 const ChatContainer = () => {
-  const { posts } = useContext(ChatContext)
+  const { posts, saveUserSocket } = useContext(ChatContext);
   const [modal, setModal] = useState(false);
-
 
   const toggleModal = () => {
     setModal((modal) => !modal);
   };
+
+  saveUserSocket(posts?.user.id);
 
   return posts ? (
     <>
@@ -33,7 +33,6 @@ const ChatContainer = () => {
             <BackBtn color={"white"} />
           </Link>
         </div>
-
         <div className="flex flex-col items-center justify-center">
           <img
             src={posts.user.profile_picture}
