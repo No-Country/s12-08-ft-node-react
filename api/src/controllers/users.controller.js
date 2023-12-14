@@ -225,10 +225,10 @@ class UserController {
   }
 
   static async oneUser(req, res, next) {
-    const { other_user_id } = req.body;
+    const { third_user_id } = req.body;
     try {
       const user = await User.findOne({
-        where: { id: other_user_id ? other_user_id : req.user_id },
+        where: { id: third_user_id ? third_user_id : req.user_id },
         include: [
           {
             model: Subscription,
@@ -243,12 +243,12 @@ class UserController {
       });
 
       const suscribers = await Subscription.findAll({
-        where: { beneficiary_id: other_user_id ? other_user_id : req.user_id },
+        where: { beneficiary_id: third_user_id ? third_user_id : req.user_id },
         attributes: ["user_id"],
       });
 
       const chat = await Chat.findOne({
-        _id: other_user_id ? other_user_id : req.user_id,
+        _id: third_user_id ? third_user_id : req.user_id,
       });
 
       res.status(200).json({
