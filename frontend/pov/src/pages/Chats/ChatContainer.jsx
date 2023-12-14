@@ -8,6 +8,7 @@ import BackBtn from '../../components/Svg/BackBtn';
 import fondo from '../../assets/avatars/fondo1.jpg';
 import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
+import { Link } from 'react-router-dom';
 
 const ChatContainer = () => {
   const { posts } = useContext(ChatContext)
@@ -28,7 +29,9 @@ const ChatContainer = () => {
         }}
       >
         <div className="w-[79px]">
-          <BackBtn color={'white'} />
+          <Link to="/home">
+            <BackBtn color={"white"} />
+          </Link>
         </div>
 
         <div className="flex flex-col items-center justify-center">
