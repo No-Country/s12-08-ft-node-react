@@ -201,7 +201,7 @@ usersRouter.get("/allUser", UserController.AllUser);
  *                 type: string
  *                 description: Mensaje de error.
  */
-usersRouter.get("/:third_user_id?", UserController.oneUser);
+usersRouter.get("/", UserController.oneUser);
 
 /**
  * @openapi
