@@ -170,6 +170,10 @@ class PaymentController {
             throw new Error('Error creando la suscripción');
           }
           break;
+        case 'subscription_schedule.completed':
+          const subscriptionEvent = event.data.object;
+          console.log(subscriptionEvent);
+
       }
       // Return a response to acknowledge receipt of the event
       return res.json({received: true});
