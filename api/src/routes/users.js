@@ -125,6 +125,13 @@ usersRouter.get("/allUser", UserController.AllUser);
  *      - Users
  *    summary: Obtiene los detalles de un usuario.
  *    description: Obtiene los detalles de un usuario basado en el ID proporcionado.
+ *    parameters:
+ *      - in: path
+ *        name: third_user_id
+ *        required: false
+ *        description: ID del usuario deseado obtener (diferente al usuario logueado, este parametro no debe enviarse si se quiere acceder al propio usuario).
+ *        schema:
+ *          type: string
  *    responses:
  *      200:
  *        description: Usuario encontrado exitosamente.
@@ -194,7 +201,7 @@ usersRouter.get("/allUser", UserController.AllUser);
  *                 type: string
  *                 description: Mensaje de error.
  */
-usersRouter.get("/", UserController.oneUser);
+usersRouter.get("/:third_user_id?", UserController.oneUser);
 
 /**
  * @openapi

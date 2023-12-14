@@ -225,7 +225,7 @@ class UserController {
   }
 
   static async oneUser(req, res, next) {
-    const { third_user_id } = req.body;
+    const { third_user_id } = req.params;
     try {
       const user = await User.findOne({
         where: { id: third_user_id ? third_user_id : req.user_id },
