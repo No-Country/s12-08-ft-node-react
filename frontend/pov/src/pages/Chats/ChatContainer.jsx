@@ -1,22 +1,22 @@
-
-import { useContext, useState } from 'react';
-import { ChatContext } from '../../context/ChatContext';
-import PostList from '../../components/Posts/PostList';
-import MessageBar from '../../components/MessageBar/MessageBar';
-import LoadingSpinner from '../../components/Svg/LoadingSpinner';
-import BackBtn from '../../components/Svg/BackBtn';
-import fondo from '../../assets/avatars/fondo1.jpg';
-import Cheked from '../../components/Svg/Cheked';
-import ThreadModal from '../../components/ThreadModal/ThreadModal';
+import { useContext, useState } from "react";
+import { ChatContext } from "../../context/ChatContext";
+import PostList from "../../components/Posts/PostList";
+import MessageBar from "../../components/MessageBar/MessageBar";
+import LoadingSpinner from "../../components/Svg/LoadingSpinner";
+import BackBtn from "../../components/Svg/BackBtn";
+import fondo from "../../assets/avatars/fondo1.jpg";
+import Cheked from "../../components/Svg/Cheked";
+import ThreadModal from "../../components/ThreadModal/ThreadModal";
 
 const ChatContainer = () => {
-  const { posts } = useContext(ChatContext)
+  const { posts, saveUserSocket } = useContext(ChatContext);
   const [modal, setModal] = useState(false);
-
 
   const toggleModal = () => {
     setModal((modal) => !modal);
   };
+
+  saveUserSocket(posts?.user.id);
 
   return posts ? (
     <>
@@ -28,7 +28,7 @@ const ChatContainer = () => {
         }}
       >
         <div className="w-[79px]">
-          <BackBtn color={'white'} />
+          <BackBtn color={"white"} />
         </div>
 
         <div className="flex flex-col items-center justify-center">

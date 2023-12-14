@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { createContext, useCallback, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
-import { useToken } from '../hooks/useToken';
+import axios from "axios";
+import { createContext, useCallback, useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import { useToken } from "../hooks/useToken";
 
 export const ChatContext = createContext();
 
@@ -11,44 +11,49 @@ export const ChatProvider = ({ children, user }) => {
   const [posts, setPosts] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [saveText, setSaveText] = useState(null);
-  const [selectedSocket, setSelectedSocket] = useState(null);
+  const [userSocket, setUserSocket] = useState(null);
+
   const TOKEN = JSON.parse(token);
-  
+
+  let sockettt;
 
   useEffect(() => {
-    const newSocket = io('https://pov.azurewebsites.net/');
-    setSocket(newSocket);
-
+    sockettt = io("https://pov.azurewebsites.net/");
+    // const newSocket = io("https://pov.azurewebsites.net/");
+    // setSocket(newSocket);
+    console.log("Conectado a GENERAL");
     return () => {
-      newSocket.disconnect();
+      // newSocket.disconnect();
+      sockettt.disconnect();
     };
   }, []);
 
   useEffect(() => {
-    if (socket === null) return
+    // if (socket === null) return;
 
-    socket.emit('join-room', selectedSocket)
-
-  }, [user])
+    console.log("Conectado a ROOM");
+    sockettt.emit("join-room", userSocket);
+  }, [user]);
 
   useEffect(() => {
-    if (socket === null) return
-
-    socket?.on('new-message', (info) => {
-      setPosts((prev) => [...prev, info])
-    })
+    if (socket === null) return;
+    console.log("Escuchando Evento NEW-MESSAGE");
+    sockettt?.on("new-message", (info) => {
+      console.log("Recivido", info);
+      setPosts((prev) => [...prev, info]);
+    });
 
     return () => {
-      socket?.off('new-message')
-    }
-  }, [socket, posts])
+      sockettt?.off("new-message");
+    };
+  }, [socket, posts]);
 
   useEffect(() => {
     const getMessages = async () => {
       try {
         //URL Para los chat
         //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-        const URL = `https://pov.azurewebsites.net/api/chats/chat/e0c3ed5c-2116-47ed-8e65-a388df2353b2`;
+        const URL = `https://pov.azurewebsites.net/api/chats/chat/9adfd373-f14d-41e0-a61f-f3957e3d5292`;
         const response = await axios.get(URL, {
           headers: {
             Authorization: `Bearer ${TOKEN}`,
@@ -60,21 +65,23 @@ export const ChatProvider = ({ children, user }) => {
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     getMessages();
   }, []);
 
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
+    console.log(id);
   }, []);
 
   const saveChangeText = useCallback(async (text) => {
     setSaveText(text);
   }, []);
 
-  const saveSelectedSocket = useCallback(async (userId) => {
-    setSelectedSocket(userId);
-  }, [])
+  const saveUserSocket = useCallback(async (userId) => {
+    setUserSocket(userId);
+    console.log(userId, "UserSocket");
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,19 +89,21 @@ export const ChatProvider = ({ children, user }) => {
       await fetch(
         `https://pov.azurewebsites.net/api/chats/chat/${selectedId}/comment`,
         {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify({
             text: saveText,
-            content: 'text',
+            content: "text",
+            user_photo: "imagen",
+            username: "un usuario",
           }),
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${TOKEN}`,
           },
         }
       );
     } catch (error) {
-      throw new Error('Error al enviar el mensaje', error);
+      throw new Error("Error al enviar el mensaje", error);
     }
   };
 
@@ -108,7 +117,7 @@ export const ChatProvider = ({ children, user }) => {
         saveChangeId,
         handleSubmit,
         saveChangeText,
-        saveSelectedSocket,
+        saveUserSocket,
       }}
     >
       {children}
