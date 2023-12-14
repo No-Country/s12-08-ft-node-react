@@ -18,7 +18,7 @@ const CardSubscription = ({ subscription }) => {
             className="mt-3 z-[1] p-2 gap-4 shadow menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white border border-black"
           >
             <li>
-              <Link to={`/chats/${id}`}>
+              <Link to={`/Profile/${id}`}>
                 Ver perfil
               </Link>
             </li>
@@ -33,7 +33,7 @@ const CardSubscription = ({ subscription }) => {
       </div>
       <div className="card-actions bg-[#949494] rounded-b-[20px] grid grid-rows-[auto,auto] gap-2 items-center">
         <div className="row-start-1 row-end-3">
-          <Link to={`/chats/${id}`}> {/* Actualizado el enlace */}
+          <Link to={`/chats/${id}`}>
             <div
               id="avatar"
               className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 transform -translate-y-1/2 ml-4"
@@ -59,10 +59,8 @@ CardSubscription.propTypes = {
   subscription: PropTypes.shape({
     id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    subscribersCount: PropTypes.number.isRequired, // Ajustado el nombre
+    subscribersCount: PropTypes.number.isRequired,
     subscribed: PropTypes.bool.isRequired,
   }).isRequired,
 };
