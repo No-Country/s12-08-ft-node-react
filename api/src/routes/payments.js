@@ -70,4 +70,6 @@ paymentsRouter.post("/subscribe/:id",checkSession, PaymentController.createSubsc
 
 paymentsRouter.post("/webhook", PaymentController.captureOrder);
 
+paymentsRouter.put("/subscription/cancel/:chat_id",checkSession, PaymentController.cancelSubscriptionStripe)
+
 module.exports = paymentsRouter;
