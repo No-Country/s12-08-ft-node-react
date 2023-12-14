@@ -1,8 +1,9 @@
 const { Payment, User, Subscription } = require("../db.js");
 const BadRequest = require("../errorClasses/BadRequest.js");
+const NotFound = require("../errorClasses/NotFound.js");
 const stripe = require("../stripe.js");
 const validations = require("../validations/payments.validations.js");
-const { format, addMonths } = require('date-fns');
+const { format, addMonths, fromUnixTime } = require('date-fns');
 
 class PaymentController {
   static async createSubscriptionStripe(req, res, next) {
@@ -86,6 +87,54 @@ class PaymentController {
 
     } catch (err) {
       next(err);
+    }
+  }
+
+  static async cancelSubscriptionStripe(req, res, next) {
+    try {
+      const user_id = req.user_id;
+      req.body.chat_id = req.params.chat_id
+
+      const { error, value } = validations.cancelSubscriptionStripeValidation.validate(req.body);
+      if (error) {
+        throw new BadRequest(error.details[0].message);
+      }
+
+      const { chat_id } = value;
+
+      const customers = await stripe.customers.search({
+        query: `metadata[\'user_id\']:\'${user_id}\'`,
+      });
+
+      if(customers.data.length == 0){
+        throw new NotFound('Customer not found')
+      }
+
+      const subscriptions = await stripe.subscriptions.list({
+        customer: customers.data[0].id
+      })
+
+      if( subscriptions.data.length == 0){
+        throw new NotFound('No se encontraron suscripciones')
+      }
+
+      const subscription = subscriptions.data.find(sub => sub.metadata.user_id == user_id && sub.metadata.chat_id == chat_id)
+
+      if(!subscription){
+        throw new NotFound('No se encontro la suscripción')
+      }
+
+      const sub_cancel = await stripe.subscriptions.update(
+        subscription.id,
+        {
+          cancel_at_period_end: true,
+        }
+      );
+
+      const date_cancel = format(fromUnixTime(sub_cancel.cancel_at), 'dd-MM-yyyy');
+      return res.status(200).json({ message: `Se canceló correctamente la suscripción - disponible hasta ${date_cancel}`, subscription: sub_cancel });
+    } catch (error) {
+      next(error);
     }
   }
 
