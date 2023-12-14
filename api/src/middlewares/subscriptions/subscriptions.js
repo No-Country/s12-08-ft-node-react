@@ -8,6 +8,10 @@ require("dotenv").config();
 
 const checkSubscription = async (req, res, next) => {
   try {
+    if (req.user_id == req.params.id) {
+      next();
+      return
+    }
     const subscription = await Subscription.findOne({
       where: { user_id: req.user_id, beneficiary_id: req.params.id },
     });

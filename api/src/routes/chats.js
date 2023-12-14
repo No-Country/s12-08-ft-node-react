@@ -307,7 +307,6 @@ chatsRouter.post("/chat/:id/comment" , CommentController.create)
 */
 chatsRouter.put("/", ChatController.editChat)
 
-
 /**
  * @openapi
  * /api/chats/chat/{id}:
@@ -387,6 +386,6 @@ chatsRouter.put("/", ChatController.editChat)
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-chatsRouter.get("/chat/:id",checkSubscription, ChatController.getChatWithMessages)
+chatsRouter.get("/chat/:id", ChatController.getChatWithMessages)
 
 module.exports = chatsRouter;
