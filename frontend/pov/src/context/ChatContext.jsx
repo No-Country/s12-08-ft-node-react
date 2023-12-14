@@ -2,9 +2,10 @@ import axios from 'axios';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useToken } from '../hooks/useToken';
+import { URL, URL_SOCKET } from '../router/routes';
 
 export const ChatContext = createContext();
-const socket = io('http://localhost:3000/');
+const socket = io(URL_SOCKET);
 
 export const ChatProvider = ({ children, user }) => {
   const { token } = useToken();
@@ -49,7 +50,7 @@ export const ChatProvider = ({ children, user }) => {
         setLoadingMessages(true);
         //URL Para los chat
         //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-        const URL = `http://localhost:3000/api/chats/chat/${user.user.id}`;
+        const URL = `${URL}/chats/chat/${user.user.id}`;
         const response = await axios.get(URL, {
           headers: {
             Authorization: `Bearer ${TOKEN}`,
@@ -86,7 +87,7 @@ export const ChatProvider = ({ children, user }) => {
     e.preventDefault();
     try {
       await fetch(
-        `http://localhost:3000/api/chats/chat/${selectedId}/comment`,
+        `${URL}/chats/chat/${selectedId}/comment`,
         {
           method: "POST",
           body: JSON.stringify({
