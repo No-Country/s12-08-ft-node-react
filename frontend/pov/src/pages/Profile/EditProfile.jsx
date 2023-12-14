@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import fetchEdictProfile  from "../../slices/profileSlice";
 
 
-const EdictProfile= () => {
+const EditProfile= () => {
    const [userData, setUserData] = useState({
      name: "",
      email: "",
      username: "",
      date_of_birdth: "",
    });
-  //const {email , name , username, date_of_birdth} = useSelector((state) => state.edictProfile);
   
   const dispatch = useDispatch();
  
@@ -50,7 +49,10 @@ const EdictProfile= () => {
         </button>
       </header>
       <main className="w-full md:max-w-[1000px] lg:mx-auto px-[24px]">
-        <form className="px-8 h-[calc(100vh-260px)] flex flex-col" onSubmit={handleSubmit}>
+        <form
+          className="px-8 h-[calc(100vh-260px)] flex flex-col"
+          onSubmit={handleSubmit}
+        >
           <div>
             <label htmlFor="name">Nombre y Apellido</label>
             <input
@@ -100,7 +102,7 @@ const EdictProfile= () => {
             />
           </div>
           <button
-            className="btn w-full h-14 mt-auto px-10 text-white bg-[#232322] border rounded-md hover:bg-[#333333] "
+            className="btn w-full h-14 mt-auto px-10 text-white  border rounded-md hover:bg-[#333333] bg-[#5D73E9] "
             type="submit"
           >
             Continuar
@@ -111,4 +113,4 @@ const EdictProfile= () => {
   );
 };
 
-export default EdictProfile;
+export default EditProfile;

@@ -1,5 +1,5 @@
-// import { useSelector } from "react-redux";
 // import CardSubscription from "./CardSubscription";
+// import { useSelector } from "react-redux";
 
 // const ContainerSubscriptions = () => {
 //   const token = useSelector((state) => {
@@ -73,7 +73,9 @@
 //   );
 // };
 
-//export default ContainerSubscriptions;
+// export default ContainerSubscriptions;
+
+
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -81,34 +83,55 @@ import { fetchSubscriptions } from "../../slices/subscriptionsSlice";
 import CardSubscription from "./CardSubscription";
 
 const ContainerSubscriptions = () => {
-    const dispatch = useDispatch();
-    const { subscriptions, status, error } = useSelector((state) => state.subscriptions);
+  const dispatch = useDispatch();
+  const { subscriptions, status, error } = useSelector((state) => state.subscriptions);
 
-    useEffect(() => {
-        if (status === "idle") {
-            dispatch(fetchSubscriptions());
-        }
-    }, [status, dispatch]);
+  useEffect(() => {
+    const fetchSubscriptionsIfNeeded = async () => {
+      if (status === "idle") {
+        await dispatch(fetchSubscriptions());
+      }
+    };
+  
+    fetchSubscriptionsIfNeeded();
+  }, [dispatch, status]);
+  
 
-    if (status === "loading") {
-        return <p>Cargando suscripciones...</p>;
+  const getErrorMessage = () => {
+    let errorMessage = 'Error al cargar suscripciones.';
+
+    if (error.response) {
+      errorMessage = `Error del servidor: ${error.response.status} - ${error.response.data.message}`;
+    } else if (error.request) {
+      errorMessage = 'Error de red: No se recibió respuesta del servidor.';
     }
 
-    if (status === "failed") {
-        return <p>Error al cargar suscripciones: {error}</p>;
-    }
+    return errorMessage;
+  };
 
-    return (
-        <div className="container my-8 sm:w-full">
-            <h2 className="text-2xl font-bold">Suscripciones</h2>
-            <p className="subtitle">Te dejamos algunos perfiles que podrían interesarte.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
-                {subscriptions.map((subscription) => (
-                    <CardSubscription key={subscription.id} subscription={subscription} />
-                ))}
-            </div>
-        </div>
-    );
+  if (status === "loading") {
+    return <p>Cargando suscripciones...</p>;
+  }
+
+  if (status === "failed") {
+    return <p>{getErrorMessage()}</p>;
+  }
+
+  if (status === "succeeded" && subscriptions.length === 0) {
+    return <p>No hay suscripciones disponibles.</p>;
+  }
+
+  return (
+    <div className="container my-8 sm:w-full">
+      <h2 className="text-2xl font-bold">Suscripciones</h2>
+      <p className="subtitle">Te dejamos algunos perfiles que podrían interesarte.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:w-full">
+        {subscriptions.map((subscription) => (
+          <CardSubscription key={subscription.id} subscription={subscription} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default ContainerSubscriptions;

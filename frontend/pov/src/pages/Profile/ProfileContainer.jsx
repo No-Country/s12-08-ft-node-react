@@ -1,18 +1,19 @@
 import BackBtn from "../../components/Svg/BackBtn";
 import fondo from "../../assets/avatars/fondo1.jpg";
-import userAvatar from "../../assets/avatars/user.webp";
 import EdictBtn from "../../components/Svg/EdictBtn";
-import ProfileSuscripciones from "./ProfileSuscripciones";
 import LoadingSpinner from "../../components/Svg/LoadingSpinner";
 import MessageChatCircle from "../../components/Svg/MessageChatCircle";
-import { Link } from "react-router-dom";
-//import { useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import { useToken } from "../../hooks/useToken";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import CardProfile from "./CardProfile";
+  
 
 const ProfileContainer = () => {
+  // obtencion del Usuario
   const [user, setUser] = useState(null);
+  const navigate = useNavigate()
   const { token } = useToken();
   const TOKEN = JSON.parse(token);
   useEffect(() => {
@@ -61,7 +62,7 @@ const ProfileContainer = () => {
         </div>
         <div className="flex flex-row p-4">
           <div className="flex flex-col items-center justify-center">
-            <img src={userAvatar} alt="" className="w-[80px] h-[81px]" />
+            <img src={user.profile_picture} className="w-[80px] h-[81px]" />
             <p className="text-[12px] font-thin ">
               <span className=" text-white items-center">@{user.name}</span>
             </p>
@@ -86,11 +87,19 @@ const ProfileContainer = () => {
       </header>
 
       <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
-        <ProfileSuscripciones />
-        <button className="btn mt-auto text-white hover:bg-gray-500 flex h-14 px-10 justify-center w-full items-center gap-4 border rounded-md bg-[#5D73E9]">
-          <span className=" text-white">Ir al chat</span>
-          <MessageChatCircle />
-        </button>
+        <CardProfile />
+
+        <div className="fixed bottom-[84px] left-1/2 -translate-x-1/2 w-[345px]">
+          <button
+            onClick={() => {
+              navigate(`/chats/${user.id}`);
+            }}
+            className="btn mt-auto text-white hover:bg-gray-500 flex h-14 px-10 justify-center w-full items-center gap-4 border rounded-md bg-[#5D73E9]"
+          >
+            <span className=" text-white">Ir al chat</span>
+            <MessageChatCircle />
+          </button>
+        </div>
       </main>
     </>
   ) : (

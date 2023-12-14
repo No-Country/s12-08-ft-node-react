@@ -33,16 +33,17 @@ export const fetchSubscriptions = createAsyncThunk(
             const token = getToken();
 
             // Realizo la solicitud con el token y parámetros de consulta.
-            const response = await axios.get(`${BASE_URL}/subscriptions/info/{id}`, {
-                params: {
-                    email: '',
-                    name: '',
-                    role: '',
-                },
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axios.get(`${BASE_URL}/subscriptions/info/{id}`,
+                {
+                    params: {
+                        email: '',
+                        name: '',
+                        role: '',
+                    },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
             console.log("Response:", response.data);
 
@@ -73,7 +74,8 @@ const subscriptionsSlice = createSlice({
             .addCase(fetchSubscriptions.fulfilled, (state, action) => {
                 console.log("Subscriptions fetching succeeded:", action.payload);
                 state.status = "succeeded";
-                state.subscriptions = action.payload;
+                // Ensure action.payload.userSubscriptions is an array, or default to an empty array
+                state.subscriptions = action.payload.userSubscriptions || [];
             })
             .addCase(fetchSubscriptions.rejected, (state, action) => {
                 console.error("Subscriptions fetching failed:", action.error.message);
