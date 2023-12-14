@@ -7,7 +7,7 @@ export const registerUser = createAsyncThunk(
   async (userInformation, { rejectWithValue }) => {
     try {
       const response = await axios
-        .post(`${URL}/sign-up`, userInformation)
+        .post(`${URL}/auth/sign-up`, userInformation)
         .then((res) => {
           localStorage.setItem('user', JSON.stringify(res.data));
           return res.data;

@@ -1,1 +1,1 @@
-export const URL = 'https://pov.azurewebsites.net/api/auth'
+export const URL = 'https://pov.azurewebsites.net/api'

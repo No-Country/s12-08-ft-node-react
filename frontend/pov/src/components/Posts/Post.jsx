@@ -41,19 +41,17 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
       </div>
 
       {/* Link a Respuestas del post */}
-      {comments.length > 0 &&
-        comments.map((comment) => (
-          <div key={comment._id} className="flex gap-1 pl-[28px]">
-            <ThreadUnion />
-
-            <Link
-              to=""
-              className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
-            >
-              <Response responses={comment} />
-            </Link>
-          </div>
-        ))}
+      {comments.length > 0 && (
+        <div className="flex gap-1 pl-[28px]">
+          <ThreadUnion />
+          <Link
+            to=""
+            className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
+          >
+            <Response responses={comments[0]} />
+          </Link>
+        </div>
+      )}
 
       {/* Reacciones con Emojis */}
       <div className="flex gap-1">

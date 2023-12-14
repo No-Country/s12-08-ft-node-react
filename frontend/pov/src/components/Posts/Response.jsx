@@ -1,5 +1,5 @@
 const Response = ({ responses }) => {
-  const { createdAt, text,  } = responses;
+  const { createdAt, text } = responses;
   
   return (
     responses && (
