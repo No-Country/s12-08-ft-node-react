@@ -119,14 +119,14 @@ usersRouter.get("/allUser", UserController.AllUser);
 
 /**
  * @openapi
- * /api/users/{third_user_id}:
+ * /api/users/:
  *  get:
  *    tags:
  *      - Users
  *    summary: Obtiene los detalles de un usuario.
  *    description: Obtiene los detalles de un usuario basado en el ID proporcionado.
  *    parameters:
- *      - in: path
+ *      - in: query
  *        name: third_user_id
  *        required: false
  *        description: ID del usuario deseado obtener (diferente al usuario logueado, este parametro no debe enviarse si se quiere acceder al propio usuario).
