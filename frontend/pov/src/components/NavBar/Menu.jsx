@@ -38,7 +38,7 @@ const Menu = () => {
           className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-52 bg-white"
         >
           <li>
-            <Link to="/config" className="justify-between">
+            <Link to="/profile" className="justify-between">
               Configurar Perfil
             </Link>
             <button onClick={Logout}>Cerrar Sesion</button>

@@ -37,7 +37,7 @@ const createUsers = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
-      (state.user = null),
+        (state.user = null),
         (state.error = null),
         (state.loading = true),
         (state.message = '');
@@ -49,7 +49,7 @@ const createUsers = createSlice({
         state.message = '';
       }),
       builder.addCase(registerUser.fulfilled, (state, action) => {
-        (state.user = action.payload.user),
+          (state.user = action.payload.user),
           (state.error = null),
           (state.loading = false),
           (state.message = action.payload.message);

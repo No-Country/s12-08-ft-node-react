@@ -1,12 +1,13 @@
-import { useContext, useState } from "react";
-import { ChatContext } from "../../context/ChatContext";
-import PostList from "../../components/Posts/PostList";
-import MessageBar from "../../components/MessageBar/MessageBar";
-import LoadingSpinner from "../../components/Svg/LoadingSpinner";
-import BackBtn from "../../components/Svg/BackBtn";
-import fondo from "../../assets/avatars/fondo1.jpg";
-import Cheked from "../../components/Svg/Cheked";
-import ThreadModal from "../../components/ThreadModal/ThreadModal";
+import { useContext, useState } from 'react';
+import { ChatContext } from '../../context/ChatContext';
+import PostList from '../../components/Posts/PostList';
+import MessageBar from '../../components/MessageBar/MessageBar';
+import LoadingSpinner from '../../components/Svg/LoadingSpinner';
+import BackBtn from '../../components/Svg/BackBtn';
+import fondo from '../../assets/avatars/fondo1.jpg';
+import Cheked from '../../components/Svg/Cheked';
+import ThreadModal from '../../components/ThreadModal/ThreadModal';
+import { Link } from 'react-router-dom';
 
 const ChatContainer = () => {
   const { posts, saveUserSocket } = useContext(ChatContext);
@@ -28,9 +29,10 @@ const ChatContainer = () => {
         }}
       >
         <div className="w-[79px]">
-          <BackBtn color={"white"} />
+          <Link to="/home">
+            <BackBtn color={"white"} />
+          </Link>
         </div>
-
         <div className="flex flex-col items-center justify-center">
           <img
             src={posts.user.profile_picture}
