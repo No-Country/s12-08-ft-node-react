@@ -10,10 +10,15 @@ export const Confirm = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            const response = await fetch(`${URL}/users/${id}`)
-            console.log(response)
+            const response = await fetch(`${URL}/users`, {headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            }})
+
+            const data =  await response.json()
+
+            console.log(data)
         }
-        getUser
+        getUser()
         
     },[id])
 
