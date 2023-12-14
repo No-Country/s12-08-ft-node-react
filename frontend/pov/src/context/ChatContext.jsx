@@ -50,8 +50,8 @@ export const ChatProvider = ({ children, user }) => {
         setLoadingMessages(true);
         //URL Para los chat
         //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-        const URL = `${URL}/chats/chat/${user.user.id}`;
-        const response = await axios.get(URL, {
+        const url = `${URL}/chats/chat/${user.user.id}`;
+        const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${TOKEN}`,
           },
