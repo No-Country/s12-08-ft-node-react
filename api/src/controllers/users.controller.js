@@ -280,22 +280,31 @@ class UserController {
       const userId = req.user_id;
       const userSubscriptions = await Subscription.findAll({
         where: { user_id: userId, status: true},
-        attributes: ['beneficiary_id'], 
+        attributes: ['beneficiary_id'],
       });
   
       const totalSubscriptions = userSubscriptions.length;
   
       const subscriptionsWithBeneficiaries = await Promise.all(userSubscriptions.map(async (subscription) => {
         const beneficiary = await User.findByPk(subscription.beneficiary_id, {
-          attributes: ['id', 'name', 'username', 'profile_picture'],
+          attributes: ['id', 'name', 'username', 'profile_picture'],include: [
+            {
+              model: Subscription,
+              as: "subscriptions",
+              attributes: ["beneficiary_id"],
+              required: false,
+            },
+          ]
         });
   
+        const totalSubscriptions = beneficiary.subscriptions.length
+        beneficiary.dataValues.totalSubscriptions = totalSubscriptions
+
         const beneficiaryChats = await Chat.find({ user_id: subscription.beneficiary_id })
   
         return {
-          ...subscription.toJSON(),
           beneficiary,
-          chats: beneficiaryChats,
+          chat: beneficiaryChats,
         };
       }));
   
@@ -304,7 +313,40 @@ class UserController {
         userSubscriptions: subscriptionsWithBeneficiaries,
       });
     } catch (err) {
-      console.error('Error:', err);
+      next(err);
+    }
+  }
+
+  static async suggestion(req, res, next){
+    try {
+      const suggestions = await User.findAll({limit: 10, attributes: ['id', 'name', 'username', 'profile_picture'], include: [
+        {
+          model: Subscription,
+          as: "subscriptions",
+          attributes: ["beneficiary_id"],
+          required: false,
+        },
+      ]})
+
+      const totalSubscriptions = 0 
+      const suggestionWithChat = await Promise.all(suggestions.map(async (sugg) => {
+
+        const totalSubscriptions = sugg.subscriptions.length
+        sugg.dataValues.totalSubscriptions = totalSubscriptions
+        const userChats = await Chat.find({ user_id: sugg.id })
+  
+        return {
+          beneficiary: sugg,
+          chat: userChats,
+        };
+      }));
+
+      res.status(200).json({
+        totalSubscriptions,
+        userSubscriptions: suggestionWithChat,
+      });
+      
+    } catch (error) {
       next(err);
     }
   }
