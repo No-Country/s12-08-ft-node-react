@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-// import NF5 from '../../assets/notFound/NF5.png';
 import NtFound from '../../components/Svg/NtFound';
 
 const NotFound = () => {
@@ -10,12 +9,10 @@ const NotFound = () => {
                 <div className="w-[320px] h-[28px] mb-3 text-[#232322] flex-shrink-0 text-center font-lexend text-[24px] font-normal line-height-normal">
                     ¡Lo sentimos!
                 </div>
-
                 <div className="w-[320px] mb-20 p-3 text-center font-lexend text-[12px] font-normal line-height-normal">
                     No encontramos la pagina que estabas buscando,
                     vuelve a intentarlo. Si crees que fue algún error contáctanos
                 </div>
-
                 <div className='m-2'>
                     <Link to="/home">
                         <button
