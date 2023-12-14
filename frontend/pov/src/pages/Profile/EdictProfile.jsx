@@ -1,25 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
+import { useDispatch, useSelector } from "react-redux";
+import fetchEdictProfile  from "../../slices/profileSlice";
 
-const Configurations = () => {
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    username: "",
-    date_of_birdth: "",
-  });
+
+const EdictProfile= () => {
+   const [userData, setUserData] = useState({
+     name: "",
+     email: "",
+     username: "",
+     date_of_birdth: "",
+   });
+  //const {email , name , username, date_of_birdth} = useSelector((state) => state.edictProfile);
+  
+  const dispatch = useDispatch();
+ 
   const navigate = useNavigate();
 
   const onInputChange = (e) => {
     setUserData((userData) => ({
       ...userData,
       [e.target.name]: e.target.value,
+   //   const newDate = e.target.date_of_birdth;
+    //  console.log(new);
     }));
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
+
+
+ console.log("Valores del formulario:", userData);
+ dispatch(fetchEdictProfile(userData));
   };
 
   return (
@@ -37,7 +50,7 @@ const Configurations = () => {
         </button>
       </header>
       <main className="w-full md:max-w-[1000px] lg:mx-auto px-[24px]">
-        <form className="px-8 h-[calc(100vh-260px)] flex flex-col" >
+        <form className="px-8 h-[calc(100vh-260px)] flex flex-col" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Nombre y Apellido</label>
             <input
@@ -98,4 +111,4 @@ const Configurations = () => {
   );
 };
 
-export default Configurations;
+export default EdictProfile;

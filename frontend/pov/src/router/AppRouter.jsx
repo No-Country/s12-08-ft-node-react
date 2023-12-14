@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "../pages/Home";
-import Configurations from "../pages/Profile/Configurations";
+
 import { LoginForm } from "../pages/Login/LoginForm";
 import { RegisterForm } from "../pages/Register/RegisterForm";
 import { RequireAuth } from "../slices/auth/RequireAuth";
@@ -10,7 +10,7 @@ import "../index.css";
 
 import NotFound from "../pages/NotFound/NotFound";
 import ProfileContainer from "../pages/Profile/ProfileContainer";
-
+import EdictProfile from "../pages/Profile/EdictProfile";
 const AppRouter = () => {
   return (
     <>
@@ -24,9 +24,9 @@ const AppRouter = () => {
           {/* Private routes */}
           <Route element={<RequireAuth />}>
             <Route path="home" element={<Home />} />
-            <Route path="config" element={<Configurations />} />
+            <Route path="config" element={<EdictProfile />} />
             <Route path="chats/:id" element={<ChatContainer />} />
-            <Route path="Profile" element={<ProfileContainer />} />
+            <Route path="profile" element={<ProfileContainer />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

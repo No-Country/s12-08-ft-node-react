@@ -33,7 +33,7 @@ export const fetchSubscriptions = createAsyncThunk(
             const token = getToken();
 
             // Realizo la solicitud con el token y parámetros de consulta.
-            const response = await axios.get(`${BASE_URL}/users/allUser`, {
+            const response = await axios.get(`${BASE_URL}/subscriptions/info/{id}`, {
                 params: {
                     email: '',
                     name: '',
