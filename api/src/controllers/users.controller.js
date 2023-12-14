@@ -226,9 +226,13 @@ class UserController {
 
   static async oneUser(req, res, next) {
     const { third_user_id } = req.params;
+
+    console.log("BEFORE TRY THIRD", third_user_id);
+    console.log("BEFORE TRY USER", req.user_id);
+
     try {
       const user = await User.findOne({
-        where: { id: third_user_id ? third_user_id : req.user_id },
+        where: { id: third_user_id || req.user_id },
         include: [
           {
             model: Subscription,
@@ -243,12 +247,12 @@ class UserController {
       });
 
       const suscribers = await Subscription.findAll({
-        where: { beneficiary_id: third_user_id ? third_user_id : req.user_id },
+        where: { beneficiary_id: third_user_id || req.user_id },
         attributes: ["user_id"],
       });
 
       const chat = await Chat.findOne({
-        _id: third_user_id ? third_user_id : req.user_id,
+        _id: third_user_id || req.user_id,
       });
 
       res.status(200).json({

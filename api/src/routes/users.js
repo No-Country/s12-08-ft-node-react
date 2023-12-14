@@ -119,7 +119,7 @@ usersRouter.get("/allUser", UserController.AllUser);
 
 /**
  * @openapi
- * /api/users/:
+ * /api/users/{third_user_id}:
  *  get:
  *    tags:
  *      - Users
