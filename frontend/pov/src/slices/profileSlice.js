@@ -14,7 +14,8 @@ export const fetchEditProfile = createAsyncThunk(
         const response = await fetch( "https://pov.azurewebsites.net/api/users/edit", {
         method: 'PUT',
         body: JSON.stringify({
-        ...userInformacion
+        ...userInformacion,
+      
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -22,6 +23,7 @@ export const fetchEditProfile = createAsyncThunk(
         },
       });
           console.log(response);
+          return response
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message || 'Error fetching messages');
   }
@@ -38,6 +40,7 @@ const profileSlice = createSlice({
   //"password": "prueba",
   profile_picture: null,
   date_of_birth: "",
+  error: null,
   },
   reducers:{},
   extraReducers: (builder) => {
@@ -51,6 +54,15 @@ const profileSlice = createSlice({
         state.error = null;
         state.message= 'cargando'
       })
+        .addCase(fetchEditProfile.rejected, (state,action) => {
+        state.email = '';
+        state.name= '';
+        state.username = '';
+        state.date_of_birth = '';
+        state. profile_picture= '';
+        state.error = action.payload;   
+        state.message= action.payload;
+      })
       .addCase(fetchEditProfile.fulfilled, (state, action) => {
         state.email =action.payload;
         state.name= action.payload;
@@ -58,17 +70,9 @@ const profileSlice = createSlice({
         state.date_of_birth = action.payload;
         state. profile_picture=action.payload;
         state.error = null;   
-        state.message= action.payload;
+        state.message= 'Guardado con exito';
       })
-      .addCase(fetchEditProfile.rejected, (state,action) => {
-        state.email = '';
-        state.name= '';
-        state.username = '';
-        state.date_of_birth = '';
-        state. profile_picture= '';
-        state.error = action.payload;   
-        state.message= action.payload
-      });
+    
   },
 });
 

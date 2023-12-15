@@ -1,46 +1,59 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchEditProfile } from "../../slices/profileSlice";
 import { fileToBase64 } from "../../helpers/fileUtils";
- 
+
+const storedUserData = JSON.parse(localStorage.getItem("user"));
+const { user } = storedUserData;
+const { id, role, subscriptions, suscribedToCount, suscribersCount, ...User } =
+  user;
+
 const EditProfile = () => {
-    // Obtener el objeto del localStorage
-    const storedUserData = JSON.parse(localStorage.getItem("user"));
-    const{user}= storedUserData
-    const { id, role, subscriptions, suscribedToCount, suscribersCount, ...User } = user;
-    const [userData, setUserData] = useState(User || "");
-    const [isEdit, setIsEdit] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  // Obtener el objeto del localStorage user y extracion de los campos
+  //const{user}= storedUserData
+  // inicializacion del from
+  const [userData, setUserData] = useState(User);
 
-    const onInputChange = async (e) => {
-      setIsEdit(true);
-      if (e.target.name === "profile_picture") {
-        try {
-          const base64String = await fileToBase64(e.target);
-          setUserData((UserData) => ({
-            ...UserData,
-            [e.target.name]: e.target.value,
-            profile_picture: base64String,
-          }));
-        } catch (error) {
-          console.error("Error al transformar el archivo a base64:", error);
-        }
+  const [isEdit, setIsEdit] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  // const { error, loading } = useSelector((state) => state.profile);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onInputChange = async (e) => {
+    setIsEdit(true);
+    if (e.target.name === "profile_picture") {
+      try {
+        const base64String = await fileToBase64(e.target);
+        setUserData((userData) => ({
+          ...userData,
+          profile_picture: base64String,
+        }));
+      } catch (error) {
+        console.error("Error al transformar el archivo a base64:", error);
       }
-       };
-useEffect(() => {
-  console.log(userData);
-}, [userData]);
+    } else {
+      // Si no es "profile_picture", actualiza el estado normalmente
+      setUserData((userData) => ({
+        ...userData,
+        [e.target.name]: e.target.value,
+      }));
+    }
+  };
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      dispatch(fetchEditProfile(userData));
-      setIsEdit(false);
-    };
- 
-    
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchEditProfile(userData));
+    setIsEdit(false);
+    navigate("/profile");
+  };
+
   return (
     <>
       <header className="w-full px-[24px] py-[10px] mt-[96px] mb-[12px] flex bg-white">
@@ -66,8 +79,8 @@ useEffect(() => {
               type="text"
               name="name"
               id="name"
-              defaultValue={userData.name || ""}
-              //value={userData.name || ""}
+              //defaultValue={userData.name || ""}
+              value={userData.name}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
               required
@@ -79,10 +92,10 @@ useEffect(() => {
               type="email"
               name="email"
               id="email"
-              defaultValue={userData.email || ""}
-              // value={userData.email || ""}
+              //value={userData.email}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
+              defaultValue={userData.email || ""}
               required
             />
           </div>
@@ -92,10 +105,10 @@ useEffect(() => {
               type="text"
               name="username"
               id="username"
-              defaultValue={userData.username || ""}
-              // value={userData.username || ""}
+              //value={userData.username}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
+              defaultValue={userData.username || ""}
               required
             />
           </div>
@@ -105,10 +118,10 @@ useEffect(() => {
               type="date"
               name="date_of_birdth"
               id="date_of_birdth"
-              defaultValue={userData.date_of_birth || ""}
-              // value={userData.date_of_birth || ""}
+              //    value={userData.date_of_birth}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
+              defaultValue={userData.date_of_birth || ""}
               required
             />
           </div>
