@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useToken } from "../../hooks/useToken"
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { URL } from "../../router/routes";
 import Preview from "../../assets/Image preview of chat.png"
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import {format, addMonths} from "date-fns"
 export const Subscription = () => {
     const [beneficiary, setBeneficiary] = useState({})
     const nextPayment = format(addMonths(new Date(), 1), "dd/MM/yyyy")
+    const navigate = useNavigate()
 
     const TOKEN = JSON.parse(useToken().token)
     const { id } = useParams();
@@ -55,10 +56,10 @@ export const Subscription = () => {
                 <h3 className="ml-2">{beneficiary.username}</h3>
             </div>
             <img className="w-[233px] h-[168px] mt-8 mx-auto my-auto" src={Preview}></img>
-            <div className="flex flex-col mt-20">
+            <div className="flex flex-col mt-32">
               <Link className="btn mt-2 text-white hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-lg bg-[#232322]" to={`/sub/confirm/${id}`}>
                 Pagar con Stripe</Link>
-              <Link className="btn mt-2 text-dark hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-lg bg-[#DADADA]">
+              <Link className="btn mt-2 text-dark hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-lg bg-[#DADADA]" to="/home">
                 Atras
               </Link>
             </div>
