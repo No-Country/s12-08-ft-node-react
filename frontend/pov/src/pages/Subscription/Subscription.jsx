@@ -4,9 +4,11 @@ import { useParams } from 'react-router-dom';
 import { URL } from "../../router/routes";
 import Preview from "../../assets/Image preview of chat.png"
 import { Link } from "react-router-dom";
+import {format, addMonths} from "date-fns"
 
 export const Subscription = () => {
     const [beneficiary, setBeneficiary] = useState({})
+    const nextPayment = format(addMonths(new Date(), 1), "dd/MM/yyyy")
 
     const TOKEN = JSON.parse(useToken().token)
     const { id } = useParams();
@@ -38,7 +40,7 @@ export const Subscription = () => {
                 <ul className="list-disc ml-8 text-sm">
                     <li>Precio - $5.00 usd</li>
                     <li>Duración - 30 días</li>
-                    <li>Fecha de proximo pago - </li>
+                    <li>Fecha de proximo pago - {nextPayment}</li>
                 </ul>
 
                 <p className="font-medium">Incluye</p>
