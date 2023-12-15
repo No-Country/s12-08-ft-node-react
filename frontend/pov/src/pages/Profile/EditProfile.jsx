@@ -106,7 +106,7 @@ useEffect(() => {
               name="date_of_birdth"
               id="date_of_birdth"
               defaultValue={userData.date_of_birth || ""}
-             // value={userData.date_of_birth || ""}
+              // value={userData.date_of_birth || ""}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
               required
@@ -118,6 +118,7 @@ useEffect(() => {
               type="file"
               name="profile_picture"
               id="profile_picture"
+              accept="image/png,image/jpeg"
               // value={userData.profile_picture}
               className="mb-2 flex items-center gap-2 flex-shrink-0 file-input file-input-ghost w-full max-w-xs"
               onChange={onInputChange}
