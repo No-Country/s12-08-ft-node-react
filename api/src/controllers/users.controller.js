@@ -285,36 +285,75 @@ class UserController {
     try {
       const userId = req.user_id;
       const userSubscriptions = await Subscription.findAll({
-        where: { user_id: userId, status: true },
-        attributes: ["beneficiary_id"],
+        where: { user_id: userId, status: true},
+        attributes: ['beneficiary_id'],
       });
 
       const totalSubscriptions = userSubscriptions.length;
+  
+      const subscriptionsWithBeneficiaries = await Promise.all(userSubscriptions.map(async (subscription) => {
+        const beneficiary = await User.findByPk(subscription.beneficiary_id, {
+          attributes: ['id', 'name', 'username', 'profile_picture'],include: [
+            {
+              model: Subscription,
+              as: "subscriptions",
+              attributes: ["beneficiary_id"],
+              required: false,
+            },
+          ]
+        });
+  
+        const totalSubscriptions = beneficiary.subscriptions.length
+        beneficiary.dataValues.totalSubscriptions = totalSubscriptions
 
-      const subscriptionsWithBeneficiaries = await Promise.all(
-        userSubscriptions.map(async (subscription) => {
-          const beneficiary = await User.findByPk(subscription.beneficiary_id, {
-            attributes: ["id", "name", "username", "profile_picture"],
-          });
-
-          const beneficiaryChats = await Chat.find({
-            user_id: subscription.beneficiary_id,
-          });
-
-          return {
-            ...subscription.toJSON(),
-            beneficiary,
-            chats: beneficiaryChats,
-          };
-        })
-      );
-
+        const beneficiaryChats = await Chat.find({ user_id: subscription.beneficiary_id })
+  
+        return {
+          beneficiary,
+          chat: beneficiaryChats,
+        };
+      }));
+  
       res.status(200).json({
         totalSubscriptions,
         userSubscriptions: subscriptionsWithBeneficiaries,
       });
     } catch (err) {
-      console.error("Error:", err);
+      next(err);
+    }
+  }
+
+  static async suggestion(req, res, next){
+    console.log('suggestion')
+    try {
+      const suggestions = await User.findAll({limit: 10, attributes: ['id', 'name', 'username', 'profile_picture'], include: [
+        {
+          model: Subscription,
+          as: "subscriptions",
+          attributes: ["beneficiary_id"],
+          required: false,
+        },
+      ]})
+
+      const totalSubscriptions = 0 
+      const suggestionWithChat = await Promise.all(suggestions.map(async (sugg) => {
+
+        const totalSubscriptions = sugg.subscriptions.length
+        sugg.dataValues.totalSubscriptions = totalSubscriptions
+        const userChats = await Chat.find({ user_id: sugg.id })
+  
+        return {
+          beneficiary: sugg,
+          chat: userChats,
+        };
+      }));
+
+      res.status(200).json({
+        totalSubscriptions,
+        userSubscriptions: suggestionWithChat,
+      });
+      
+    } catch (error) {
       next(err);
     }
   }
