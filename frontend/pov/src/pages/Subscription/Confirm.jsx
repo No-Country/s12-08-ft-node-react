@@ -38,7 +38,7 @@ export const Confirm = () => {
         <>
           <header className="w-full mt-[96px] mb-[12px] flex bg-white text-center">
             <div className="w-full md:max-w-[1000px] lg:mx-auto items-center ">
-              <h2 className="text-[20px]">Datos de Subscripción</h2>
+              <h2 className="text-[20px] font-bold">Datos de Subscripción</h2>
             </div>
           </header>
           <main className="w-full md:max-w-[1000px] lg:mx-auto px-[24px] text-center">
@@ -54,9 +54,9 @@ export const Confirm = () => {
               <p>Mensuales</p>
             </div>
             <div className="flex flex-col">
-              <button className="btn mt-2 text-white hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-md bg-[#232322]" onClick={handleConfirm}>
+              <button className="btn mt-2 text-white hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-lg bg-[#232322]" onClick={handleConfirm}>
                 Continuar con el pago</button>
-              <Link className="btn mt-2 text-dark hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-md bg-[#DADADA]" to={`/sub/${id}`}>
+              <Link className="btn mt-2 text-dark hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-lg bg-[#DADADA]" to={`/sub/${id}`}>
                 Cancelar
               </Link>
             </div>
