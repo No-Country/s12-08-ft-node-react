@@ -112,6 +112,14 @@ class UserController {
 
       const user = await User.findOne({
         where: { [Op.or]: [{ email: identifier }, { username: identifier }] },
+        include: [
+          {
+            model: Subscription,
+            as: "subscriptions",
+            attributes: ["beneficiary_id"],
+            required: false,
+          },
+        ]
       });
 
       if (!user) {
@@ -123,6 +131,14 @@ class UserController {
       if (!passwordMatch) {
         throw new BadRequest("Contraseña incorrecta");
       }
+
+      const suscribers = await Subscription.findAll({
+        where: { beneficiary_id: user.id },
+        attributes: ["user_id"],
+      });
+
+      user.dataValues.suscribersCount =  suscribers.length,
+      user.dataValues.suscribedToCount = user.subscriptions.length
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
