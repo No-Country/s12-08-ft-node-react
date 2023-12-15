@@ -386,6 +386,6 @@ chatsRouter.put("/", ChatController.editChat)
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-chatsRouter.get("/chat/:id", ChatController.getChatWithMessages)
+chatsRouter.get("/chat/:id", checkSubscription ,ChatController.getChatWithMessages)
 
 module.exports = chatsRouter;
