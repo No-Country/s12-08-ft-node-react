@@ -11,7 +11,7 @@ const chatSchema = new Schema(
     img: {
       type: String,
       default:
-        "https://www.adobe.com/es/express/discover/sizes/media_12fa8cb62228835a68a2d107675896c3aa41fb5e4.png?width=750&format=png&optimize=medium",
+        "https://res.cloudinary.com/dkgvoukdj/image/upload/v1702563489/pov/tz5be23mk3xbq3osahkh.jpg",
     },
   },
   {
