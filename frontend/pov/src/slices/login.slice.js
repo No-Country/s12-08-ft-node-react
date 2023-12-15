@@ -15,10 +15,7 @@ export const loginUser = createAsyncThunk(
           localStorage.setItem(
             'user',
             JSON.stringify({
-              ...res.data,
-              profile_picture:
-                res.data.user.profile_picture ||
-                'https://www.svgrepo.com/show/496485/profile-circle.svg',
+              ...res.data
             })
           );
           return res.data;
