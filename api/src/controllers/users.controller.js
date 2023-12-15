@@ -204,7 +204,7 @@ class UserController {
 
       if (value.profile_picture) {
         const uploadResponse = await cloudinary.uploader.upload(
-          profile_picture,
+          value.profile_picture,
           {
             resource_type: "auto",
             folder: "pov",
