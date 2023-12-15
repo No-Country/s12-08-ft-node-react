@@ -17,36 +17,36 @@ export const ChatProvider = ({ children, user }) => {
 
   let sockettt;
 
-  // useEffect(() => {
-  //   sockettt = io("https://pov.azurewebsites.net/");
-  //   // const newSocket = io("https://pov.azurewebsites.net/");
-  //   // setSocket(newSocket);
-  //   console.log("Conectado a GENERAL");
-  //   return () => {
-  //     // newSocket.disconnect();
-  //     sockettt.disconnect();
-  //   };
-  // }, []);
+  useEffect(() => {
+    sockettt = io("https://pov.azurewebsites.net/");
+    // const newSocket = io("https://pov.azurewebsites.net/");
+    // setSocket(newSocket);
+    console.log("Conectado a GENERAL");
+    return () => {
+      // newSocket.disconnect();
+      sockettt.disconnect();
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   // if (socket === null) return;
+  useEffect(() => {
+    // if (socket === null) return;
 
-  //   console.log("Conectado a ROOM");
-  //   sockettt.emit("join-room", userSocket);
-  // }, [user]);
+    console.log("Conectado a ROOM");
+    sockettt.emit("join-room", userSocket);
+  }, [user]);
 
-  // useEffect(() => {
-  //   if (socket === null) return;
-  //   console.log("Escuchando Evento NEW-MESSAGE");
-  //   sockettt?.on("new-message", (info) => {
-  //     console.log("Recivido", info);
-  //     setPosts((prev) => [...prev, info]);
-  //   });
+  useEffect(() => {
+    if (socket === null) return;
+    console.log("Escuchando Evento NEW-MESSAGE");
+    sockettt?.on("new-message", (info) => {
+      console.log("Recivido", info);
+      setPosts((prev) => [...prev, info]);
+    });
 
-  //   return () => {
-  //     sockettt?.off("new-message");
-  //   };
-  // }, [socket, posts]);
+    return () => {
+      sockettt?.off("new-message");
+    };
+  }, [socket, posts]);
 
   useEffect(() => {
     const getMessages = async () => {

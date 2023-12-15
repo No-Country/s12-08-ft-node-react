@@ -9,7 +9,7 @@ const EditProfile = () => {
     // Obtener el objeto del localStorage
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     const{user}= storedUserData
-    const { id, role, ...User } = user;
+    const { id, role, subscriptions, suscribedToCount, suscribersCount, ...User } = user;
     const [userData, setUserData] = useState(User || "");
     const [isEdit, setIsEdit] = useState(false);
     const navigate = useNavigate();
