@@ -20,7 +20,7 @@ export const ChatProvider = ({ children, user }) => {
 
 
   useEffect(() => {
-    if (socket === null) return
+    if (socket === null || !user.user) return
 
     socket.emit('join-room', {
       user_id: user.user.id //selectedSocket
@@ -67,7 +67,7 @@ export const ChatProvider = ({ children, user }) => {
       }
     };
     getMessages();
-  }, [TOKEN, user.user.id]);
+  }, [TOKEN, user]);
 
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
