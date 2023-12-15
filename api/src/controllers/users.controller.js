@@ -1,10 +1,14 @@
-const { User } = require('../db.js');
-const BadRequest = require('../errorClasses/BadRequest.js');
-const NotFound = require('../errorClasses/NotFound.js');
-const AlreadyExist = require('../errorClasses/AlreadyExist.js');
-const {usersValidation, loginValidation,editUserValidation} = require('../validations/users.validations.js');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const { User } = require("../db.js");
+const BadRequest = require("../errorClasses/BadRequest.js");
+const NotFound = require("../errorClasses/NotFound.js");
+const AlreadyExist = require("../errorClasses/AlreadyExist.js");
+const {
+  usersValidation,
+  loginValidation,
+  editUserValidation,
+} = require("../validations/users.validations.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { cloudinary } = require("../config/cloudinary/index.js");
 require("dotenv").config();
 const Chat = require("../database/mongo/chats.model.js");
@@ -84,15 +88,13 @@ class UserController {
 
       delete newUser.dataValues.password;
 
-      res
-        .status(201)
-        .json({
-          message: "Usuario creado exitosamente",
-          user: newUser,
-          chat: newChat,
-          customer,
-          plan,
-        });
+      res.status(201).json({
+        message: "Usuario creado exitosamente",
+        user: newUser,
+        chat: newChat,
+        customer,
+        plan,
+      });
     } catch (err) {
       next(err);
     }
@@ -223,9 +225,11 @@ class UserController {
   }
 
   static async oneUser(req, res, next) {
+    const { profile } = req.query;
+
     try {
       const user = await User.findOne({
-        where: { id: req.user_id },
+        where: { id: profile || req.user_id },
         include: [
           {
             model: Subscription,
@@ -240,11 +244,13 @@ class UserController {
       });
 
       const suscribers = await Subscription.findAll({
-        where: { beneficiary_id: req.user_id },
+        where: { beneficiary_id: profile || req.user_id },
         attributes: ["user_id"],
       });
 
-      const chat = await Chat.findOne({ _id: req.user_id });
+      const chat = await Chat.findOne({
+        _id: profile || req.user_id,
+      });
 
       res.status(200).json({
         ...user.toJSON(),
@@ -280,22 +286,31 @@ class UserController {
       const userId = req.user_id;
       const userSubscriptions = await Subscription.findAll({
         where: { user_id: userId, status: true},
-        attributes: ['beneficiary_id'], 
+        attributes: ['beneficiary_id'],
       });
-  
+
       const totalSubscriptions = userSubscriptions.length;
   
       const subscriptionsWithBeneficiaries = await Promise.all(userSubscriptions.map(async (subscription) => {
         const beneficiary = await User.findByPk(subscription.beneficiary_id, {
-          attributes: ['id', 'name', 'username', 'profile_picture'],
+          attributes: ['id', 'name', 'username', 'profile_picture'],include: [
+            {
+              model: Subscription,
+              as: "subscriptions",
+              attributes: ["beneficiary_id"],
+              required: false,
+            },
+          ]
         });
   
+        const totalSubscriptions = beneficiary.subscriptions.length
+        beneficiary.dataValues.totalSubscriptions = totalSubscriptions
+
         const beneficiaryChats = await Chat.find({ user_id: subscription.beneficiary_id })
   
         return {
-          ...subscription.toJSON(),
           beneficiary,
-          chats: beneficiaryChats,
+          chat: beneficiaryChats,
         };
       }));
   
@@ -304,11 +319,44 @@ class UserController {
         userSubscriptions: subscriptionsWithBeneficiaries,
       });
     } catch (err) {
-      console.error('Error:', err);
       next(err);
     }
   }
-   
+
+  static async suggestion(req, res, next){
+    console.log('suggestion')
+    try {
+      const suggestions = await User.findAll({limit: 10, attributes: ['id', 'name', 'username', 'profile_picture'], include: [
+        {
+          model: Subscription,
+          as: "subscriptions",
+          attributes: ["beneficiary_id"],
+          required: false,
+        },
+      ]})
+
+      const totalSubscriptions = 0 
+      const suggestionWithChat = await Promise.all(suggestions.map(async (sugg) => {
+
+        const totalSubscriptions = sugg.subscriptions.length
+        sugg.dataValues.totalSubscriptions = totalSubscriptions
+        const userChats = await Chat.find({ user_id: sugg.id })
+  
+        return {
+          beneficiary: sugg,
+          chat: userChats,
+        };
+      }));
+
+      res.status(200).json({
+        totalSubscriptions,
+        userSubscriptions: suggestionWithChat,
+      });
+      
+    } catch (error) {
+      next(err);
+    }
+  }
 }
 
 module.exports = { UserController };
