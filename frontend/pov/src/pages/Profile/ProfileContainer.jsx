@@ -28,7 +28,6 @@ const ProfileContainer = () => {
         });
 
         const { data } = response;
-        console.log(data);
         setUser(data);
       } catch (error) {
         console.log(error);

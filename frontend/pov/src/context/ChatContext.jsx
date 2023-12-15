@@ -16,6 +16,7 @@ export const ChatProvider = ({ children, user }) => {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [id, setId] = useState(null);
   const TOKEN = JSON.parse(token);  
+  const [modal, setModal] = useState(false);
   
   useEffect(() => {
     if (socket === null) return
@@ -33,11 +34,19 @@ export const ChatProvider = ({ children, user }) => {
     if (socket === null) return
 
     socket.on('new-message', (info) => {
-      if(info.comment){
-        console.log(info.comment)
-        //const messagesWithComment = messages.map(message => message)
-      }
-      setMessages((prev) => [...prev, info])
+      setMessages((prevMessages) => {
+        if (info.comment) {
+          const newMessages = [...prevMessages];
+          const messageIndex = newMessages.findIndex((message) => message._id === info.message_id);
+  
+          if (messageIndex !== -1) {
+            newMessages[messageIndex].comments.push(info.comment);
+          }
+  
+          return newMessages;
+        }
+        return [...prevMessages, info];
+      });
     })
 
     return () => {
@@ -83,7 +92,7 @@ export const ChatProvider = ({ children, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch(
+      const response = await fetch(
         `${URL}/chats/chat/${selectedId}/comment`,
         {
           method: "POST",
@@ -99,10 +108,18 @@ export const ChatProvider = ({ children, user }) => {
           },
         }
       );
+
+      if(response.ok){
+        toggleModal()
+      }
     } catch (error) {
       throw new Error("Error al enviar el mensaje", error);
     }
   }; 
+
+  const toggleModal = () => {
+    setModal((modal) => !modal);
+  };
 
   return (
     <ChatContext.Provider
@@ -115,7 +132,9 @@ export const ChatProvider = ({ children, user }) => {
         saveChangeText,
         loadingMessages,
         id,
-        setId
+        setId,
+        toggleModal,
+        modal
       }}
     >
       {children}

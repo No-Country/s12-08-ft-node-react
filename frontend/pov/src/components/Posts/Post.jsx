@@ -30,7 +30,7 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
           <img
             src={userAvatar}
             alt={`avatar de ${userName}`}
-            className="w-[24px]"
+            className="w-[24px] rounded-full"
           />
           <p className="w-full p-2 text-[12px]">
             <span className="font-black">{userName}: </span>

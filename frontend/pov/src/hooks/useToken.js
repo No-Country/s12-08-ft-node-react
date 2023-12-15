@@ -18,6 +18,8 @@ export const useToken = (nameToken, duration) => {
     errors = true;
   }
 
+  let user = JSON.parse(localStorage.getItem('user'));
 
-  return { token, errors };
+
+  return { token,user, errors };
 };

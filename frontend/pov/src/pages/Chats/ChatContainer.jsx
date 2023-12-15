@@ -11,19 +11,14 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 const ChatContainer = () => {
-  const { userChat, messages, loadingMessages, setId } = useContext(ChatContext)
-  const [modal, setModal] = useState(false);
+  const { userChat, messages, loadingMessages, setId, toggleModal, modal } = useContext(ChatContext)
   const { id } = useParams();
 
 
   useEffect(() => {
     setId(id)
-    console.log(userChat)
-  }, [id, setId])
+  }, [id, setId, userChat])
 
-  const toggleModal = () => {
-    setModal((modal) => !modal);
-  };
 
   return !loadingMessages && userChat.user ?  (
     <>
