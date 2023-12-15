@@ -11,6 +11,7 @@ import ProfileContainer from '../pages/Profile/ProfileContainer';
 import '../index.css';
 import EditProfile from '../pages/Profile/EditProfile';
 import { Confirm } from '../pages/Subscription/Confirm';
+import { Subscription } from '../pages/Subscription/Subscription';
 
 const AppRouter = () => {
   const user = localStorage.getItem('user')
@@ -33,7 +34,8 @@ const AppRouter = () => {
               <Route path="config" element={<EditProfile />} />
               <Route path="chats/:id" element={<ChatContainer />} />
               <Route path="profile" element={<ProfileContainer />} />
-              <Route path="confirm/:id" element={<Confirm />} />
+              <Route path="sub/:id" element={<Subscription />} />
+              <Route path="sub/confirm/:id" element={<Confirm />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
