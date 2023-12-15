@@ -112,6 +112,14 @@ class UserController {
 
       const user = await User.findOne({
         where: { [Op.or]: [{ email: identifier }, { username: identifier }] },
+        include: [
+          {
+            model: Subscription,
+            as: "subscriptions",
+            attributes: ["beneficiary_id"],
+            required: false,
+          },
+        ]
       });
 
       if (!user) {
@@ -123,6 +131,14 @@ class UserController {
       if (!passwordMatch) {
         throw new BadRequest("Contraseña incorrecta");
       }
+
+      const suscribers = await Subscription.findAll({
+        where: { beneficiary_id: user.id },
+        attributes: ["user_id"],
+      });
+
+      user.dataValues.suscribersCount =  suscribers.length,
+      user.dataValues.suscribedToCount = user.subscriptions.length
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
@@ -214,8 +230,13 @@ class UserController {
 
   static async AllUser(req, res, next) {
     try {
+      const filter = req.query.searchForm
+
       const users = await User.findAll({
         attributes: { exclude: ["password"] },
+        where: { [Op.or]: [{ name: { [Op.like]: `%${filter}%` } },
+        { username: { [Op.like]: `%${filter}%` } },] },
+        collate: 'utf8_general_ci',
       });
 
       res.status(200).json(users);
@@ -324,7 +345,6 @@ class UserController {
   }
 
   static async suggestion(req, res, next){
-    console.log('suggestion')
     try {
       const suggestions = await User.findAll({limit: 10, attributes: ['id', 'name', 'username', 'profile_picture'], include: [
         {
