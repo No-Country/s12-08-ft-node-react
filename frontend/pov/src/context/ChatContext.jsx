@@ -20,7 +20,7 @@ export const ChatProvider = ({ children, user }) => {
 
 
   useEffect(() => {
-    if (socket === null || !user.user) return
+    if (socket === null || !user?.user) return
 
     socket.emit('join-room', {
       user_id: user.user.id //selectedSocket
