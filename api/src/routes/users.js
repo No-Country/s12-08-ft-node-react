@@ -95,6 +95,12 @@ usersRouter.put("/edit" , UserController.editUser)
  *       - Users
  *     summary: Obtiene la lista de todos los usuarios.
  *     description: Obtiene una lista de todos los usuarios registrados en el sistema, excluyendo la contraseña de cada usuario.
+ *     parameters:
+ *       - in: query
+ *         name: searchForm
+ *         schema:
+ *           type: string
+ *         description: Búsqueda opcional para filtrar la lista de usuarios.
  *     responses:
  *       200:
  *         description: Lista de usuarios obtenida exitosamente.

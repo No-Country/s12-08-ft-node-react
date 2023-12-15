@@ -230,8 +230,13 @@ class UserController {
 
   static async AllUser(req, res, next) {
     try {
+      const filter = req.query.searchForm
+
       const users = await User.findAll({
         attributes: { exclude: ["password"] },
+        where: { [Op.or]: [{ name: { [Op.like]: `%${filter}%` } },
+        { username: { [Op.like]: `%${filter}%` } },] },
+        collate: 'utf8_general_ci',
       });
 
       res.status(200).json(users);
