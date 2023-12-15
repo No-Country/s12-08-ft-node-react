@@ -61,7 +61,7 @@ class CommentController {
       await message.save();
 
       const io = getIO();
-      io.to(req.user_id).emit("new-message", message);
+      io.to(message.user_id).emit("new-message", {comment, message_id: message._id});
 
       return res
         .status(201)
