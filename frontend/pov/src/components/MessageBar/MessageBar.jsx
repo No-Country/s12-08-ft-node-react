@@ -66,7 +66,7 @@ function MessageBar() {
   const handleSendMessage = async (e, message) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${URL}/api/chats/chat`, {
+      const response = await fetch(`${URL}/chats/chat`, {
         method: 'POST',
         body: JSON.stringify({
           text: message,
