@@ -3,6 +3,7 @@ import FileUpload from '../Svg/FileUpload';
 import Send from '../Svg/Send';
 import LoadingSpinner from '../Svg/LoadingSpinner';
 import { useToken } from '../../hooks/useToken';
+import { URL } from '../../router/routes';
 
 function MessageBar() {
   const { token } = useToken();
@@ -65,7 +66,7 @@ function MessageBar() {
   const handleSendMessage = async (e, message) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/api/chats/chat`, {
+      const response = await fetch(`${URL}/api/chats/chat`, {
         method: 'POST',
         body: JSON.stringify({
           text: message,
