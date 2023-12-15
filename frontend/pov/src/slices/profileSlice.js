@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from "axios";
 import { useToken } from "../hooks/useToken";
 
 
 export const fetchEditProfile = createAsyncThunk(
   'profile/fetchEditProfile',
   async ( userInformacion, { rejectWithValue }) => {
- const { token } = useToken();
+  const { token } = useToken();
   const TOKEN = JSON.parse(token);
-console.log(TOKEN);
+  console.log(TOKEN);
 
     try {
       console.log(userInformacion);

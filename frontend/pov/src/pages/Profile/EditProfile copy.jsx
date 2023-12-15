@@ -6,41 +6,57 @@ import { fetchEditProfile } from "../../slices/profileSlice";
 import { fileToBase64 } from "../../helpers/fileUtils";
  
 const EditProfile = () => {
-    // Obtener el objeto del localStorage
-    const storedUserData = JSON.parse(localStorage.getItem("user"));
-    const{user}= storedUserData
-    const { id, role, ...User } = user;
-    const [userData, setUserData] = useState(User || "");
-    const [isEdit, setIsEdit] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const onInputChange = async (e) => {
-      setIsEdit(true);
-      if (e.target.name === "profile_picture") {
-        try {
-          const base64String = await fileToBase64(e.target);
-          setUserData((UserData) => ({
-            ...UserData,
-            [e.target.name]: e.target.value,
-            profile_picture: base64String,
-          }));
-        } catch (error) {
-          console.error("Error al transformar el archivo a base64:", error);
-        }
-      }
-       };
-useEffect(() => {
-  console.log(userData);
-}, [userData]);
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      dispatch(fetchEditProfile(userData));
-      setIsEdit(false);
-    };
+  const storage = JSON.parse(localStorage.getItem("user")) ?? {};
+  const { user } = storage;
+  const [userData, setUserData] = useState(user || "");
+  const [isEdit, setIsEdit] = useState(false)
  
-    
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onInputChange = async (e) => {
+  
+  setIsEdit(true);
+
+//   if (e.target.name === "profile_picture") {
+//   let image64 = '' ;
+//   const reader = new FileReader();
+//   reader.onloadend = () => {
+//     image64 = reader.result;
+//     setUserData((userData) => ({
+//       ...userData,
+//       [e.target.name]: e.target.value,
+//       image64,
+//     }));
+//     console.log(userData);
+//   };
+//   reader.readAsDataURL(e.target.files[0]);
+//   return userData
+//   }
+//  console.log(userData);
+
+ if (e.target.name === 'profile_picture') {
+      try {
+        const base64String = await fileToBase64(e.target);
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          profile_picture: base64String,
+        }));
+      } catch (error) {
+        console.error('Error al transformar el archivo a base64:', error);
+      }
+    }
+};
+// useEffect(() => {
+//   console.log(userData);
+// }, [userData]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchEditProfile(userData));
+    setIsEdit(false)
+  };
+
   return (
     <>
       <header className="w-full px-[24px] py-[10px] mt-[96px] mb-[12px] flex bg-white">
@@ -66,8 +82,7 @@ useEffect(() => {
               type="text"
               name="name"
               id="name"
-              defaultValue={userData.name || ""}
-              //value={userData.name || ""}
+              value={userData.name || ""}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
               required
@@ -79,8 +94,7 @@ useEffect(() => {
               type="email"
               name="email"
               id="email"
-              defaultValue={userData.email || ""}
-              // value={userData.email || ""}
+              value={userData.email || ""}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
               required
@@ -92,8 +106,7 @@ useEffect(() => {
               type="text"
               name="username"
               id="username"
-              defaultValue={userData.username || ""}
-              // value={userData.username || ""}
+              value={userData.username || ""}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
               required
@@ -105,8 +118,7 @@ useEffect(() => {
               type="date"
               name="date_of_birdth"
               id="date_of_birdth"
-              defaultValue={userData.date_of_birth || ""}
-             // value={userData.date_of_birth || ""}
+              value={userData.date_of_birth || ""}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
               required
@@ -118,7 +130,7 @@ useEffect(() => {
               type="file"
               name="profile_picture"
               id="profile_picture"
-              // value={userData.profile_picture}
+              value={userData.profile_picture}
               className="mb-2 flex items-center gap-2 flex-shrink-0 file-input file-input-ghost w-full max-w-xs"
               onChange={onInputChange}
               required
