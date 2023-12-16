@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import { fetchEditProfile } from "../../slices/profileSlice";
 import { fileToBase64 } from "../../helpers/fileUtils";
 
@@ -52,6 +53,7 @@ const EditProfile = () => {
     dispatch(fetchEditProfile(userData));
     setIsEdit(false);
     navigate("/profile");
+    toast.success("Usuario Moficado con exito!!!");
   };
 
   return (
@@ -144,6 +146,13 @@ const EditProfile = () => {
           >
             {isEdit ? "Editar" : "Cancelar"}
           </button>
+          {showAlert && (
+            <>
+              <div>
+                <Toaster position="top-center" reverseOrder={false} />
+              </div>
+            </>
+          )}
         </form>
       </main>
     </>
