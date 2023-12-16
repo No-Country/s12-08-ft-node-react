@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import SearchBar from "./SearchBar";
+import { Toaster } from "react-hot-toast";
 import logo from "../../assets/avatars/logoPov.webp";
 import Compass from "../Svg/Compass";
-import { Toaster } from "react-hot-toast";
 
 const NavBar = () => {
   return (
     <div className="w-screen fixed left-0 top-0 px-[24px] 3xl:px-0 bg-white shadow-md z-10">
-      <Toaster />
+      <Toaster toastOptions={{ className: "z-10000" }} />
       <nav className="max-w-[1000px] mx-auto p-0 navbar">
         {/*  Section LOGO */}
         <section className="flex-1">

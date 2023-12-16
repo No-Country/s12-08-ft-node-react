@@ -24,7 +24,7 @@ export const History = () => {
   return (
     <>
       <h2 className="text-[20px] font-bold">Historias</h2>
-      <div className="flex flex-row gap-5 md:gap-36 justify-center">
+      <div className="mb-4 flex flex-row gap-5 md:gap-36 justify-center">
         {Histories.map((history, index) => (
           <Fragment key={index}>
             <div className="flex flex-col">
