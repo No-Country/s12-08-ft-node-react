@@ -5,7 +5,7 @@ import Response from "./Response";
 import { ChatContext } from "../../context/ChatContext";
 
 const Post = ({ post, userName, userAvatar, toggleModal }) => {
-  const { saveChangeId, saveUserSocket } = useContext(ChatContext);
+  const { saveChangeId } = useContext(ChatContext);
   const { text, comments, reactions } = post;
 
   return (
@@ -14,7 +14,6 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
       onClick={() => {
         toggleModal();
         saveChangeId(post._id);
-        saveUserSocket(post?.user_id);
       }}
     >
       {/* Imagen del Post adjunta */}
@@ -31,7 +30,7 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
           <img
             src={userAvatar}
             alt={`avatar de ${userName}`}
-            className="w-[24px]"
+            className="w-[24px] rounded-full"
           />
           <p className="w-full p-2 text-[12px]">
             <span className="font-black">{userName}: </span>

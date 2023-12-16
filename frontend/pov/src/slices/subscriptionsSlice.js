@@ -27,7 +27,6 @@ export const fetchSubscriptions = createAsyncThunk(
     "subscriptions/fetchSubscriptions",
     async (_, thunkAPI) => {
         try {
-            console.log("Fetching subscriptions...");
 
             // Obtengo el token utilizando la función getToken.
             const token = getToken();
@@ -44,8 +43,6 @@ export const fetchSubscriptions = createAsyncThunk(
                         Authorization: `Bearer ${token}`,
                     },
                 });
-
-            console.log("Response:", response.data);
 
             // Verificar el formato de la respuesta según la API
             return response.data;
@@ -68,17 +65,14 @@ const subscriptionsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchSubscriptions.pending, (state) => {
-                console.log("Subscriptions are pending...");
                 state.status = "loading";
             })
             .addCase(fetchSubscriptions.fulfilled, (state, action) => {
-                console.log("Subscriptions fetching succeeded:", action.payload);
                 state.status = "succeeded";
                 // Ensure action.payload.userSubscriptions is an array, or default to an empty array
                 state.subscriptions = action.payload.userSubscriptions || [];
             })
             .addCase(fetchSubscriptions.rejected, (state, action) => {
-                console.error("Subscriptions fetching failed:", action.error.message);
                 state.status = "failed";
                 state.error = action.error.message;
             });

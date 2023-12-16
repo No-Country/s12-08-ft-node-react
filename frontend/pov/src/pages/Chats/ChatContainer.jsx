@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ChatContext } from '../../context/ChatContext';
 import PostList from '../../components/Posts/PostList';
 import MessageBar from '../../components/MessageBar/MessageBar';
@@ -8,15 +8,17 @@ import fondo from '../../assets/avatars/fondo1.jpg';
 import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const ChatContainer = () => {
-  const { userChat, messages, loadingMessages } = useContext(ChatContext)
-  const [modal, setModal] = useState(false);
+  const { userChat, messages, loadingMessages, setId, toggleModal, modal } = useContext(ChatContext)
+  const { id } = useParams();
 
 
-  const toggleModal = () => {
-    setModal((modal) => !modal);
-  };
+  useEffect(() => {
+    setId(id)
+  }, [id, setId, userChat])
+
 
   return !loadingMessages && userChat.user ?  (
     <>
