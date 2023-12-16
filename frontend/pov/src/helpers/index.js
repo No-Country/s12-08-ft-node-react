@@ -1,4 +1,3 @@
-// En un archivo separado, por ejemplo, fileUtils.js
 export const fileToBase64 = (fileInput) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -18,3 +17,17 @@ export const fileToBase64 = (fileInput) => {
     }
   });
 };
+
+export function convertirImagenABase64(url, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      callback(reader.result);
+    };
+    reader.readAsDataURL(xhr.response);
+  };
+  xhr.open("GET", url);
+  xhr.responseType = "blob";
+  xhr.send();
+}

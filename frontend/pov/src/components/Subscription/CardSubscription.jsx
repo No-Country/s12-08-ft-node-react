@@ -19,7 +19,7 @@ const CardSubscription = ({ data }) => {
           </label>
           <ul
             tabIndex={0}
-            className="z-[1] gap-4 menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white shadow-md"
+            className="z-[25] gap-4 menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white shadow-md"
           >
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
               <Link to={`/profile/${id}`}>Ver perfil</Link>

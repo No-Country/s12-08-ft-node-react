@@ -20,9 +20,6 @@ const ContainerSubscriptions = () => {
   const [isOpenSug, setIsOpenSug] = useState(false);
   const [isOpenSub, setIsOpenSub] = useState(false);
 
-  console.log("Sugerencias:", cardsSuggestions.userSubscriptions);
-  console.log("Suscripciones:", cardsSubscriptions.userSubscriptions);
-
   const getChats = async (typeCard) => {
     setLoading(true);
     try {
@@ -78,11 +75,11 @@ const ContainerSubscriptions = () => {
       ) : (
         <>
           {/* SUBSCRIPCIONES OPCIONALES */}
-          <div className="w-full mb-8 px-[16px] relative rounded-lg">
+          <div className="w-full mb-8 px-[16px] relative z-20 rounded-lg bg-white">
             <h2 className="text-[20px] font-bold">Suscripciones</h2>
             <p className="subtitle">Tu lista de subscripciones.</p>
             <button
-              className={`mr-4 p-2 absolute top-1/2 right-0 -translate-y-1/2 ${
+              className={`mr-4 p-2 absolute z-10 top-1/2 right-0 -translate-y-1/2 ${
                 isOpenSub ? "-rotate-90" : "rotate-90"
               } cursor-pointer rounded-full bg-slate-100 transition-transform`}
               onClick={toggleSubscriptions}
@@ -113,8 +110,11 @@ const ContainerSubscriptions = () => {
                     ))}
                   </div>
                 ) : (
-                  <p className="w-full text-center">
+                  <p className="w-full text-center font-bold">
                     Aún no tienes subscripciones
+                    <span className="block text-xs font-normal">
+                      Logueate para verlas aquí
+                    </span>
                   </p>
                 )}
               </motion.div>
@@ -122,13 +122,13 @@ const ContainerSubscriptions = () => {
           </AnimatePresence>
 
           {/* SUGERENCIAS OBLIGATORIAS */}
-          <div className="w-full mb-8 px-[16px] relative rounded-lg">
+          <div className="w-full mb-8 px-[16px] relative z-20 rounded-lg bg-white">
             <h2 className="text-[20px] font-bold">Sugerencias</h2>
             <p className="subtitle">
               Te dejamos algunos perfiles que podrían interesarte.
             </p>
             <button
-              className={`mr-4 p-2 absolute top-1/2 right-0 -translate-y-1/2 ${
+              className={`mr-4 p-2 absolute z-10 top-1/2 right-0 -translate-y-1/2 ${
                 isOpenSug ? "-rotate-90" : "rotate-90"
               } cursor-pointer rounded-full bg-slate-100 transition-transform`}
               onClick={toggleSuggestions}

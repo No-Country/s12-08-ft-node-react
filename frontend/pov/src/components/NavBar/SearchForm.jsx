@@ -1,15 +1,14 @@
-import { useCallback } from 'react';
-import debounce from 'just-debounce-it';
-import useSearch from '../../hooks/useSearch';
-import useUsers from '../../hooks/useUsers';
-import { SubscriptionVerified, SuggestionFree } from '../Svg/Svgs';
+import { useCallback } from "react";
+import debounce from "just-debounce-it";
+import useSearch from "../../hooks/useSearch";
+import useUsers from "../../hooks/useUsers";
+import { SubscriptionVerified, SuggestionFree } from "../Svg/Svgs";
 
 const SearchForm = () => {
   const { search, setSearch, error } = useSearch();
   const { loading, users, getUsers } = useUsers({ search });
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem("user");
   const parseUser = JSON.parse(user);
-  console.log(parseUser.user.subscriptions);
 
   const debouncedGetUsers = useCallback(
     debounce((search) => {
@@ -36,7 +35,7 @@ const SearchForm = () => {
           type="text"
           placeholder="Search"
           className={`${
-            error ? 'border-red-700' : 'border-emerald-500'
+            error ? "border-red-700" : "border-emerald-500"
           } input input-bordered bg-white w-full`}
           onChange={handleChange}
           value={search}
@@ -85,7 +84,7 @@ const SearchForm = () => {
                             className="w-24 h-24 rounded-full shadow-2xl"
                           />
                           {parseUser?.user?.subscriptions?.length > 0 ? (
-                           <SubscriptionVerified />
+                            <SubscriptionVerified />
                           ) : (
                             <SuggestionFree />
                           )}

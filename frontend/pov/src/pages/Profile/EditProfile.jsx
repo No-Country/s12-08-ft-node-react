@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
+import { useToken } from "../../hooks/useToken";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
-import { useDispatch, useSelector } from "react-redux";
-import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { fetchEditProfile } from "../../slices/profileSlice";
-import { fileToBase64 } from "../../helpers/fileUtils";
-
-const storedUserData = JSON.parse(localStorage.getItem("user"));
-const { user } = storedUserData;
-const { id, role, subscriptions, suscribedToCount, suscribersCount, ...User } =
-  user;
+import { fileToBase64, convertirImagenABase64 } from "../../helpers";
+import { toast } from "react-hot-toast";
 
 const EditProfile = () => {
-  // Obtener el objeto del localStorage user y extracion de los campos
-  //const{user}= storedUserData
-  // inicializacion del from
-  const [userData, setUserData] = useState(User);
+  const { user } = useToken();
+  const { id } = user.user;
+
+  const [userData, setUserData] = useState({
+    name: user?.user.name,
+    email: user?.user.email,
+    username: user?.user.username,
+    profile_picture: user?.user.profile_picture,
+    date_of_birth: user?.user.date_of_birth,
+  });
 
   const [isEdit, setIsEdit] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  // const { error, loading } = useSelector((state) => state.profile);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,17 +44,37 @@ const EditProfile = () => {
       }));
     }
   };
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     dispatch(fetchEditProfile(userData));
+
     setIsEdit(false);
-    navigate("/profile");
+
+    navigate(-1);
+
+    const objToLocalStorage = user;
+
+    objToLocalStorage.user = {
+      ...objToLocalStorage.user,
+      name: userData.name,
+      email: userData.email,
+      username: userData.username,
+      profile_picture: userData.profile_picture,
+      date_of_birth: userData.date_of_birth,
+    };
+
+    localStorage.setItem("user", JSON.stringify(objToLocalStorage));
+
     toast.success("Usuario Moficado con exito!!!");
   };
+
+  useEffect(() => {
+    convertirImagenABase64(userData.profile_picture, function (base64) {
+      setUserData((prevState) => ({ ...prevState, profile_picture: base64 }));
+    });
+  }, []);
 
   return (
     <>
@@ -65,7 +85,7 @@ const EditProfile = () => {
         </div>
         <button
           className="btn btn-circle btn-ghost bg-gray-200 hover:bg-slate-100"
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate(-1)}
         >
           <CloseX />
         </button>
@@ -94,10 +114,9 @@ const EditProfile = () => {
               type="email"
               name="email"
               id="email"
-              //value={userData.email}
+              value={userData.email}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
-              defaultValue={userData.email || ""}
               required
             />
           </div>
@@ -107,52 +126,54 @@ const EditProfile = () => {
               type="text"
               name="username"
               id="username"
-              //value={userData.username}
+              value={userData.username}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
-              defaultValue={userData.username || ""}
               required
             />
           </div>
           <div>
-            <label htmlFor="date_of_birdth">Fecha de nacimiento</label>
+            <label htmlFor="date_of_birth">Fecha de nacimiento</label>
             <input
               type="date"
-              name="date_of_birdth"
-              id="date_of_birdth"
-              //    value={userData.date_of_birth}
+              name="date_of_birth"
+              id="date_of_birth"
+              value={userData.date_of_birth || ""}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
-              defaultValue={userData.date_of_birth || ""}
               required
             />
           </div>
-          <div>
-            <label htmlFor="date_of_birdth">Subir una foto de perfil </label>
+          <div className="mb-4">
+            <label htmlFor="profile_picture">Subir una foto de perfil </label>
             <input
               type="file"
               name="profile_picture"
               id="profile_picture"
               accept="image/png,image/jpeg"
-              // value={userData.profile_picture}
+              placeholder={userData.profile_picture}
               className="mb-2 flex items-center gap-2 flex-shrink-0 file-input file-input-ghost w-full max-w-xs"
               onChange={onInputChange}
-              required
             />
           </div>
-          <button
-            className="btn w-full h-14 mt-auto px-10 text-white  border rounded-md hover:bg-[#333333] bg-[#5D73E9] "
-            type="submit"
-          >
-            {isEdit ? "Editar" : "Cancelar"}
-          </button>
-          {showAlert && (
-            <>
-              <div>
-                <Toaster position="top-center" reverseOrder={false} />
-              </div>
-            </>
-          )}
+          <div>
+            <p>Imagen Seleccionada:</p>
+            <div className="w-32 h-32 flex items-center overflow-hidden border-4 border-slate-300 rounded-full shadow-lg">
+              <img
+                src={userData.profile_picture}
+                alt={`imagen de ${userData.name}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          {isEdit ? (
+            <button
+              className="btn w-full h-14 mt-auto px-10 text-white  border rounded-md hover:bg-[#333333] bg-[#5D73E9] "
+              type="submit"
+            >
+              Guardar Cambios
+            </button>
+          ) : null}
         </form>
       </main>
     </>
