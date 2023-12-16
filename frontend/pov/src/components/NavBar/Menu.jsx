@@ -1,14 +1,12 @@
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../slices/login.slice";
-
-import avatar from "../../assets/avatars/user.webp";
 import noUser from "../../assets/avatars/no_user.svg";
 import { useState } from "react";
 import { useToken } from "../../hooks/useToken";
 
 const Menu = () => {
-  const { token } = useToken();
+  const { token, user } = useToken();
 
   const [isLogin, setIsLogin] = useState(token ? true : false);
 
@@ -26,7 +24,7 @@ const Menu = () => {
       <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
         <div className="w-[44px] rounded-full">
           {isLogin ? (
-            <img src={avatar} alt="User Avatar" />
+            <img src={user.user.profile_picture} alt="User Avatar" />
           ) : (
             <img src={noUser} alt="Default Avatar" />
           )}

@@ -16,9 +16,6 @@ export const loginUser = createAsyncThunk(
             "user",
             JSON.stringify({
               ...res.data,
-              profile_picture:
-                res.data.user.profile_picture ||
-                "https://www.svgrepo.com/show/496485/profile-circle.svg",
             })
           );
           return res.data;

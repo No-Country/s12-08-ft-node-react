@@ -12,8 +12,7 @@ import { useForm } from "react-hook-form";
 
 const schemaLogin = z.object({
   identifier: z
-    .string()
-    .email({ message: "El correo electronico es requerido." }),
+    .string(),
   password: z
     .string()
     .min(6, { message: "La contraseña debe tener al minimo 6 caracteres." }),
@@ -65,9 +64,8 @@ export const LoginForm = () => {
           <div className="form-control">
             <input
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5] "
-              type="email"
               name="identifier"
-              placeholder="Correo electrónico"
+              placeholder="Correo electrónico o Nombre de Usuario"
               {...register("identifier")}
             />
             {errors.identifier && (
