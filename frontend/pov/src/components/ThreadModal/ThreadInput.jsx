@@ -13,6 +13,7 @@ const ThreadInput = ({ toggleModal }) => {
 
   const handleChange = (e) => {
     setText(e.target.value);
+    saveChangeText(e.target.value)
   };
 
 
@@ -58,8 +59,7 @@ const ThreadInput = ({ toggleModal }) => {
           placeholder="Contesta el hilo aquí"
           className="w-full px-2 resize-none overflow-auto bg-transparent text-white outline-none"
           onChange={(e) => {
-            handleChange(e),
-            saveChangeText(text)
+            handleChange(e)
           }}
         ></textarea>
         <div className="flex items-center mx-2">

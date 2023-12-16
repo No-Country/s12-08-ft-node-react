@@ -1,4 +1,5 @@
 export const useToken = (nameToken, duration) => {
+
   if (nameToken && duration) {
     localStorage.setItem('token', JSON.stringify(nameToken));
     localStorage.setItem('duration', JSON.stringify(duration));
@@ -17,5 +18,8 @@ export const useToken = (nameToken, duration) => {
     errors = true;
   }
 
-  return { token, errors };
+  let user = JSON.parse(localStorage.getItem('user'));
+
+
+  return { token,user, errors };
 };
