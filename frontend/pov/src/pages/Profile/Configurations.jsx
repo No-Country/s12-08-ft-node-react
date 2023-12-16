@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useSelector } from "react";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
 
 const Configurations = () => {
+ 
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -21,6 +22,7 @@ const Configurations = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
 
   return (
     <>

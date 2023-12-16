@@ -33,7 +33,7 @@ const AppRouter = () => {
               <Route path="home" element={<Home />} />
               <Route path="config" element={<EditProfile />} />
               <Route path="chats/:id" element={<ChatContainer />} />
-              <Route path="profile" element={<ProfileContainer />} />
+              <Route path="profile/:id" element={<ProfileContainer />} />
               <Route path="sub/:id" element={<Subscription />} />
               <Route path="sub/confirm/:id" element={<Confirm />} />
             </Route>
