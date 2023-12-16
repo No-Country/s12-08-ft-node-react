@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import ThreadUnion from "../Svg/ThreadUnion";
-import Response from "./Response";
-import { ChatContext } from "../../context/ChatContext";
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import ThreadUnion from '../Svg/ThreadUnion';
+import Response from './Response';
+import { ChatContext } from '../../context/ChatContext';
 
 const Post = ({ post, userName, userAvatar, toggleModal }) => {
-  const { saveChangeId, saveUserSocket } = useContext(ChatContext);
+  const { saveChangeId } = useContext(ChatContext);
   const { text, comments, reactions } = post;
 
   return (
@@ -14,7 +14,6 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
       onClick={() => {
         toggleModal();
         saveChangeId(post._id);
-        saveUserSocket(post?.user_id);
       }}
     >
       {/* Imagen del Post adjunta */}
@@ -31,7 +30,7 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
           <img
             src={userAvatar}
             alt={`avatar de ${userName}`}
-            className="w-[24px]"
+            className="w-[24px] rounded-full"
           />
           <p className="w-full p-2 text-[12px]">
             <span className="font-black">{userName}: </span>
@@ -41,17 +40,18 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
       </div>
 
       {/* Link a Respuestas del post */}
-      {comments.length > 0 && (
-        <div className="flex gap-1 pl-[28px]">
-          <ThreadUnion />
-          <Link
-            to=""
-            className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
-          >
-            <Response responses={comments[0]} />
-          </Link>
-        </div>
-      )}
+      {comments.length > 0 &&
+        comments.map((comment, index) => (
+          <div key={index} className="flex gap-1 pl-[28px]">
+            <ThreadUnion />
+            <Link
+              to=""
+              className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
+            >
+              <Response responses={comment} />
+            </Link>
+          </div>
+        ))}
 
       {/* Reacciones con Emojis */}
       <div className="flex gap-1">
