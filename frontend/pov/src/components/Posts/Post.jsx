@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import ThreadUnion from "../Svg/ThreadUnion";
-import Response from "./Response";
-import { ChatContext } from "../../context/ChatContext";
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import ThreadUnion from '../Svg/ThreadUnion';
+import Response from './Response';
+import { ChatContext } from '../../context/ChatContext';
 
 const Post = ({ post, userName, userAvatar, toggleModal }) => {
   const { saveChangeId } = useContext(ChatContext);
@@ -40,17 +40,18 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
       </div>
 
       {/* Link a Respuestas del post */}
-      {comments.length > 0 && (
-        <div className="flex gap-1 pl-[28px]">
-          <ThreadUnion />
-          <Link
-            to=""
-            className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
-          >
-            <Response responses={comments[0]} />
-          </Link>
-        </div>
-      )}
+      {comments.length > 0 &&
+        comments.map((comment, index) => (
+          <div key={index} className="flex gap-1 pl-[28px]">
+            <ThreadUnion />
+            <Link
+              to=""
+              className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
+            >
+              <Response responses={comment} />
+            </Link>
+          </div>
+        ))}
 
       {/* Reacciones con Emojis */}
       <div className="flex gap-1">
