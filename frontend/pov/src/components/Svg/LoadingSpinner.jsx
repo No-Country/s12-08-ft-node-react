@@ -1,5 +1,3 @@
-
-
 const LoadingSpinner = () => {
   return (
     <div className="overlay">

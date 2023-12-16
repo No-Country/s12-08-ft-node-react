@@ -1,68 +1,65 @@
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import Option from '../Svg/Option';
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import Option from "../Svg/Option";
+import SubsIcon from "../Svg/SubsIcon";
 
-const CardSubscription = ({ subscription }) => {
-  const { id, image, name, subscribersCount } = subscription;
+const CardSubscription = ({ data }) => {
+  const { id, profile_picture, name, username, totalSubscriptions } =
+    data.beneficiary;
+
+  const { _id } = data.chat;
 
   return (
     <div className="card text-neutral-content relative rounded-[20px] bg-slate-50">
       <div className="card-body items-center text-center relative">
+        {/* Menu ... */}
         <div className="dropdown dropdown-end right-0 top-0 absolute">
-          {/* Option */}
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <Option />
           </label>
           <ul
             tabIndex={0}
-            className="mt-3 z-[1] p-2 gap-4 shadow menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white border border-black"
+            className="z-[1] gap-4 menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white shadow-md"
           >
-            <li>
-              <Link to={`/Profile/${id}`}>
-                Ver perfil
-              </Link>
+            <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
+              <Link to={`/profile/${id}`}>Ver perfil</Link>
+            </li>
+            <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
+              <Link to={`/chats/${_id}`}>Ir al chat</Link>
+            </li>
+            <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
+              <Link>Reportar</Link>
             </li>
             <li
-              className="hover:cursor-pointer m-0 p-0"
-              onClick={() => console.log('Te suscribiste')}
+              className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg"
+              onClick={() => console.log("Te suscribiste")}
             >
-              Suscribete
+              <Link>Suscribirse</Link>
             </li>
           </ul>
         </div>
       </div>
-      <div className="card-actions bg-[#949494] rounded-b-[20px] grid grid-rows-[auto,auto] gap-2 items-center">
-        <div className="row-start-1 row-end-3">
+      <div className="w-full flex justify-between card-actions bg-[#949494] rounded-b-[20px]">
+        {/* AVATAR and USERNAME */}
+        <div className="w-full flex items-center justify-between">
           <Link to={`/chats/${id}`}>
             <div
               id="avatar"
-              className="rounded-full overflow-hidden w-14 h-14 md:w-15 md:h-15 border-2 transform -translate-y-1/2 ml-4"
+              className="w-14 h-14 md:w-15 md:h-15 ml-4 flex flex-col -translate-y-1/2 rounded-full overflow-hidden border-2"
             >
-              <img
-                src={image}
-                alt="Avatar"
-                className="object-cover w-full h-full bg-slate-500"
-              />
+              <img src={profile_picture} alt={`avatar de ${username}`} />
             </div>
           </Link>
-        </div>
-        <div className="row-start-3 col-span-full text-center flex items-center ml-5 mt-[-15px]">
-          <div className="text-black ml-0 mt-[-25px]">{name}</div>
-          <div className="text-gray-500 ml-1 mt-[-25px]">{subscribersCount} subscriptores</div>
+          <div className="text-white">@{name}</div>
+          {/* Subs Counter */}
+          <div className="mr-4 flex gap-2 items-center">
+            <SubsIcon />
+            <span className="text-white">{totalSubscriptions}</span>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-CardSubscription.propTypes = {
-  subscription: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    subscribersCount: PropTypes.number.isRequired,
-    subscribed: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 
 export default CardSubscription;

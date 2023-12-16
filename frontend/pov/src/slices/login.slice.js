@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { URL } from '../router/routes';
-import axios from 'axios';
-import { useToken } from '../hooks/useToken';
-import toast from 'react-hot-toast';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { URL } from "../router/routes";
+import axios from "axios";
+import { useToken } from "../hooks/useToken";
+import toast from "react-hot-toast";
 
 export const loginUser = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (userInformation, { rejectWithValue }) => {
     try {
       const response = await axios
@@ -13,12 +13,12 @@ export const loginUser = createAsyncThunk(
         .then((res) => {
           useToken(res.data.token, new Date().getTime() + 3 * 60 * 60 * 1000);
           localStorage.setItem(
-            'user',
+            "user",
             JSON.stringify({
               ...res.data,
               profile_picture:
                 res.data.user.profile_picture ||
-                'https://www.svgrepo.com/show/496485/profile-circle.svg',
+                "https://www.svgrepo.com/show/496485/profile-circle.svg",
             })
           );
           return res.data;
@@ -31,46 +31,47 @@ export const loginUser = createAsyncThunk(
 );
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState: {
-    token: '',
+    token: "",
     user: {
-      date_of_birth: '',
-      email: '',
-      id: '',
-      name: '',
-      profile_picture: '',
-      role: '',
-      username: '',
+      date_of_birth: "",
+      email: "",
+      id: "",
+      name: "",
+      profile_picture: "",
+      role: "",
+      username: "",
     },
     error: null,
     loading: false,
-    message: '',
+    message: "",
   },
   reducers: {
     logout: (state) => {
-      state.token = '';
+      state.token = "";
       state.user = {};
       state.error = null;
       state.loading = false;
-      state.message = 'Cerrando sesión';
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('duration');
-      toast('Cerraste Sesión, BYE!', {
-        icon: '👋',
+      state.message = "Cerrando sesión";
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("duration");
+      toast("Cerraste Sesión, BYE!", {
+        icon: "👋",
+        duration: 3000,
       });
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
-      state.token = '';
+      state.token = "";
       state.user = {};
       state.loading = true;
       state.error = null;
     }),
       builder.addCase(loginUser.rejected, (state, action) => {
-        state.token = '';
+        state.token = "";
         state.user = {};
         state.loading = false;
         state.error = action.payload;

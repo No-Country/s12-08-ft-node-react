@@ -1,19 +1,19 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home } from '../pages/Home';
-import { LoginForm } from '../pages/Login/LoginForm';
-import { RegisterForm } from '../pages/Register/RegisterForm';
-import { RequireAuth } from '../slices/auth/RequireAuth';
-import { ChatProvider } from '../context/ChatContext';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Home } from "../pages/Home";
+import { LoginForm } from "../pages/Login/LoginForm";
+import { RegisterForm } from "../pages/Register/RegisterForm";
+import { RequireAuth } from "../slices/auth/RequireAuth";
+import { ChatProvider } from "../context/ChatContext";
 //import Configurations from '../pages/Profile/Configurations';
-import ChatContainer from '../pages/Chats/ChatContainer';
-import NotFound from '../pages/NotFound/NotFound';
-import ProfileContainer from '../pages/Profile/ProfileContainer';
-import '../index.css';
-import EditProfile from '../pages/Profile/EditProfile';
+import ChatContainer from "../pages/Chats/ChatContainer";
+import NotFound from "../pages/NotFound/NotFound";
+import ProfileContainer from "../pages/Profile/ProfileContainer";
+import EditProfile from "../pages/Profile/EditProfile";
+import "../index.css";
 
 const AppRouter = () => {
-  const user = localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user'))
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
     : {};
 
   return (
