@@ -14,8 +14,7 @@ export const fetchEditProfile = createAsyncThunk(
         const response = await fetch( "https://pov.azurewebsites.net/api/users/edit", {
         method: 'PUT',
         body: JSON.stringify({
-        ...userInformacion,
-      
+        ...userInformacion
         }),
         headers: {
           'Content-Type': 'application/json',
