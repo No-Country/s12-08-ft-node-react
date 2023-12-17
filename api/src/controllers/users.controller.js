@@ -119,7 +119,7 @@ class UserController {
             attributes: ["beneficiary_id"],
             required: false,
           },
-        ]
+        ],
       });
 
       if (!user) {
@@ -137,8 +137,8 @@ class UserController {
         attributes: ["user_id"],
       });
 
-      user.dataValues.suscribersCount =  suscribers.length,
-      user.dataValues.suscribedToCount = user.subscriptions.length
+      (user.dataValues.suscribersCount = suscribers.length),
+        (user.dataValues.suscribedToCount = user.subscriptions.length);
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
@@ -230,13 +230,17 @@ class UserController {
 
   static async AllUser(req, res, next) {
     try {
-      const filter = req.query.searchForm
+      const filter = req.query.searchForm;
 
       const users = await User.findAll({
         attributes: { exclude: ["password"] },
-        where: { [Op.or]: [{ name: { [Op.like]: `%${filter}%` } },
-        { username: { [Op.like]: `%${filter}%` } },] },
-        collate: 'utf8_general_ci',
+        where: {
+          [Op.or]: [
+            { name: { [Op.like]: `%${filter}%` } },
+            { username: { [Op.like]: `%${filter}%` } },
+          ],
+        },
+        collate: "utf8_general_ci",
       });
 
       res.status(200).json(users);
@@ -251,23 +255,43 @@ class UserController {
     try {
       const user = await User.findOne({
         where: { id: profile || req.user_id },
-        include: [
-          {
-            model: Subscription,
-            as: "subscriptions",
-            attributes: ["beneficiary_id"],
-            required: false,
-          },
-        ],
+        // include: [
+        //   {
+        //     model: Subscription,
+        //     as: "subscriptions",
+        //     attributes: ["beneficiary_id", "status"],
+        //   },
+        // ],
         attributes: {
           exclude: ["password"],
         },
       });
 
-      const suscribers = await Subscription.findAll({
-        where: { beneficiary_id: profile || req.user_id },
-        attributes: ["user_id"],
-      });
+      // Obtengo y cuento las personas suscritas al perfil que busco
+      const { count: suscribersCount, rows: suscribers } =
+        await Subscription.findAndCountAll({
+          where: { beneficiary_id: profile || req.user_id },
+          include: [
+            {
+              model: User,
+              attributes: ["username", "profile_picture"],
+            },
+          ],
+          attributes: ["user_id"],
+        });
+
+      // Obtengo y cuento las personas a las que el perfil suscribe
+      const { count: subscribedToCount, rows: subscribedTo } =
+        await Subscription.findAndCountAll({
+          where: { user_id: profile || req.user_id },
+          include: [
+            {
+              model: User,
+              attributes: ["username", "profile_picture"],
+            },
+          ],
+          attributes: ["beneficiary_id"],
+        });
 
       const chat = await Chat.findOne({
         _id: profile || req.user_id,
@@ -275,10 +299,11 @@ class UserController {
 
       res.status(200).json({
         ...user.toJSON(),
-        suscribers,
         chat,
-        suscribersCount: suscribers.length,
-        suscribedToCount: user.subscriptions.length,
+        suscribersCount,
+        suscribers,
+        subscribedToCount,
+        subscribedTo,
       });
     } catch (error) {
       next(error);
@@ -306,35 +331,40 @@ class UserController {
     try {
       const userId = req.user_id;
       const userSubscriptions = await Subscription.findAll({
-        where: { user_id: userId, status: true},
-        attributes: ['beneficiary_id'],
+        where: { user_id: userId, status: true },
+        attributes: ["beneficiary_id"],
       });
 
       const totalSubscriptions = userSubscriptions.length;
-  
-      const subscriptionsWithBeneficiaries = await Promise.all(userSubscriptions.map(async (subscription) => {
-        const beneficiary = await User.findByPk(subscription.beneficiary_id, {
-          attributes: ['id', 'name', 'username', 'profile_picture'],include: [
-            {
-              model: Subscription,
-              as: "subscriptions",
-              attributes: ["beneficiary_id"],
-              required: false,
-            },
-          ]
-        });
-  
-        const totalSubscriptions = beneficiary.subscriptions.length
-        beneficiary.dataValues.totalSubscriptions = totalSubscriptions
 
-        const beneficiaryChats = await Chat.find({ user_id: subscription.beneficiary_id })
-  
-        return {
-          beneficiary,
-          chat: beneficiaryChats,
-        };
-      }));
-  
+      const subscriptionsWithBeneficiaries = await Promise.all(
+        userSubscriptions.map(async (subscription) => {
+          const beneficiary = await User.findByPk(subscription.beneficiary_id, {
+            attributes: ["id", "name", "username", "profile_picture"],
+            include: [
+              {
+                model: Subscription,
+                as: "subscriptions",
+                attributes: ["beneficiary_id"],
+                required: false,
+              },
+            ],
+          });
+
+          const totalSubscriptions = beneficiary.subscriptions.length;
+          beneficiary.dataValues.totalSubscriptions = totalSubscriptions;
+
+          const beneficiaryChats = await Chat.find({
+            user_id: subscription.beneficiary_id,
+          });
+
+          return {
+            beneficiary,
+            chat: beneficiaryChats,
+          };
+        })
+      );
+
       res.status(200).json({
         totalSubscriptions,
         userSubscriptions: subscriptionsWithBeneficiaries,
@@ -344,35 +374,39 @@ class UserController {
     }
   }
 
-  static async suggestion(req, res, next){
+  static async suggestion(req, res, next) {
     try {
-      const suggestions = await User.findAll({limit: 10, attributes: ['id', 'name', 'username', 'profile_picture'], include: [
-        {
-          model: Subscription,
-          as: "subscriptions",
-          attributes: ["beneficiary_id"],
-          required: false,
-        },
-      ]})
+      const suggestions = await User.findAll({
+        limit: 10,
+        attributes: ["id", "name", "username", "profile_picture"],
+        include: [
+          {
+            model: Subscription,
+            as: "subscriptions",
+            attributes: ["beneficiary_id"],
+            required: false,
+          },
+        ],
+      });
 
-      const totalSubscriptions = 0 
-      const suggestionWithChat = await Promise.all(suggestions.map(async (sugg) => {
+      const totalSubscriptions = 0;
+      const suggestionWithChat = await Promise.all(
+        suggestions.map(async (sugg) => {
+          const totalSubscriptions = sugg.subscriptions.length;
+          sugg.dataValues.totalSubscriptions = totalSubscriptions;
+          const userChats = await Chat.find({ user_id: sugg.id });
 
-        const totalSubscriptions = sugg.subscriptions.length
-        sugg.dataValues.totalSubscriptions = totalSubscriptions
-        const userChats = await Chat.find({ user_id: sugg.id })
-  
-        return {
-          beneficiary: sugg,
-          chat: userChats,
-        };
-      }));
+          return {
+            beneficiary: sugg,
+            chat: userChats,
+          };
+        })
+      );
 
       res.status(200).json({
         totalSubscriptions,
         userSubscriptions: suggestionWithChat,
       });
-      
     } catch (error) {
       next(err);
     }
