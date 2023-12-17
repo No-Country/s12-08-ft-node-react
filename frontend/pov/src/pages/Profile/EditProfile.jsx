@@ -9,8 +9,6 @@ import { toast } from "react-hot-toast";
 
 const EditProfile = () => {
   const { user } = useToken();
-  const { id } = user.user;
-
   const [userData, setUserData] = useState({
     name: user?.user.name,
     email: user?.user.email,
@@ -173,7 +171,7 @@ const EditProfile = () => {
             >
               Guardar Cambios
             </button>
-          ) : null}
+          ) : null }
         </form>
       </main>
     </>

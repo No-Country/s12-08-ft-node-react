@@ -12,6 +12,8 @@ import "../index.css";
 import EditProfile from "../pages/Profile/EditProfile";
 import { Confirm } from "../pages/Subscription/Confirm";
 import { Subscription } from "../pages/Subscription/Subscription";
+import { Toaster } from "react-hot-toast";
+
 
 const AppRouter = () => {
   const user = localStorage.getItem("user")
@@ -22,6 +24,7 @@ const AppRouter = () => {
     <>
       <ChatProvider user={user}>
         <BrowserRouter>
+          <Toaster />
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<Home />} />
