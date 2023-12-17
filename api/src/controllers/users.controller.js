@@ -112,14 +112,6 @@ class UserController {
 
       const user = await User.findOne({
         where: { [Op.or]: [{ email: identifier }, { username: identifier }] },
-        include: [
-          {
-            model: Subscription,
-            as: "subscriptions",
-            attributes: ["beneficiary_id"],
-            required: false,
-          },
-        ],
       });
 
       if (!user) {
@@ -132,13 +124,36 @@ class UserController {
         throw new BadRequest("Contraseña incorrecta");
       }
 
-      const suscribers = await Subscription.findAll({
-        where: { beneficiary_id: user.id },
-        attributes: ["user_id"],
-      });
+      // Obtengo y cuento las personas suscritas al perfil que busco
+      const { count: subscribersCount, rows: subscribers } =
+        await Subscription.findAndCountAll({
+          where: { beneficiary_id: user.id },
+          include: [
+            {
+              model: User,
+              attributes: ["username", "profile_picture"],
+            },
+          ],
+          attributes: ["user_id"],
+        });
 
-      (user.dataValues.suscribersCount = suscribers.length),
-        (user.dataValues.suscribedToCount = user.subscriptions.length);
+      // Obtengo y cuento las personas a las que el perfil suscribe
+      const { count: subscribedToCount, rows: subscribedTo } =
+        await Subscription.findAndCountAll({
+          where: { user_id: user.id },
+          include: [
+            {
+              model: User,
+              attributes: ["username", "profile_picture"],
+            },
+          ],
+          attributes: ["beneficiary_id"],
+        });
+
+      user.dataValues.subscribersCount = subscribersCount;
+      user.dataValues.subscribers = subscribers;
+      user.dataValues.subscribedToCount = subscribedToCount;
+      user.dataValues.subscribedTo = subscribedTo;
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
@@ -255,30 +270,32 @@ class UserController {
     try {
       const user = await User.findOne({
         where: { id: profile || req.user_id },
-        // include: [
-        //   {
-        //     model: Subscription,
-        //     as: "subscriptions",
-        //     attributes: ["beneficiary_id", "status"],
-        //   },
-        // ],
         attributes: {
           exclude: ["password"],
         },
       });
 
       // Obtengo y cuento las personas suscritas al perfil que busco
-      const { count: suscribersCount, rows: suscribers } =
+      const { count: subscribersCount } =
         await Subscription.findAndCountAll({
           where: { beneficiary_id: profile || req.user_id },
-          include: [
-            {
-              model: User,
-              attributes: ["username", "profile_picture"],
-            },
-          ],
           attributes: ["user_id"],
+          distinct: true,
         });
+
+      // Creo un array para almacenar los suscriptores
+      let subscribers = [];
+
+      // Itero sobre los subscribers y obtengo la información de cada user
+      for (let subscriber of subscribers) {
+        const user = await User.findOne({
+          where: { id: subscriber.user_id },
+          attributes: ["id", "username", "profile_picture"],
+        });
+
+        // Agrego el usuario al [array] subscribers
+        subscribers.push(user);
+      }
 
       // Obtengo y cuento las personas a las que el perfil suscribe
       const { count: subscribedToCount, rows: subscribedTo } =
@@ -300,8 +317,8 @@ class UserController {
       res.status(200).json({
         ...user.toJSON(),
         chat,
-        suscribersCount,
-        suscribers,
+        subscribersCount,
+        subscribers,
         subscribedToCount,
         subscribedTo,
       });
