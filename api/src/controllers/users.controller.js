@@ -125,17 +125,25 @@ class UserController {
       }
 
       // Obtengo y cuento las personas suscritas al perfil que busco
-      const { count: subscribersCount, rows: subscribers } =
-        await Subscription.findAndCountAll({
-          where: { beneficiary_id: user.id },
-          include: [
-            {
-              model: User,
-              attributes: ["username", "profile_picture"],
-            },
-          ],
-          attributes: ["user_id"],
+      const { count: subscribersCount, rows } = await Subscription.findAndCountAll({
+        where: { beneficiary_id: user.id },
+        attributes: ["user_id"],
+        distinct: true,
+      });
+
+      // Creo un array para almacenar los suscriptores
+      let subscribers = [];
+
+      // Itero sobre los subscribers y obtengo la información de cada user
+      for (let subscriber of rows) {
+        const user = await User.findOne({
+          where: { id: subscriber.user_id },
+          attributes: ["id", "username", "profile_picture"],
         });
+
+        // Agrego el usuario al [array] subscribers
+        subscribers.push(user);
+      }
 
       // Obtengo y cuento las personas a las que el perfil suscribe
       const { count: subscribedToCount, rows: subscribedTo } =
@@ -276,18 +284,17 @@ class UserController {
       });
 
       // Obtengo y cuento las personas suscritas al perfil que busco
-      const { count: subscribersCount } =
-        await Subscription.findAndCountAll({
-          where: { beneficiary_id: profile || req.user_id },
-          attributes: ["user_id"],
-          distinct: true,
-        });
+      const { count: subscribersCount, rows } = await Subscription.findAndCountAll({
+        where: { beneficiary_id: profile || req.user_id },
+        attributes: ["user_id"],
+        distinct: true,
+      });
 
       // Creo un array para almacenar los suscriptores
       let subscribers = [];
 
       // Itero sobre los subscribers y obtengo la información de cada user
-      for (let subscriber of subscribers) {
+      for (let subscriber of rows) {
         const user = await User.findOne({
           where: { id: subscriber.user_id },
           attributes: ["id", "username", "profile_picture"],
