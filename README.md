@@ -23,7 +23,7 @@ Herramientas utilizadas
 | Gabriel Llorente    | Tester QA         | [Linkedin](https://www.linkedin.com/in/gabriel-llorente-testing-qa/)|
 | Josefina Eciolaza   | Backend           | [Linkedin](https://www.linkedin.com/in/josefinaeciolaza) |
 | Adrian de los Reyes | Backend           | [Linkedin](https://www.linkedin.com/in/adriandelosreyess/)|  
-| Hernán García       | Backend           | [Linkedin]()|
+| Hernán García       | Backend           | [Linkedin](https://www.linkedin.com/in/hernan-garcia-fullstack/)|
 | Santiago Sonzini    | Backend           | [Linkedin]()|
 | Santiago Garcia     | UX/UI             | [Linkedin](https://www.linkedin.com/in/santiagogarciaa/)|
 | Facundo Mendiola    | UX/UI             | [Linkedin]()|
