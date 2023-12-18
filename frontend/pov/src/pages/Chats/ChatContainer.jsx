@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 const ChatContainer = () => {
   const { userChat, messages, loadingMessages, setId, toggleModal, modal } =
     useContext(ChatContext);
+
   const { id } = useParams();
 
   useEffect(() => {
