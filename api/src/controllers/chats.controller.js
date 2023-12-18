@@ -78,8 +78,14 @@ class ChatController {
         options: {
           skip,
           limit: pageSize,
+          sort: { createdAt: -1 },
         },
         populate: { path: "comments" },
+        options: {
+          skip,
+          limit: pageSize,
+          sort: { createdAt: -1 },
+        },
       });
 
       if (!chat) {
@@ -93,7 +99,6 @@ class ChatController {
         profile_picture: plainUser.profile_picture,
         subCount: user.subscriptions.length,
       };
-  
 
       return res.status(200).json({
         user: finalUser,

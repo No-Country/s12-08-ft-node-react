@@ -42,5 +42,7 @@ const commentsSchema = new Schema(
   }
 );
 
+commentsSchema.index({ createdAt: -1 });
+
 const Comments = mongoose.model("Comments", commentsSchema);
 module.exports = Comments;
