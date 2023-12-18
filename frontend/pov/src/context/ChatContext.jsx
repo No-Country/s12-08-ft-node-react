@@ -1,4 +1,4 @@
-import axios from 'axios';
+//import axios from 'axios';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useToken } from '../hooks/useToken';
@@ -65,7 +65,7 @@ export const ChatProvider = ({ children, user }) => {
     }
   }, [])
 
-  useEffect(() => {
+/*   useEffect(() => {
     if(id !== null){
       const getMessages = async () => {
         try {
@@ -94,7 +94,7 @@ export const ChatProvider = ({ children, user }) => {
       };
       getMessages();
     }
-  }, [TOKEN, user, id, page]);
+  }, [TOKEN, user, id, page]); */
 
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
@@ -152,7 +152,12 @@ export const ChatProvider = ({ children, user }) => {
         modal,
         page,
         setPage,
-        newMessage
+        newMessage,
+        TOKEN,
+        setLoadingMessages,
+        URL,
+        setMessages,
+        setUserChat
       }}
     >
       {children}

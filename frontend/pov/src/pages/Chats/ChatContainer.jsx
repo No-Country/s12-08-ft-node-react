@@ -9,15 +9,47 @@ import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ChatContainer = () => {
-  const { userChat, messages, loadingMessages, setId, toggleModal, modal } = useContext(ChatContext)
+  const { userChat, messages, loadingMessages, setId, toggleModal, modal, page, setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
   const { id } = useParams();
 
 
   useEffect(() => {
     setId(id)
   }, [id, setId, userChat])
+
+  useEffect(() => {
+    if(id !== null){
+      console.log("entro")
+      const getMessages = async () => {
+        try {
+          setLoadingMessages(true);
+          //URL Para los chat
+          //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
+          const url = `${URL}/chats/chat/${id}?page=${page}`;
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${TOKEN}`,
+            },
+          });
+
+          const { data } = response;
+
+          const orderData = data.chat.messages.reverse()
+          setMessages((prevMessages) => [...orderData, ...prevMessages]);
+          
+          setUserChat(data);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoadingMessages(false);
+        }
+      };
+      getMessages();
+    }
+  }, [id, page]);
 
 
   return !loadingMessages && userChat.user ?  (
