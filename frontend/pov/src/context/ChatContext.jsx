@@ -17,6 +17,8 @@ export const ChatProvider = ({ children, user }) => {
   const [id, setId] = useState(null);
   const TOKEN = JSON.parse(token);  
   const [modal, setModal] = useState(false);
+  const [page, setPage] = useState(1)
+  const [newMessage,setNewMessage] = useState(false)
   
   useEffect(() => {
     if (socket === null) return
@@ -26,6 +28,8 @@ export const ChatProvider = ({ children, user }) => {
     })
 
     return () => {
+      setMessages([])
+      setPage(1)
       socket.off('join-room')
     }
   }, [id])
@@ -40,11 +44,18 @@ export const ChatProvider = ({ children, user }) => {
           const messageIndex = newMessages.findIndex((message) => message._id === info.message_id);
   
           if (messageIndex !== -1) {
-            newMessages[messageIndex].comments.push(info.comment);
+            const existingComment = newMessages[messageIndex].comments.some(
+              (comment) => comment._id === info.comment._id
+            );
+
+            if(!existingComment){
+              newMessages[messageIndex].comments.push(info.comment); 
+            }
           }
-  
+
           return newMessages;
         }
+        setNewMessage((prev) => !prev)
         return [...prevMessages, info];
       });
     })
@@ -61,7 +72,7 @@ export const ChatProvider = ({ children, user }) => {
           setLoadingMessages(true);
           //URL Para los chat
           //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-          const url = `${URL}/chats/chat/${id}`;
+          const url = `${URL}/chats/chat/${id}?page=${page}`;
           const response = await axios.get(url, {
             headers: {
               Authorization: `Bearer ${TOKEN}`,
@@ -69,7 +80,11 @@ export const ChatProvider = ({ children, user }) => {
           });
 
           const { data } = response;
-          setMessages(data.chat.messages)
+
+          const orderData = data.chat.messages.reverse()
+          setMessages((prevMessages) => [...orderData, ...prevMessages]);
+          
+          
           setUserChat(data);
         } catch (error) {
           console.log(error);
@@ -79,7 +94,7 @@ export const ChatProvider = ({ children, user }) => {
       };
       getMessages();
     }
-  }, [TOKEN, user, id]);
+  }, [TOKEN, user, id, page]);
 
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
@@ -134,7 +149,10 @@ export const ChatProvider = ({ children, user }) => {
         id,
         setId,
         toggleModal,
-        modal
+        modal,
+        page,
+        setPage,
+        newMessage
       }}
     >
       {children}
