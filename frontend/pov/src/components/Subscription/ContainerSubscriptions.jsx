@@ -8,8 +8,6 @@ import BackBtn from "../Svg/BackBtn";
 import { URL } from "../../router/routes";
 
 const ContainerSubscriptions = () => {
-  // const { token } = useSelector((state) => state.login);
-
   const { token } = useToken();
   const TOKEN = JSON.parse(token);
 

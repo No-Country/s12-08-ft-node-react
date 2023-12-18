@@ -7,10 +7,6 @@ const CardSubscription = ({ data }) => {
   const { id, profile_picture, name, username, totalSubscriptions } =
     data.beneficiary;
 
-  const { _id } = data.chat[0];
-
-  console.log(_id);
-
   return (
     <div className="card text-neutral-content relative rounded-[20px] bg-slate-50">
       <div className="card-body items-center text-center relative">
@@ -27,7 +23,7 @@ const CardSubscription = ({ data }) => {
               <Link to={`/profile/${id}`}>Ver perfil</Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link to={`/chats/${_id}`}>Ir al chat</Link>
+              <Link to={`/chats/${id}`}>Ir al chat</Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
               <Link>Reportar</Link>
