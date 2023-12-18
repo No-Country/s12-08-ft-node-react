@@ -209,6 +209,7 @@ chatsRouter.put("/chat/:id", MessageController.editMessage)
  *               username:
  *                 type: string
  *                 description: Nombre de usuario, de la persona creadora del comentario
+ *     responses:
  *       201:
  *         description: Comentario creado exitosamente.
  *         content:

@@ -12,6 +12,21 @@ const mongoose = require("mongoose")
 
 
 class CommentController {
+
+  static async getByChat(req, res, next){
+    try {
+      const pageSize = 10;
+      const page = req.query.page || 1;
+      const skip = page == 1 ? page :(page - 1) * pageSize;
+      const message_id = req.params.id;
+      
+      const comments = await Comments.find({message_id: message_id}).skip(skip).limit(pageSize);
+
+      return res.status(200).json({comments: comments});
+    } catch (error) {
+      next(error);
+    }
+  }
   static async create(req, res, next) {
     try {
       const message_id = req.params.id;
