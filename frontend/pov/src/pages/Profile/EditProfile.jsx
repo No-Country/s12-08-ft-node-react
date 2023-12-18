@@ -76,7 +76,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <header className="w-full px-[24px] py-[10px] mt-[96px] mb-[12px] flex bg-white">
+      <header className="w-full px-[24px] py-[10px] pt-[96px] flex bg-white">
         <div className="w-full md:max-w-[1000px] lg:mx-auto items-center ">
           <h2 className="text-[20px]">Mi Perfil</h2>
           <p className="text-[12px]">Actualiza tus datos personales.</p>
@@ -171,7 +171,7 @@ const EditProfile = () => {
             >
               Guardar Cambios
             </button>
-          ) : null }
+          ) : null}
         </form>
       </main>
     </>

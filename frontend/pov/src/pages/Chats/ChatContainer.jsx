@@ -1,26 +1,25 @@
-import { useContext, useEffect } from 'react';
-import { ChatContext } from '../../context/ChatContext';
-import PostList from '../../components/Posts/PostList';
-import MessageBar from '../../components/MessageBar/MessageBar';
-import LoadingSpinner from '../../components/Svg/LoadingSpinner';
-import BackBtn from '../../components/Svg/BackBtn';
-import fondo from '../../assets/avatars/fondo1.jpg';
-import Cheked from '../../components/Svg/Cheked';
-import ThreadModal from '../../components/ThreadModal/ThreadModal';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect } from "react";
+import { ChatContext } from "../../context/ChatContext";
+import PostList from "../../components/Posts/PostList";
+import MessageBar from "../../components/MessageBar/MessageBar";
+import LoadingSpinner from "../../components/Svg/LoadingSpinner";
+import BackBtn from "../../components/Svg/BackBtn";
+import fondo from "../../assets/avatars/fondo1.jpg";
+import Cheked from "../../components/Svg/Cheked";
+import ThreadModal from "../../components/ThreadModal/ThreadModal";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ChatContainer = () => {
-  const { userChat, messages, loadingMessages, setId, toggleModal, modal } = useContext(ChatContext)
+  const { userChat, messages, loadingMessages, setId, toggleModal, modal } =
+    useContext(ChatContext);
   const { id } = useParams();
 
-
   useEffect(() => {
-    setId(id)
-  }, [id, setId, userChat])
+    setId(id);
+  }, [id, userChat]);
 
-
-  return !loadingMessages && userChat.user ?  (
+  return !loadingMessages && userChat.user ? (
     <>
       {modal && <ThreadModal toggleModal={toggleModal} />}
       <header

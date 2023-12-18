@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useToken } from "../../hooks/useToken";
 import { AnimatePresence, motion } from "framer-motion";
 import CardSubscription from "./CardSubscription";
@@ -9,8 +8,6 @@ import BackBtn from "../Svg/BackBtn";
 import { URL } from "../../router/routes";
 
 const ContainerSubscriptions = () => {
-  // const { token } = useSelector((state) => state.login);
-
   const { token } = useToken();
   const TOKEN = JSON.parse(token);
 
@@ -75,9 +72,9 @@ const ContainerSubscriptions = () => {
       ) : (
         <>
           {/* SUBSCRIPCIONES OPCIONALES */}
-          <div className="w-full mb-8 px-[16px] relative z-20 rounded-lg bg-white">
+          <div className="w-full mb-8 relative z-20 rounded-lg bg-transparent">
             <h2 className="text-[20px] font-bold">Suscripciones</h2>
-            <p className="subtitle">Tu lista de subscripciones.</p>
+            <p className="text-[10px]">Tu lista de subscripciones.</p>
             <button
               className={`mr-4 p-2 absolute z-10 top-1/2 right-0 -translate-y-1/2 ${
                 isOpenSub ? "-rotate-90" : "rotate-90"
@@ -122,9 +119,9 @@ const ContainerSubscriptions = () => {
           </AnimatePresence>
 
           {/* SUGERENCIAS OBLIGATORIAS */}
-          <div className="w-full mb-8 px-[16px] relative z-20 rounded-lg bg-white">
+          <div className="w-full mb-8 relative z-20 rounded-lg bg-transparent">
             <h2 className="text-[20px] font-bold">Sugerencias</h2>
-            <p className="subtitle">
+            <p className="text-[10px]">
               Te dejamos algunos perfiles que podrían interesarte.
             </p>
             <button

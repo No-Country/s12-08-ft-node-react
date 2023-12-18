@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import Option from "../Svg/Option";
 import SubsIcon from "../Svg/SubsIcon";
 
 const CardSubscription = ({ data }) => {
+  console.log("Datos de cada card", data);
   const { id, profile_picture, name, username, totalSubscriptions } =
     data.beneficiary;
-
-  const { _id } = data.chat;
 
   return (
     <div className="card text-neutral-content relative rounded-[20px] bg-slate-50">
@@ -25,7 +23,7 @@ const CardSubscription = ({ data }) => {
               <Link to={`/profile/${id}`}>Ver perfil</Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link to={`/chats/${_id}`}>Ir al chat</Link>
+              <Link to={`/chats/${id}`}>Ir al chat</Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
               <Link>Reportar</Link>
@@ -42,7 +40,7 @@ const CardSubscription = ({ data }) => {
       <div className="w-full flex justify-between card-actions bg-[#949494] rounded-b-[20px]">
         {/* AVATAR and USERNAME */}
         <div className="w-full flex items-center justify-between">
-          <Link to={`/chats/${id}`}>
+          <Link to={`/profile/${id}`}>
             <div
               id="avatar"
               className="w-14 h-14 md:w-15 md:h-15 ml-4 flex flex-col -translate-y-1/2 rounded-full overflow-hidden border-2"
