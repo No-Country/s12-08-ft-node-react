@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { ChatContext } from '../../context/ChatContext';
 import PostList from '../../components/Posts/PostList';
 import MessageBar from '../../components/MessageBar/MessageBar';
