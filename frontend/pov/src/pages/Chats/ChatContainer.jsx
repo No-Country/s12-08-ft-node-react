@@ -22,7 +22,6 @@ const ChatContainer = () => {
 
   useEffect(() => {
     if(id !== null){
-      console.log("entro")
       const getMessages = async () => {
         try {
           setLoadingMessages(true);
@@ -38,8 +37,14 @@ const ChatContainer = () => {
           const { data } = response;
 
           const orderData = data.chat.messages.reverse()
-          setMessages((prevMessages) => [...orderData, ...prevMessages]);
-          
+
+          setMessages((prevMessages) => [
+            ...orderData.filter(
+              (newMessage) => !prevMessages.some((existingMessage) => existingMessage._id === newMessage._id)
+            ),
+            ...prevMessages,
+          ]);
+
           setUserChat(data);
         } catch (error) {
           console.log(error);
@@ -49,6 +54,7 @@ const ChatContainer = () => {
       };
       getMessages();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, page]);
 
 

@@ -22,7 +22,7 @@ export const ChatProvider = ({ children, user }) => {
   
   useEffect(() => {
     if (socket === null) return
-
+    console.log("entro")
     socket.emit('join-room', {
       user_id: id //selectedSocket
     })
@@ -30,6 +30,7 @@ export const ChatProvider = ({ children, user }) => {
     return () => {
       setMessages([])
       setPage(1)
+      console.log("salio")
       socket.off('join-room')
     }
   }, [id])
@@ -64,37 +65,6 @@ export const ChatProvider = ({ children, user }) => {
       socket.off('new-message')
     }
   }, [])
-
-/*   useEffect(() => {
-    if(id !== null){
-      const getMessages = async () => {
-        try {
-          setLoadingMessages(true);
-          //URL Para los chat
-          //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-          const url = `${URL}/chats/chat/${id}?page=${page}`;
-          const response = await axios.get(url, {
-            headers: {
-              Authorization: `Bearer ${TOKEN}`,
-            },
-          });
-
-          const { data } = response;
-
-          const orderData = data.chat.messages.reverse()
-          setMessages((prevMessages) => [...orderData, ...prevMessages]);
-          
-          
-          setUserChat(data);
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setLoadingMessages(false);
-        }
-      };
-      getMessages();
-    }
-  }, [TOKEN, user, id, page]); */
 
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
