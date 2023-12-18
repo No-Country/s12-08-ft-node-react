@@ -1,66 +1,69 @@
-import axios from 'axios';
-import { createContext, useCallback, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
-import { useToken } from '../hooks/useToken';
-import { URL, URL_SOCKET } from '../router/routes';
+import axios from "axios";
+import { createContext, useCallback, useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import { useToken } from "../hooks/useToken";
+import { URL, URL_SOCKET } from "../router/routes";
+import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const ChatContext = createContext();
 const socket = io(URL_SOCKET);
 
 export const ChatProvider = ({ children, user }) => {
-  const { token} = useToken();
+  const { token } = useToken();
   const [userChat, setUserChat] = useState([]);
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [saveText, setSaveText] = useState(null);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [id, setId] = useState(null);
-  const TOKEN = JSON.parse(token);  
+  const TOKEN = JSON.parse(token);
   const [modal, setModal] = useState(false);
-  
-  useEffect(() => {
-    if (socket === null) return
 
-    socket.emit('join-room', {
-      user_id: id //selectedSocket
-    })
+  useEffect(() => {
+    if (socket === null) return;
+
+    socket.emit("join-room", {
+      user_id: id, //selectedSocket
+    });
 
     return () => {
-      socket.off('join-room')
-    }
-  }, [id])
+      socket.off("join-room");
+    };
+  }, [id]);
 
   useEffect(() => {
-    if (socket === null) return
+    if (socket === null) return;
 
-    socket.on('new-message', (info) => {
+    socket.on("new-message", (info) => {
       setMessages((prevMessages) => {
         if (info.comment) {
           const newMessages = [...prevMessages];
-          const messageIndex = newMessages.findIndex((message) => message._id === info.message_id);
-  
+          const messageIndex = newMessages.findIndex(
+            (message) => message._id === info.message_id
+          );
+
           if (messageIndex !== -1) {
             newMessages[messageIndex].comments.push(info.comment);
           }
-  
+
           return newMessages;
         }
         return [...prevMessages, info];
       });
-    })
+    });
 
     return () => {
-      socket.off('new-message')
-    }
-  }, [])
+      socket.off("new-message");
+    };
+  }, []);
 
   useEffect(() => {
-    if(id !== null){
+    if (id !== null) {
       const getMessages = async () => {
         try {
           setLoadingMessages(true);
           //URL Para los chat
-          //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
           const url = `${URL}/chats/chat/${id}`;
           const response = await axios.get(url, {
             headers: {
@@ -69,9 +72,10 @@ export const ChatProvider = ({ children, user }) => {
           });
 
           const { data } = response;
-          setMessages(data.chat.messages)
+          setMessages(data?.chat?.messages);
           setUserChat(data);
         } catch (error) {
+          toast.error("No estas subscripto a este chat");
           console.log(error);
         } finally {
           setLoadingMessages(false);
@@ -92,30 +96,27 @@ export const ChatProvider = ({ children, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `${URL}/chats/chat/${selectedId}/comment`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            text: saveText,
-            user_photo: user.user.profile_picture,
-            username: user.user.username,
-            content: 'text',
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${TOKEN}`,
-          },
-        }
-      );
+      const response = await fetch(`${URL}/chats/chat/${selectedId}/comment`, {
+        method: "POST",
+        body: JSON.stringify({
+          text: saveText,
+          user_photo: user.user.profile_picture,
+          username: user.user.username,
+          content: "text",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
 
-      if(response.ok){
-        toggleModal()
+      if (response.ok) {
+        toggleModal();
       }
     } catch (error) {
       throw new Error("Error al enviar el mensaje", error);
     }
-  }; 
+  };
 
   const toggleModal = () => {
     setModal((modal) => !modal);
@@ -134,7 +135,7 @@ export const ChatProvider = ({ children, user }) => {
         id,
         setId,
         toggleModal,
-        modal
+        modal,
       }}
     >
       {children}

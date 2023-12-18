@@ -1,5 +1,4 @@
-
-const EdictBtn = () => {
+const EditBtn = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,6 +16,6 @@ const EdictBtn = () => {
       />
     </svg>
   );
-}
+};
 
-export default EdictBtn
+export default EditBtn;
