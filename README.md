@@ -8,12 +8,15 @@
 
 Herramientas utilizadas
 | UX/UI   | FrontEnd | BackEnd   | DataBase | Testind & QA |
-| ------- | ---------| ----------|----------|-----------|
-| Figma   | React.JS | Node.js   | MySQL    |    |
-|         | vite     | Express.js | MongoDB  |       |
-|         |Redux     | JavaScript |          |    |
-|         |JavaScript| Sequelize  |          | |
-|         | Tailwind | mongoose   |          |
+| ------- | ---------| ----------|----------|--------------|
+| Figma   | React.js | Node.js   | MySQL    |              |
+|         | Vite     | Express.js | MongoDB |              |
+|         |Redux toolkit| JavaScript |      |              |
+|         |JavaScript| Sequelize  |          |             |
+|         | Tailwind | mongoose   |          |             |
+|          |DaisyUi  |            |           |            |
+
+
 
 | Integrantes         | Rol               | Contacto            |
 | ------------------- | ----------------- | ------------------- |
