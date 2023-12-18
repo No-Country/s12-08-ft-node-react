@@ -45,7 +45,7 @@ const EditProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(userData);
     dispatch(fetchEditProfile(userData));
 
     setIsEdit(false);
@@ -63,7 +63,7 @@ const EditProfile = () => {
       date_of_birth: userData.date_of_birth,
     };
 
-    localStorage.setItem("user", JSON.stringify(objToLocalStorage));
+    //localStorage.setItem("user", JSON.stringify(objToLocalStorage));
 
     toast.success("Usuario Moficado con exito!!!");
   };

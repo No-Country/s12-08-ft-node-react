@@ -13,6 +13,7 @@ import SubscriptionCard from "./SubscriptionCard";
 
 const ProfileContainer = () => {
   const [userData, setUserData] = useState({});
+  const [subscriptions, setSubscriptions] = useState([]);
 
   const { token, user } = useToken();
   const TOKEN = JSON.parse(token);
@@ -21,9 +22,11 @@ const ProfileContainer = () => {
 
   const navigate = useNavigate();
 
+  // OBTIENE EL USUARIO QUE MUESTRA EL PERFIL y SETEA EL ESTADO USERDATA
   const getUser = async () => {
     try {
       //URL Para los chat
+      console.log("GETUSER");
       const URL = `https://pov.azurewebsites.net/api/users/?profile=${id}`;
 
       const response = await axios.get(URL, {
@@ -33,20 +36,41 @@ const ProfileContainer = () => {
       });
 
       const { data } = response;
-      if (data) {
-        setUserData(data);
-      }
+      setUserData(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // HACER OTRO LLAMADO PARA TRAER SUBSCRIPCIONES.
-
-  // Comparar ids de usuario.
   useEffect(() => {
     getUser();
   }, []);
+
+  // OBTIENE LA LISTA DE SUBSCRIPCIONES PARA EL USER LOGUEADO
+  const getSubscriptions = async () => {
+    try {
+      const URL = `https://pov.azurewebsites.net/api/users/subscribed/`;
+
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+      setSubscriptions(response.data.userSubscriptions);
+      console.log(response.data.userSubscriptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (userData && userData.id === id) {
+      getSubscriptions();
+    }
+  }, [userData]);
+
+  console.log(userData);
+  console.log(subscriptions);
 
   return id ? (
     <>
@@ -103,13 +127,9 @@ const ProfileContainer = () => {
       <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
         {/* LISTADO DE SUBSCRIPCIONES */}
         <SubscriptionsList>
-          {id === user.user.id ? (
-            userData?.subscribedTo?.map((subs) => (
-              <SubscriptionCard key={subs.beneficiary_id} subs={subs} />
-            ))
-          ) : (
-            <p className="text-center font-thin">Esta lista es privada</p>
-          )}
+          {subscriptions?.map((subs) => (
+            <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
+          ))}
         </SubscriptionsList>
 
         {/* BOTON DE IR A CHAT */}
