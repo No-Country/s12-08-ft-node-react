@@ -24,7 +24,7 @@ Herramientas utilizadas
 | Josefina Eciolaza   | Backend           | [Linkedin](https://www.linkedin.com/in/josefinaeciolaza) |
 | Adrian de los Reyes | Backend           | [Linkedin](https://www.linkedin.com/in/adriandelosreyess/)|  
 | Hernán García       | Backend           | [Linkedin](https://www.linkedin.com/in/hernan-garcia-fullstack/)|
-| Santiago Sonzini    | Backend           | [Linkedin]()|
+| Santiago Sonzini    | Backend           | [Linkedin](https://www.linkedin.com/in/santiago-sonzini-74b068188/)|
 | Santiago Garcia     | UX/UI             | [Linkedin](https://www.linkedin.com/in/santiagogarciaa/)|
 | Facundo Mendiola    | UX/UI             | [Linkedin]()|
 | Emanuel Andrés Valente| Frontend        | [Linkedin](https://www.linkedin.com/in/emanuel-valente/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) |
