@@ -28,6 +28,8 @@ export const ChatProvider = ({ children, user }) => {
     })
 
     return () => {
+      setMessages([])
+      setPage(1)
       socket.off('join-room')
     }
   }, [id])
