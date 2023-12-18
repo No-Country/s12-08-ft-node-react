@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import ThreadUnion from '../Svg/ThreadUnion';
 import Response from './Response';
 import { ChatContext } from '../../context/ChatContext';
+import {format} from "date-fns"
 
 const Post = ({ post, userName, userAvatar, toggleModal }) => {
   const { saveChangeId } = useContext(ChatContext);
@@ -32,10 +33,14 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
             alt={`avatar de ${userName}`}
             className="w-[24px] rounded-full"
           />
-          <p className="w-full p-2 text-[12px]">
-            <span className="font-black">{userName}: </span>
-            {text}
-          </p>
+          <div className="flex flex-col">
+            <p className="w-full text-[12px]">
+              <span className="font-black">{userName}: </span>
+              {text}
+            </p>
+            <p className="text-[10px] font-thin">{format(new Date(post.createdAt), 'dd-MM-yyyy hh:mm')} </p>
+          </div>
+          
         </div>
       </div>
 
