@@ -16,7 +16,7 @@ const ChatContainer = () => {
   const { userChat, messages, loadingMessages, setId, toggleModal, modal,setLoadingMessages, setMessages, setUserChat, TOKEN, URL, setPage } = useContext(ChatContext)
   const [success, setSuccess] = useState(false)
   const { id } = useParams();
-
+  console.log(userChat);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,7 +40,7 @@ const ChatContainer = () => {
   }, [id, setId, userChat]);
 
   useEffect(() => {
-    if(id !== null){
+    if (id !== null) {
       const getMessages = async () => {
         try {
           setLoadingMessages(true);
@@ -55,11 +55,14 @@ const ChatContainer = () => {
 
           const { data } = response;
 
-          const orderData = data.chat.messages.reverse()
+          const orderData = data.chat.messages.reverse();
 
           setMessages((prevMessages) => [
             ...orderData.filter(
-              (newMessage) => !prevMessages.some((existingMessage) => existingMessage._id === newMessage._id)
+              (newMessage) =>
+                !prevMessages.some(
+                  (existingMessage) => existingMessage._id === newMessage._id
+                )
             ),
             ...prevMessages,
           ]);
@@ -76,23 +79,22 @@ const ChatContainer = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-
-  return !loadingMessages && userChat.user ?  (
+  return !loadingMessages && userChat.user ? (
     <>
       {modal && <ThreadModal toggleModal={toggleModal} />}
       {success && <Toaster position="top-center" />}
       <header
-        className="fixed z-10 left-1/2 -translate-x-1/2 w-full md:max-w-[1000px] lg:mx-auto flex justify-center items-center px-[24px] py-2 bg-cover bg-center"
+        className="fixed z-10 left-1/2 -translate-x-1/2 w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${fondo})`,
         }}
       >
-        <div className="w-[79px]">
+        <div>
           <button onClick={() => navigate(-1)}>
             <BackBtn color={"white"} />
           </button>
         </div>
-        <div className="flex flex-col items-center justify-center">
+        <div className="mx-auto flex flex-col items-center justify-center">
           <img
             src={userChat.user.profile_picture}
             alt=""
@@ -102,9 +104,17 @@ const ChatContainer = () => {
             {userChat.user.username}
             <span>{<Cheked />}</span>
           </p>
-          {/*           <p className="text-white text-[12px] font-thin">
-            <span>{posts.user.subscribersCount}</span> millones
-          </p> */}
+          <p className="text-white text-[12px] font-thin">
+            {userChat.user.subCount}
+            <span className="text-white">
+              {userChat.user.subCount >= 1000
+                ? "mil"
+                : userChat.user.subCount >= 1000000
+                ? "millon de"
+                : null}{" "}
+              suscriptores
+            </span>
+          </p>
         </div>
       </header>
       <main className="w-full md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] pt-[99px] bg-slate-100 relative overflow-scroll ">

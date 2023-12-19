@@ -10,6 +10,7 @@ import LoadingSpinner from "../../components/Svg/LoadingSpinner";
 import MessageChatCircle from "../../components/Svg/MessageChatCircle";
 import CheckedIcon from "../../components/Svg/CheckedIcon";
 import SubscriptionCard from "./SubscriptionCard";
+import { useSelector } from "react-redux";
 
 const ProfileContainer = () => {
   const [userData, setUserData] = useState({});
@@ -19,6 +20,8 @@ const ProfileContainer = () => {
   const TOKEN = JSON.parse(token);
 
   const { id } = useParams();
+  const profile = useSelector((state) => state.profile);
+  console.log("PROFILE REDUX", profile);
 
   const navigate = useNavigate();
 
@@ -26,7 +29,6 @@ const ProfileContainer = () => {
   const getUser = async () => {
     try {
       //URL Para los chat
-      console.log("GETUSER");
       const URL = `https://pov.azurewebsites.net/api/users/?profile=${id}`;
 
       const response = await axios.get(URL, {
@@ -57,7 +59,6 @@ const ProfileContainer = () => {
         },
       });
       setSubscriptions(response.data.userSubscriptions);
-      console.log(response.data.userSubscriptions);
     } catch (error) {
       console.log(error);
     }
@@ -68,9 +69,6 @@ const ProfileContainer = () => {
       getSubscriptions();
     }
   }, [userData]);
-
-  console.log(userData);
-  console.log(subscriptions);
 
   return id ? (
     <>
@@ -88,13 +86,17 @@ const ProfileContainer = () => {
         {/* INFO DE USUARIO */}
         <div className="flex flex-col items-center justify-center ">
           <div>
-            <span className=" text-white">{userData.email}</span>
+            <span className=" text-white">
+              {profile.email ? profile.email : userData.email}
+            </span>
           </div>
           <div className="w-[80px] rounded-full overflow-hidden">
-            <img src={userData.profile_picture} />
+            <img
+              src={profile.profile_picture ? profile.profile_picture : userData.profile_picture}
+            />
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
-            @{userData.name}
+            @{profile.name ? profile.name : userData.name}
             <span className="">
               <CheckedIcon />
             </span>
@@ -127,9 +129,18 @@ const ProfileContainer = () => {
       <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
         {/* LISTADO DE SUBSCRIPCIONES */}
         <SubscriptionsList>
-          {subscriptions?.map((subs) => (
-            <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
-          ))}
+          {user.user.id === id ? (
+            subscriptions?.map((subs, index) => (
+              <Link key={index} to={`/chats/${subs.beneficiary.id}`}>
+                <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
+              </Link>
+            ))
+          ) : (
+            <img
+              alt="Chat with your favorite famous ppl"
+              src="https://m.media-amazon.com/images/M/MV5BNDQzNDViNDYtNjE2Ny00YmNhLWExZWEtOTIwMDA1YjY5NDBhXkEyXkFqcGdeQXVyODg3NDc1OTE@._V1_FMjpg_UX1000_.jpg"
+            />
+          )}
         </SubscriptionsList>
 
         {/* BOTON DE IR A CHAT */}

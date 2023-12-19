@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useToken } from "../../hooks/useToken";
-import { AnimatePresence, motion } from "framer-motion";
-import CardSubscription from "./CardSubscription";
-import LoadingSpinner from "../Svg/LoadingSpinner";
-import axios from "axios";
-import BackBtn from "../Svg/BackBtn";
-import { URL } from "../../router/routes";
+import { useEffect, useState } from 'react';
+import { useToken } from '../../hooks/useToken';
+import { AnimatePresence, motion } from 'framer-motion';
+import CardSubscription from './CardSubscription';
+import LoadingSpinner from '../Svg/LoadingSpinner';
+import axios from 'axios';
+import BackBtn from '../Svg/BackBtn';
+import { URL } from '../../router/routes';
 
 const ContainerSubscriptions = () => {
   const { token } = useToken();
@@ -25,13 +25,13 @@ const ContainerSubscriptions = () => {
           Authorization: `Bearer ${TOKEN}`,
         },
       });
-      if (typeCard === "suggestions") {
+      if (typeCard === 'suggestions') {
         setcardsSuggestions(response.data);
       } else {
         setCardsSubscriptions(response.data);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -39,9 +39,9 @@ const ContainerSubscriptions = () => {
 
   useEffect(() => {
     if (!TOKEN) {
-      getChats("suggestions");
+      getChats('suggestions');
     } else {
-      Promise.all([getChats("suggestions"), getChats("subscribed")]);
+      Promise.all([getChats('suggestions'), getChats('subscribed')]);
     }
   }, []);
 
@@ -58,7 +58,7 @@ const ContainerSubscriptions = () => {
       y: -100,
       opacity: 0,
       transition: {
-        ease: "easeInOut",
+        ease: 'easeInOut',
         duration: 0.3,
         delay: 0.1,
       },
@@ -72,16 +72,16 @@ const ContainerSubscriptions = () => {
       ) : (
         <>
           {/* SUBSCRIPCIONES OPCIONALES */}
-          <div className="w-full mb-8 relative z-20 rounded-lg bg-transparent">
+          <div className="w-full mb-8 relative rounded-lg bg-white">
             <h2 className="text-[20px] font-bold">Suscripciones</h2>
             <p className="text-[10px]">Tu lista de subscripciones.</p>
             <button
-              className={`mr-4 p-2 absolute z-10 top-1/2 right-0 -translate-y-1/2 ${
-                isOpenSub ? "-rotate-90" : "rotate-90"
+              className={`mr-4 p-2 absolute  top-1/2 right-0 -translate-y-1/2 ${
+                isOpenSub ? '-rotate-90' : 'rotate-90'
               } cursor-pointer rounded-full bg-slate-100 transition-transform`}
               onClick={toggleSubscriptions}
             >
-              <BackBtn color={"black"} />
+              <BackBtn color={'black'} />
             </button>
           </div>
           <AnimatePresence>
@@ -119,18 +119,18 @@ const ContainerSubscriptions = () => {
           </AnimatePresence>
 
           {/* SUGERENCIAS OBLIGATORIAS */}
-          <div className="w-full mb-8 relative z-20 rounded-lg bg-transparent">
+          <div className="w-full mb-8 relative rounded-lg bg-transparent">
             <h2 className="text-[20px] font-bold">Sugerencias</h2>
             <p className="text-[10px]">
               Te dejamos algunos perfiles que podrían interesarte.
             </p>
             <button
-              className={`mr-4 p-2 absolute z-10 top-1/2 right-0 -translate-y-1/2 ${
-                isOpenSug ? "-rotate-90" : "rotate-90"
+              className={`mr-4 p-2 absolute  top-1/2 right-0 -translate-y-1/2 ${
+                isOpenSug ? '-rotate-90' : 'rotate-90'
               } cursor-pointer rounded-full bg-slate-100 transition-transform`}
               onClick={toggleSuggestions}
             >
-              <BackBtn color={"black"} />
+              <BackBtn color={'black'} />
             </button>
           </div>
           <AnimatePresence>
