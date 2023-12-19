@@ -12,13 +12,13 @@ function FileUpload() {
                 cx="12"
                 cy="12"
                 r="11"
-                stroke="#888888"
+                stroke="#000000"
                 strokeWidth="2"
                 fill="none"
             />
             <path
                 d="M12 8V16M8 12H16"
-                stroke="#555555"
+                stroke="#000000"
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"

@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Apple } from '../../components/Svg/Apple';
-import { Facebook } from '../../components/Svg/Facebook';
-import { Google } from '../../components/Svg/Google';
-import toast, { Toaster } from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../slices/register.slice';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from "react";
+import { Apple } from "../../components/Svg/Apple";
+import { Facebook } from "../../components/Svg/Facebook";
+import { Google } from "../../components/Svg/Google";
+import toast, { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../slices/register.slice";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const thirteenYearsAgo = () => {
   const today = new Date();
@@ -20,20 +20,20 @@ const thirteenYearsAgo = () => {
 };
 
 const schemaRegister = z.object({
-  name: z.string().min(1, { message: 'El usuario es obligatorio.' }),
+  name: z.string().min(1, { message: "El usuario es obligatorio." }),
   username: z
     .string()
-    .min(1, { message: 'El nombre y apellido es obligatorio.' }),
-  email: z.string().email({ message: 'El email es obligatorio.' }),
+    .min(1, { message: "El nombre y apellido es obligatorio." }),
+  email: z.string().email({ message: "El email es obligatorio." }),
   date_of_birth: z.coerce
     .date()
     .refine(
       (date) => date < thirteenYearsAgo(),
-      'Necesitas ser mayor de 13 años'
+      "Necesitas ser mayor de 13 años"
     ),
   password: z
     .string()
-    .min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }),
+    .min(6, { message: "La contraseña debe tener al menos 6 caracteres." }),
 });
 
 export const RegisterForm = () => {
@@ -53,30 +53,31 @@ export const RegisterForm = () => {
     dispatch(registerUser(data));
   };
 
-  const getToken = localStorage.getItem('token')
-
+  const getToken = localStorage.getItem("token");
 
   useEffect(() => {
     if (message) {
       setShowAlert(true);
       toast.success(message);
       setTimeout(() => {
-        navigate('/login');
+        navigate("/login");
       }, 3000);
     } else if (error) {
       setShowAlert(true);
       toast.error(error);
     }
     if (getToken) {
-      navigate('/home');
+      navigate("/home");
     }
   }, [message, error]);
-
 
   return (
     <main className="flex items-center justify-center min-h-screen min-w-screen">
       <div className="bg-[#ffffff] p-6 rounded-lg w-full">
-        <form onSubmit={handleSubmit(SubmitLogin)}>
+        <form
+          onSubmit={handleSubmit(SubmitLogin)}
+          className="w-full md:max-w-[600px] mx-auto"
+        >
           <div>
             <h4 className="text-5xl font-bold  md:text-[40px] text-[24px]">
               Crea tu cuenta
@@ -92,7 +93,7 @@ export const RegisterForm = () => {
               type="text"
               name="name"
               placeholder="Usuario"
-              {...register('name')}
+              {...register("name")}
             />
             {errors.name && (
               <p className="text-red-500">{errors?.name?.message}</p>
@@ -102,7 +103,7 @@ export const RegisterForm = () => {
               type="text"
               name="username"
               placeholder="Nombre y apellido"
-              {...register('username')}
+              {...register("username")}
             />
             {errors.username && (
               <p className="text-red-500">{errors?.username?.message}</p>
@@ -112,7 +113,7 @@ export const RegisterForm = () => {
               type="email"
               name="email"
               placeholder="Correo electrónico"
-              {...register('email')}
+              {...register("email")}
             />
             {errors.email && (
               <p className="text-red-500">{errors?.email?.message}</p>
@@ -122,23 +123,24 @@ export const RegisterForm = () => {
               type="date"
               name="date_of_birth"
               placeholder="Fecha Nacimiento"
-              {...register('date_of_birth')}
+              {...register("date_of_birth")}
             />
             {errors.date_of_birth && (
               <p className="text-red-500">{errors?.date_of_birth?.message}</p>
             )}
+            <input
+              className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              {...register("password")}
+            />
+            {errors.password && (
+              <p className="text-red-500">{errors?.password?.message}</p>
+            )}
           </div>
-          <input
-            className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            {...register('password')}
-          />
-          {errors.password && (
-            <p className="text-red-500">{errors?.password?.message}</p>
-          )}
-          <div className="form-control mt-6">
+
+          <div className="form-control mt-6 mb-6">
             <button
               className="btn text-white hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-md bg-[#5D73E9] "
               type="submit"
@@ -154,14 +156,16 @@ export const RegisterForm = () => {
               </>
             )}
           </div>
-          <div className="flex justify-between w-full ">
-            <button className="btn w-[80px] sm:w-[200px] text-white  hover:bg-gray-500 flex border rounded-md bg-[#232322] ">
+          <div className="divider divider-neutral ">O continua con</div>
+
+          <div className="flex gap-2 justify-between w-full ">
+            <button className="btn w-[88px] xs:w-[120px] sm:w-[160px] md:w-[180px] text-white hover:bg-gray-500 flex rounded-md bg-[#232322]">
               <Google />
             </button>
-            <button className="btn w-[80px] sm:w-[200px] text-white  hover:bg-gray-500 flex boder rounded-md bg-[#232322]">
+            <button className="btn w-[88px] xs:w-[120px] sm:w-[160px] md:w-[180px] text-white hover:bg-gray-500 flex rounded-md bg-[#232322]">
               <Facebook />
             </button>
-            <button className="btn w-[80px] sm:w-[200px] text-white  hover:bg-gray-500 flex boder rounded-md   bg-[#232322]">
+            <button className="btn w-[88px] xs:w-[120px] sm:w-[160px] md:w-[180px] text-white hover:bg-gray-500 flex rounded-md bg-[#232322]">
               <Apple />
             </button>
           </div>
@@ -172,7 +176,7 @@ export const RegisterForm = () => {
               <p className="mt-2 mb-4 text-sm ">
                 ¿Ya tienes una cuenta?
                 <strong>
-                  <Link to="/" className="text-[#5D73E9]">
+                  <Link to="/login" className="ml-1 text-[#5D73E9]">
                     Inicia sesión
                   </Link>
                 </strong>

@@ -9,10 +9,15 @@ export const loginUser = createAsyncThunk(
   async (userInformation, { rejectWithValue }) => {
     try {
       const response = await axios
-        .post(`${URL}/login`, userInformation)
+        .post(`${URL}/auth/login`, userInformation)
         .then((res) => {
           useToken(res.data.token, new Date().getTime() + 3 * 60 * 60 * 1000);
-          localStorage.setItem("user", JSON.stringify(res.data));
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              ...res.data,
+            })
+          );
           return res.data;
         });
       return response;
@@ -51,6 +56,7 @@ const loginSlice = createSlice({
       localStorage.removeItem("duration");
       toast("Cerraste Sesión, BYE!", {
         icon: "👋",
+        duration: 3000,
       });
     },
   },
