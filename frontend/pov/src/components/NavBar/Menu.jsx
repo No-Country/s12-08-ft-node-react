@@ -1,14 +1,19 @@
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../slices/login.slice";
-
-import avatar from "../../assets/avatars/user.webp";
-import noUser from "../../assets/avatars/no_user.svg";
+import NoAvatar from "../Svg/NoAvatar";
 import { useState } from "react";
 import { useToken } from "../../hooks/useToken";
 
 const Menu = () => {
-  const { token } = useToken();
+  const { token, user = { user: {} } } = useToken();
+
+  let id, profile_picture;
+
+  if (user) {
+    id = user.user.id;
+    profile_picture = user.user.profile_picture;
+  }
 
   const [isLogin, setIsLogin] = useState(token ? true : false);
 
@@ -17,6 +22,7 @@ const Menu = () => {
   const Logout = () => {
     dispatch(logout());
     setIsLogin(false);
+    window.location.reload();
   };
 
   return (
@@ -25,9 +31,9 @@ const Menu = () => {
       <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
         <div className="w-[44px] rounded-full">
           {isLogin ? (
-            <img src={avatar} alt="User Avatar" />
+            <img src={profile_picture} alt="User Avatar" />
           ) : (
-            <img src={noUser} alt="Default Avatar" />
+            <NoAvatar />
           )}
         </div>
       </label>
@@ -37,11 +43,18 @@ const Menu = () => {
           tabIndex={0}
           className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-52 bg-white"
         >
-          <li>
-            <Link to="/config" className="justify-between">
+          <li className="hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
+            <Link to={`/profile/${id}`} className="justify-between">
               Configurar Perfil
             </Link>
-            <button onClick={Logout}>Cerrar Sesion</button>
+          </li>
+          <li>
+            <button
+              className="hover:cursor-pointer hover:text-white hover:bg-[#232322]"
+              onClick={Logout}
+            >
+              Cerrar Sesion
+            </button>
           </li>
         </ul>
       ) : (
@@ -49,12 +62,14 @@ const Menu = () => {
           tabIndex={0}
           className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-52 bg-white"
         >
-          <li>
+          <li className="hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
             <Link to="/login" className="justify-between">
               Inicia Sesión
             </Link>
+          </li>
+          <li className="hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
             <Link to="/register" className="justify-between">
-              Registra tu cuenta
+              Registra una cuenta
             </Link>
           </li>
         </ul>

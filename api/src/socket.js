@@ -22,6 +22,7 @@ function initializeIO(server) {
 
     // Unirse a una sala en especifico (grupo de chat)
     socket.on("join-room", (data) => {
+      console.log('Un usuario se conecto a la sala', data.user_id)
       socket.join(data.user_id);
     });
 

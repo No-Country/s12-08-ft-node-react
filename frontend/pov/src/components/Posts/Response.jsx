@@ -1,13 +1,27 @@
-const Response = ({ response }) => {
-  const { avatar, username, message } = response;
+import {format} from "date-fns"
+import { useEffect, useState } from "react";
+const Response = ({ responses }) => {
+  const { createdAt, text, user_photo, username } = responses;
+  const [formatDate, setFormatDate] = useState(format(new Date(), 'dd-MM-yyyy hh:mm'))
+
+  useEffect(() => {
+    setFormatDate(format(new Date(createdAt), 'dd-MM-yyyy hh:mm'))
+  }, [createdAt])
+
   return (
-    <>
-      <img src={avatar} alt="user avatar" className="w-[24px]" />
-      <p className="text-[12px] text-black">
-        <span className="font-black">{username}: </span>
-        {message}
-      </p>
-    </>
+    responses && (
+      <>
+        <img alt="user avatar" src={user_photo} className="w-[24px] rounded-full" />
+        <div className="flex flex-col">
+          <p className="text-[12px] text-black">
+          <span className="font-black">{username}: </span>
+            {text}
+          </p>
+          <p className="text-[10px] font-thin">{formatDate} </p>
+        </div>
+        
+      </>
+    )
   );
 };
 

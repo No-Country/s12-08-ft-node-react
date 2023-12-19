@@ -7,7 +7,7 @@ export const registerUser = createAsyncThunk(
   async (userInformation, { rejectWithValue }) => {
     try {
       const response = await axios
-        .post(`${URL}/sign-up`, userInformation)
+        .post(`${URL}/auth/sign-up`, userInformation)
         .then((res) => {
           localStorage.setItem('user', JSON.stringify(res.data));
           return res.data;
@@ -37,7 +37,7 @@ const createUsers = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
-      (state.user = null),
+        (state.user = null),
         (state.error = null),
         (state.loading = true),
         (state.message = '');
@@ -49,7 +49,7 @@ const createUsers = createSlice({
         state.message = '';
       }),
       builder.addCase(registerUser.fulfilled, (state, action) => {
-        (state.user = action.payload.user),
+          (state.user = action.payload.user),
           (state.error = null),
           (state.loading = false),
           (state.message = action.payload.message);
