@@ -26,7 +26,6 @@ const ProfileContainer = () => {
   const getUser = async () => {
     try {
       //URL Para los chat
-      console.log("GETUSER");
       const URL = `https://pov.azurewebsites.net/api/users/?profile=${id}`;
 
       const response = await axios.get(URL, {
@@ -45,43 +44,39 @@ const ProfileContainer = () => {
   useEffect(() => {
     getUser();
   }, []);
-  
+
   // OBTIENE LA LISTA DE SUBSCRIPCIONES PARA EL USER LOGUEADO
   const getSubscriptions = async () => {
     try {
       const URL = `https://pov.azurewebsites.net/api/users/subscribed/`;
-      
+
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
         },
       });
       setSubscriptions(response.data.userSubscriptions);
-      console.log(response.data.userSubscriptions);
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     if (userData && userData.id === id) {
       getSubscriptions();
     }
   }, [userData]);
-  
-    //   useEffect(() => {
-    //   // Actualiza el estado local cuando los datos globales cambian
-    //   setUserData({
-    //     name: user?.user.name,
-    //     email: user?.user.email,
-    //     username: user?.user.username,
-    //     profile_picture: user?.user.profile_picture,
-    //     date_of_birth: user?.user.date_of_birth,
-    //   });
-    // }, [user]);
-  
-  console.log(userData);
-  console.log(subscriptions);
+
+  //   useEffect(() => {
+  //   // Actualiza el estado local cuando los datos globales cambian
+  //   setUserData({
+  //     name: user?.user.name,
+  //     email: user?.user.email,
+  //     username: user?.user.username,
+  //     profile_picture: user?.user.profile_picture,
+  //     date_of_birth: user?.user.date_of_birth,
+  //   });
+  // }, [user]);
 
   return id ? (
     <>
@@ -138,9 +133,18 @@ const ProfileContainer = () => {
       <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
         {/* LISTADO DE SUBSCRIPCIONES */}
         <SubscriptionsList>
-          {subscriptions?.map((subs) => (
-            <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
-          ))}
+          {user.user.id === id ? (
+            subscriptions?.map((subs, index) => (
+              <Link key={index} to={`/chats/${subs.beneficiary.id}`}>
+                <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
+              </Link>
+            ))
+          ) : (
+            <img
+              alt="Chat with your favorite famous ppl"
+              src="https://m.media-amazon.com/images/M/MV5BNDQzNDViNDYtNjE2Ny00YmNhLWExZWEtOTIwMDA1YjY5NDBhXkEyXkFqcGdeQXVyODg3NDc1OTE@._V1_FMjpg_UX1000_.jpg"
+            />
+          )}
         </SubscriptionsList>
 
         {/* BOTON DE IR A CHAT */}
@@ -167,8 +171,3 @@ const ProfileContainer = () => {
 };
 
 export default ProfileContainer;
-
-
-
-
-

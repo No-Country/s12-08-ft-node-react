@@ -6,7 +6,7 @@ export const fetchEditProfile = createAsyncThunk(
   async (userInformacion, { rejectWithValue }) => {
     const { token } = useToken();
     const TOKEN = JSON.parse(token);
-    console.log(TOKEN);
+    console.log("TOKEN >>>", TOKEN);
 
     try {
       console.log(userInformacion);
@@ -31,13 +31,11 @@ export const fetchEditProfile = createAsyncThunk(
         throw new Error(errorMessage);
       }
       const responseData = await response.json();
-      console.log(responseData); // Aquí puedes acceder a los datos en formato JSON
+      console.log("response Data", responseData); // Aquí puedes acceder a los datos en formato JSON
       return responseData;
     } catch (error) {
       console.error("Error en la función asíncrona:", error);
-      return rejectWithValue(
-        "Error fetching messages"
-      );
+      return rejectWithValue("Error fetching messages");
     }
   }
 );
@@ -55,18 +53,16 @@ const profileSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchEditProfile.pending, (state) => {
-        state.email = "";
-        state.name = "";
-        state.username = "";
-        state.date_of_birth = "";
-        state.profile_picture = "";
-        state.error = null;
-        state.message = "cargando";
-      }),
+    builder.addCase(fetchEditProfile.pending, (state) => {
+      state.email = "";
+      state.name = "";
+      state.username = "";
+      state.date_of_birth = "";
+      state.profile_picture = "";
+      state.error = null;
+      state.message = "cargando";
+    }),
       builder.addCase(fetchEditProfile.rejected, (state, action) => {
-       
         state.email = "";
         state.name = "";
         state.username = "";
@@ -78,7 +74,7 @@ const profileSlice = createSlice({
       builder.addCase(fetchEditProfile.fulfilled, (state, action) => {
         state.email = action.payload.user.email;
         state.name = action.payload.user.name;
-        state.username = action.payload.user.username
+        state.username = action.payload.user.username;
         state.date_of_birth = action.payload.user.date_of_birth;
         state.profile_picture = action.payload.user.profile_picture;
         state.error = null;
