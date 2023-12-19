@@ -45,12 +45,12 @@ const ProfileContainer = () => {
   useEffect(() => {
     getUser();
   }, []);
-
+  
   // OBTIENE LA LISTA DE SUBSCRIPCIONES PARA EL USER LOGUEADO
   const getSubscriptions = async () => {
     try {
       const URL = `https://pov.azurewebsites.net/api/users/subscribed/`;
-
+      
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
@@ -62,13 +62,24 @@ const ProfileContainer = () => {
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
     if (userData && userData.id === id) {
       getSubscriptions();
     }
   }, [userData]);
-
+  
+    //   useEffect(() => {
+    //   // Actualiza el estado local cuando los datos globales cambian
+    //   setUserData({
+    //     name: user?.user.name,
+    //     email: user?.user.email,
+    //     username: user?.user.username,
+    //     profile_picture: user?.user.profile_picture,
+    //     date_of_birth: user?.user.date_of_birth,
+    //   });
+    // }, [user]);
+  
   console.log(userData);
   console.log(subscriptions);
 
@@ -156,3 +167,8 @@ const ProfileContainer = () => {
 };
 
 export default ProfileContainer;
+
+
+
+
+

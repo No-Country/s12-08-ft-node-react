@@ -23,11 +23,20 @@ export const fetchEditProfile = createAsyncThunk(
           },
         }
       );
-      console.log(response);
-      return response;
+      if (!response.ok) {
+        // Lanza un error si la respuesta no es exitosa
+        const errorData = await response.json();
+        const errorMessage = errorData.message || "Error en la solicitud";
+        // Lanza un nuevo error con el mensaje personalizado
+        throw new Error(errorMessage);
+      }
+      const responseData = await response.json();
+      console.log(responseData); // Aquí puedes acceder a los datos en formato JSON
+      return responseData;
     } catch (error) {
+      console.error("Error en la función asíncrona:", error);
       return rejectWithValue(
-        error?.response?.data?.message || "Error fetching messages"
+        "Error fetching messages"
       );
     }
   }
@@ -55,24 +64,25 @@ const profileSlice = createSlice({
         state.profile_picture = "";
         state.error = null;
         state.message = "cargando";
-      })
-      .addCase(fetchEditProfile.rejected, (state, action) => {
+      }),
+      builder.addCase(fetchEditProfile.rejected, (state, action) => {
+       
         state.email = "";
         state.name = "";
         state.username = "";
         state.date_of_birth = "";
         state.profile_picture = "";
-        state.error = action.payload;
-        state.message = action.payload;
-      })
-      .addCase(fetchEditProfile.fulfilled, (state, action) => {
-        state.email = action.payload;
-        state.name = action.payload;
-        state.username = action.payload;
-        state.date_of_birth = action.payload;
-        state.profile_picture = action.payload;
+        state.error = action.error;
+        state.message = action.message;
+      }),
+      builder.addCase(fetchEditProfile.fulfilled, (state, action) => {
+        state.email = action.payload.user.email;
+        state.name = action.payload.user.name;
+        state.username = action.payload.user.username
+        state.date_of_birth = action.payload.user.date_of_birth;
+        state.profile_picture = action.payload.user.profile_picture;
         state.error = null;
-        state.message = "Guardado con exito";
+        state.message = action.payload.message;
       });
   },
 });
