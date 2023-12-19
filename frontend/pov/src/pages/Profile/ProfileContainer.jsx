@@ -92,7 +92,11 @@ const ProfileContainer = () => {
           </div>
           <div className="w-[80px] rounded-full overflow-hidden">
             <img
-              src={profile.profile_picture ? profile.profile_picture : userData.profile_picture}
+              src={
+                profile.profile_picture
+                  ? profile.profile_picture
+                  : userData.profile_picture
+              }
             />
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
@@ -126,7 +130,7 @@ const ProfileContainer = () => {
         )}
       </header>
 
-      <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
+      <main className="w-full min-h-[calc(100vh-175px)] flex flex-col md:max-w-[1000px] lg:mx-auto py-8 px-[24px]">
         {/* LISTADO DE SUBSCRIPCIONES */}
         <SubscriptionsList>
           {user.user.id === id ? (
@@ -136,15 +140,17 @@ const ProfileContainer = () => {
               </Link>
             ))
           ) : (
-            <img
-              alt="Chat with your favorite famous ppl"
-              src="https://m.media-amazon.com/images/M/MV5BNDQzNDViNDYtNjE2Ny00YmNhLWExZWEtOTIwMDA1YjY5NDBhXkEyXkFqcGdeQXVyODg3NDc1OTE@._V1_FMjpg_UX1000_.jpg"
-            />
+            <div className="w-full h-[300px] overflow-hidden rounded-lg">
+              <img
+                alt="Chat with your favorite famous ppl"
+                src="https://m.media-amazon.com/images/M/MV5BNDQzNDViNDYtNjE2Ny00YmNhLWExZWEtOTIwMDA1YjY5NDBhXkEyXkFqcGdeQXVyODg3NDc1OTE@._V1_FMjpg_UX1000_.jpg"
+                className="w-full h-[300px] object-cover"
+              />
+            </div>
           )}
         </SubscriptionsList>
-
         {/* BOTON DE IR A CHAT */}
-        <div className="fixed bottom-[84px] left-1/2 -translate-x-1/2 w-[345px]">
+        <div className="mt-auto mx-auto w-[345px]">
           <button
             onClick={() => {
               {

@@ -1,38 +1,49 @@
-import { useContext, useEffect } from 'react';
-import { ChatContext } from '../../context/ChatContext';
-import PostList from '../../components/Posts/PostList';
-import MessageBar from '../../components/MessageBar/MessageBar';
-import LoadingSpinner from '../../components/Svg/LoadingSpinner';
-import BackBtn from '../../components/Svg/BackBtn';
-import fondo from '../../assets/avatars/fondo1.jpg';
-import Cheked from '../../components/Svg/Cheked';
-import ThreadModal from '../../components/ThreadModal/ThreadModal';
-import { useLocation, Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useContext, useEffect } from "react";
+import { ChatContext } from "../../context/ChatContext";
+import PostList from "../../components/Posts/PostList";
+import MessageBar from "../../components/MessageBar/MessageBar";
+import LoadingSpinner from "../../components/Svg/LoadingSpinner";
+import BackBtn from "../../components/Svg/BackBtn";
+import fondo from "../../assets/avatars/fondo1.jpg";
+import Cheked from "../../components/Svg/Cheked";
+import ThreadModal from "../../components/ThreadModal/ThreadModal";
+import { useLocation, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 const ChatContainer = () => {
-  const { userChat, messages, loadingMessages, setId, toggleModal, modal,setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
+  const {
+    userChat,
+    messages,
+    loadingMessages,
+    setId,
+    toggleModal,
+    modal,
+    setLoadingMessages,
+    setMessages,
+    setUserChat,
+    TOKEN,
+    URL,
+  } = useContext(ChatContext);
   const { id } = useParams();
   const location = useLocation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const succes = searchParams.get('succes');
-    if(succes === 'true'){
-      toast.success('Suscripción realizada correctamente')
+    const succes = searchParams.get("succes");
+    if (succes === "true") {
+      toast.success("Suscripción realizada correctamente");
     }
-  }, [location.search])
-
+  }, [location.search]);
 
   useEffect(() => {
     setId(id);
   }, [id, setId, userChat]);
 
   useEffect(() => {
-    if (id !== null || TOKEN !== null) {
-      setMessages([])
+    if (id !== null && TOKEN !== null) {
+      setMessages([]);
       const getMessages = async () => {
         try {
           setLoadingMessages(true);
@@ -68,8 +79,8 @@ const ChatContainer = () => {
       };
       getMessages();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, TOKEN]);
 
   return !loadingMessages && userChat.user ? (
     <>
