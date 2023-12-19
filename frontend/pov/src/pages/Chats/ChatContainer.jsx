@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { ChatContext } from '../../context/ChatContext';
 import PostList from '../../components/Posts/PostList';
 import MessageBar from '../../components/MessageBar/MessageBar';
@@ -10,11 +10,10 @@ import ThreadModal from '../../components/ThreadModal/ThreadModal';
 import { useLocation, Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const ChatContainer = () => {
   const { userChat, messages, loadingMessages, setId, toggleModal, modal,setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
-  const [success, setSuccess] = useState(false)
   const { id } = useParams();
   const location = useLocation();
 
@@ -22,8 +21,7 @@ const ChatContainer = () => {
     const searchParams = new URLSearchParams(location.search);
     const succes = searchParams.get('succes');
     if(succes === 'true'){
-      toast.success('Suscripción realizada correctamente' , {duration: 3000})
-      setSuccess(true);
+      toast.success('Suscripción realizada correctamente')
     }
   }, [location.search])
 
@@ -76,7 +74,6 @@ const ChatContainer = () => {
   return !loadingMessages && userChat.user ? (
     <>
       {modal && <ThreadModal toggleModal={toggleModal} />}
-      {success && <Toaster position="top-center" />}
       <header
         className="fixed z-10 left-1/2 -translate-x-1/2 w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
