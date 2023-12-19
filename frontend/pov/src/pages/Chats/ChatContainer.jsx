@@ -7,7 +7,7 @@ import BackBtn from '../../components/Svg/BackBtn';
 import fondo from '../../assets/avatars/fondo1.jpg';
 import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import toast, { Toaster } from "react-hot-toast";
@@ -16,7 +16,6 @@ const ChatContainer = () => {
   const { userChat, messages, loadingMessages, setId, toggleModal, modal,setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
   const [success, setSuccess] = useState(false)
   const { id } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const ChatContainer = () => {
   }, [id, setId, userChat]);
 
   useEffect(() => {
-    if (id !== null) {
+    if (id !== null || TOKEN !== null) {
       setMessages([])
       const getMessages = async () => {
         try {
@@ -85,9 +84,9 @@ const ChatContainer = () => {
         }}
       >
         <div>
-          <button onClick={() => navigate(-1)}>
+          <Link to={`/profile/${id}`}>
             <BackBtn color={"white"} />
-          </button>
+          </Link>
         </div>
         <div className="mx-auto flex flex-col items-center justify-center">
           <img

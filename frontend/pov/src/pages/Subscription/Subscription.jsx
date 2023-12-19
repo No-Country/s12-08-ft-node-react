@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useToken } from "../../hooks/useToken";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { URL } from "../../router/routes";
 import { Link } from "react-router-dom";
 import { format, addMonths } from "date-fns";
@@ -8,7 +8,6 @@ import { format, addMonths } from "date-fns";
 export const Subscription = () => {
   const [beneficiary, setBeneficiary] = useState({});
   const nextPayment = format(addMonths(new Date(), 1), "dd/MM/yyyy");
-  const navigate = useNavigate();
 
   const TOKEN = JSON.parse(useToken().token);
   const { id } = useParams();
@@ -71,7 +70,7 @@ export const Subscription = () => {
           </Link>
           <Link
             className="btn mt-2 text-dark hover:bg-gray-500 flex w-full h-14 px-10 justify-center items-center gap-4 flex-shrink-0 border rounded-lg bg-[#DADADA]"
-            to="/home"
+            to={`/profile/{id}`}
           >
             Atras
           </Link>
