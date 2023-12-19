@@ -7,7 +7,7 @@ import BackBtn from '../../components/Svg/BackBtn';
 import fondo from '../../assets/avatars/fondo1.jpg';
 import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -15,10 +15,11 @@ const ChatContainer = () => {
   const { userChat, messages, loadingMessages, setId, toggleModal, modal, page, setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
   const { id } = useParams();
 
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setId(id)
-  }, [id, setId, userChat])
+    setId(id);
+  }, [id, userChat]);
 
   useEffect(() => {
     if(id !== null){
@@ -68,9 +69,9 @@ const ChatContainer = () => {
         }}
       >
         <div className="w-[79px]">
-          <Link to="/home">
+          <button onClick={() => navigate(-1)}>
             <BackBtn color={"white"} />
-          </Link>
+          </button>
         </div>
         <div className="flex flex-col items-center justify-center">
           <img
