@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState} from 'react';
 import Post from './Post';
 import { Link } from 'react-router-dom';
 import { ChatContext } from '../../context/ChatContext';
@@ -6,14 +6,17 @@ import axios from 'axios';
 
 const PostList = ({ chat, user, toggleModal, messageCount}) => {
   const { profile_picture } = user;
-  const { page, setPage , newMessage, URL, TOKEN, setMessages} = useContext(ChatContext)
+  const [page, setPage] = useState(1);
+  const { newMessage, URL, TOKEN, setMessages} = useContext(ChatContext)
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
   }, [newMessage])
 
+
+
   useEffect(() => {
-    const getComments = async() => {
+    const getMessages = async() => {
       if(chat && page > 1){
         try {
           const url = `${URL}/message/chat/${user.id}?page=${page}`;
@@ -32,13 +35,14 @@ const PostList = ({ chat, user, toggleModal, messageCount}) => {
             ),
             ...prevMessages,
           ]);
+
         } catch (error) {
           console.log(error);
         }
       }
     }
 
-    getComments()
+    getMessages()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
@@ -51,6 +55,7 @@ const PostList = ({ chat, user, toggleModal, messageCount}) => {
       { chat.length < messageCount &&
         <Link onClick={handlePage} className="text-blue-500 hover:underline cursor-pointer text-center">Mostrar mas...</Link>
       }
+      <div>
         {chat?.map((message) => (
           <Post
             key={message._id}
@@ -61,6 +66,8 @@ const PostList = ({ chat, user, toggleModal, messageCount}) => {
             commentsCount={message.totalComments}
           />
       ))}
+      </div>
+        
     </section>
   );
 };

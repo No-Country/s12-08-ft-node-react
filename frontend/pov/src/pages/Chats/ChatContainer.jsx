@@ -13,10 +13,9 @@ import axios from 'axios';
 import toast, { Toaster } from "react-hot-toast";
 
 const ChatContainer = () => {
-  const { userChat, messages, loadingMessages, setId, toggleModal, modal,setLoadingMessages, setMessages, setUserChat, TOKEN, URL, setPage } = useContext(ChatContext)
+  const { userChat, messages, loadingMessages, setId, toggleModal, modal,setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
   const [success, setSuccess] = useState(false)
   const { id } = useParams();
-  console.log(userChat);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,11 +28,6 @@ const ChatContainer = () => {
     }
   }, [location.search])
 
-  useEffect(() => {
-    setMessages([])
-    setPage(1)
-  }, [setMessages, setPage])
-  
 
   useEffect(() => {
     setId(id);
@@ -41,6 +35,7 @@ const ChatContainer = () => {
 
   useEffect(() => {
     if (id !== null) {
+      setMessages([])
       const getMessages = async () => {
         try {
           setLoadingMessages(true);

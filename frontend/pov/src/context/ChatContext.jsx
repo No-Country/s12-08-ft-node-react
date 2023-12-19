@@ -17,7 +17,6 @@ export const ChatProvider = ({ children, user }) => {
   const [id, setId] = useState(null);
   const TOKEN = JSON.parse(token);
   const [modal, setModal] = useState(false);
-  const [page, setPage] = useState(1)
   const [newMessage,setNewMessage] = useState(false)
   
   useEffect(() => {
@@ -28,7 +27,6 @@ export const ChatProvider = ({ children, user }) => {
 
     return () => {
       setMessages([]);
-      setPage(1);
       socket.off("join-room");
     };
   }, [id]);
@@ -117,8 +115,6 @@ export const ChatProvider = ({ children, user }) => {
         setId,
         toggleModal,
         modal,
-        page,
-        setPage,
         newMessage,
         TOKEN,
         setLoadingMessages,
