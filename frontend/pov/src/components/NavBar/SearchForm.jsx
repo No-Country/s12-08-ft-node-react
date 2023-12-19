@@ -66,7 +66,7 @@ const SearchForm = () => {
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className="flex flex-col bg-black">
+            <div className="flex flex-col bg-white">
               {users?.length > 0 &&
                 users.map((user) => {
                   return (
