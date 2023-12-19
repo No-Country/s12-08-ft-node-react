@@ -1,9 +1,8 @@
-import axios from "axios";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useToken } from "../hooks/useToken";
 import { URL, URL_SOCKET } from "../router/routes";
-import toast from "react-hot-toast";
+
 
 export const ChatContext = createContext();
 const socket = io(URL_SOCKET);

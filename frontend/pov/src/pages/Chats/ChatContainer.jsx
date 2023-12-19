@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ChatContext } from '../../context/ChatContext';
 import PostList from '../../components/Posts/PostList';
 import MessageBar from '../../components/MessageBar/MessageBar';
@@ -7,19 +7,32 @@ import BackBtn from '../../components/Svg/BackBtn';
 import fondo from '../../assets/avatars/fondo1.jpg';
 import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import toast, { Toaster } from "react-hot-toast";
 
 const ChatContainer = () => {
   const { userChat, messages, loadingMessages, setId, toggleModal, modal, page, setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
+  const [success, setSuccess] = useState(false)
   const { id } = useParams();
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const succes = searchParams.get('succes');
+    if(succes === 'true'){
+      toast.success('Suscripción realizada correctamente' , {duration: 3000})
+      setSuccess(true);
+    }
+  }, [location.search])
+  
 
   useEffect(() => {
     setId(id);
-  }, [id, userChat]);
+  }, [id, setId, userChat]);
 
   useEffect(() => {
     if(id !== null){
@@ -28,7 +41,7 @@ const ChatContainer = () => {
           setLoadingMessages(true);
           //URL Para los chat
           //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-          const url = `${URL}/chats/chat/${id}?page=${page}`;
+          const url = `${URL}/chats/chat/${id}`;
           const response = await axios.get(url, {
             headers: {
               Authorization: `Bearer ${TOKEN}`,
@@ -56,12 +69,13 @@ const ChatContainer = () => {
       getMessages();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, page]);
+  }, [id]);
 
 
   return !loadingMessages && userChat.user ?  (
     <>
       {modal && <ThreadModal toggleModal={toggleModal} />}
+      {success && <Toaster position="top-center" />}
       <header
         className="fixed z-10 left-1/2 -translate-x-1/2 w-full md:max-w-[1000px] lg:mx-auto flex justify-center items-center px-[24px] py-2 bg-cover bg-center"
         style={{
