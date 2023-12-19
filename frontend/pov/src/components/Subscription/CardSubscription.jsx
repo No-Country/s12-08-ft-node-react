@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Option from "../Svg/Option";
 import SubsIcon from "../Svg/SubsIcon";
 
-const CardSubscription = ({ data }) => {
+const CardSubscription = ({ data, isSubs }) => {
   const { id, profile_picture, name, username, totalSubscriptions } =
     data.beneficiary;
 
@@ -27,12 +27,18 @@ const CardSubscription = ({ data }) => {
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
               <Link>Reportar</Link>
             </li>
-            <li
-              className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg"
-              onClick={() => console.log("Te suscribiste")}
-            >
-              <Link>Suscribirse</Link>
-            </li>
+            {isSubs ? (
+              <li
+                className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg"
+                onClick={() => console.log("Te desuscribiste")}
+              >
+                <Link to="">Desuscribirse</Link>
+              </li>
+            ) : (
+              <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
+                <Link to={`/sub/${id}`}>Suscribirse</Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

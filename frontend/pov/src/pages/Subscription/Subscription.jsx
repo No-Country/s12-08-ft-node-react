@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { URL } from "../../router/routes";
 import { Link } from "react-router-dom";
 import { format, addMonths } from "date-fns";
+import Preview from "../../assets/preview.png";
 
 export const Subscription = () => {
   const [beneficiary, setBeneficiary] = useState({});
