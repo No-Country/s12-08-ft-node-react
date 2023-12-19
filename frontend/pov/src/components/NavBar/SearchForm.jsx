@@ -5,12 +5,16 @@ import debounce from "just-debounce-it";
 import useSearch from "../../hooks/useSearch";
 import useUsers from "../../hooks/useUsers";
 import LoadingSpinner from "../Svg/LoadingSpinner";
+import { useToken } from "../../hooks/useToken";
 
 const SearchForm = () => {
   const [open, setOpen] = useState(false);
   const { search, setSearch, error } = useSearch();
   const { loading, users, getUsers } = useUsers({ search });
 
+  // Descargo USER desde localstorage para corroborar las subs del usuario logueado
+  const { user: USER } = useToken();
+  let isSub;
   const debouncedGetUsers = useCallback(
     debounce((search) => {
       getUsers({ search });
@@ -35,7 +39,7 @@ const SearchForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="relative flex items-center">
+      <form onSubmit={handleSubmit} className="relative z-50 flex items-center">
         <input
           type="text"
           placeholder="Search"
@@ -58,11 +62,11 @@ const SearchForm = () => {
       {error && <p className="text-red-700">{error}</p>}
 
       {!open && (
-        <div className="z-50 relative">
+        <>
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className="flex flex-col">
+            <div className="flex flex-col bg-black">
               {users?.length > 0 &&
                 users.map((user) => {
                   return (
@@ -79,19 +83,30 @@ const SearchForm = () => {
                             <li>12 suscriptores</li>
                           </ul>
                         </div>
-                        <Link
-                          to={`/sub/${user.id}`}
-                          className="w-28 p-2 bg-[#232322] rounded-full text-white text-center"
-                        >
-                          Suscribirse
-                        </Link>
+                        {
+                          (isSub = USER?.user.subscribedTo.some(
+                            (subs) => subs.beneficiary_id === user.id
+                          ))
+                        }
+                        {isSub ? (
+                          <Link className="w-28 p-2 bg-[#232322] rounded-full text-white text-center">
+                            Desuscribirse
+                          </Link>
+                        ) : (
+                          <Link
+                            to={`/sub/${user.id}`}
+                            className="w-28 p-2 bg-[#232322] rounded-full text-white text-center"
+                          >
+                            Suscribirse
+                          </Link>
+                        )}
                       </span>
                     </div>
                   );
                 })}
             </div>
           )}
-        </div>
+        </>
       )}
     </>
   );
