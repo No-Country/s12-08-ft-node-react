@@ -66,12 +66,24 @@ function MessageBar() {
   const handleSendMessage = async (e, message) => {
     e.preventDefault();
     try {
+      let data = {
+        text: message,
+        content: 'text',
+      }
+      console.log(imagePreview)
+      if(imagePreview){
+        data = {
+          content: 'image',
+          image: imagePreview,
+        }
+        if(message !== ''){
+          data.text = message
+        }
+      }
+
       const response = await fetch(`${URL}/chats/chat`, {
         method: 'POST',
-        body: JSON.stringify({
-          text: message,
-          content: 'text',
-        }),
+        body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${TOKEN}`,
@@ -79,6 +91,7 @@ function MessageBar() {
       });
       if(response.status === 201){
         setMessage('')
+        setImagePreview(null)
       }
     } catch (error) {
       throw new Error(error);

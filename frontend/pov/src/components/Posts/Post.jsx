@@ -1,17 +1,58 @@
 import { Link } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ThreadUnion from '../Svg/ThreadUnion';
 import Response from './Response';
 import { ChatContext } from '../../context/ChatContext';
 import {format} from "date-fns"
+import axios from 'axios';
 
-const Post = ({ post, userName, userAvatar, toggleModal }) => {
-  const { saveChangeId } = useContext(ChatContext);
+const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
+  const { saveChangeId, TOKEN, URL, messages, setMessages } = useContext(ChatContext);
   const { text, comments, reactions } = post;
+  const [page, setPage] = useState(0)
+
+  useEffect(() => {
+    const getComments = async() => {
+      if(post && page !== 0){
+        try {
+          const url = `${URL}/comments/byMessage/${post._id}?page=${page}`;
+              const response = await axios.get(url, {
+                headers: {
+                  Authorization: `Bearer ${TOKEN}`,
+                },
+              });
+              const { data } = response;
+
+              const newMessages = [...messages];
+
+              const indexMessage = newMessages.findIndex((message) => message._id === post._id);
+              
+              if(indexMessage !== -1){
+                newMessages[indexMessage].comments.push(...data.comments)
+              }
+              
+              setMessages(newMessages)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+
+    getComments()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page])
+
+
 
   return (
+    <div className='flex items-start'>
+                <img
+            src={userAvatar}
+            alt={`avatar de ${userName}`}
+            className="w-[24px] rounded-full mt-[20px]"
+          />
     <article
-      className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer"
+      className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer w-full"
       onClick={() => {
         toggleModal();
         saveChangeId(post._id);
@@ -19,20 +60,16 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
     >
       {/* Imagen del Post adjunta */}
       <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] rounded-lg">
-        {/* {imageAdded && (
+        {post.content === 'image' && (
           <img
-            src={imageAdded}
+            src={post.image}
             alt="imagen adjunta al post"
             className="mb-2 rounded-lg overflow-hidden"
           />
-        )} */}
+        )} 
         {/* Texto del Post */}
         <div className="w-full flex gap-2 items-center">
-          <img
-            src={userAvatar}
-            alt={`avatar de ${userName}`}
-            className="w-[24px] rounded-full"
-          />
+
           <div className="flex flex-col">
             <p className="w-full text-[12px]">
               <span className="font-black">{userName}: </span>
@@ -48,13 +85,19 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
       {comments.length > 0 &&
         comments.map((comment, index) => (
           <div key={index} className="flex gap-1 pl-[28px]">
+{/*             { index == 0 &&
+              <ThreadUnion />
+            } */}
             <ThreadUnion />
-            <Link
-              to=""
+            <div
               className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg"
             >
-              <Response responses={comment} />
-            </Link>
+              <Response responses={comment} lastOne={index === comments.length - 1} 
+                toShow={commentsCount - comments.length}
+                setPage={setPage}
+                page={page}
+              />
+            </div>
           </div>
         ))}
 
@@ -66,6 +109,7 @@ const Post = ({ post, userName, userAvatar, toggleModal }) => {
           ))} */}
       </div>
     </article>
+    </div>
   );
 };
 

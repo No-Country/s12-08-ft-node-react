@@ -22,7 +22,6 @@ export const ChatProvider = ({ children, user }) => {
   
   useEffect(() => {
     if (socket === null) return
-    console.log("entro")
     socket.emit('join-room', {
       user_id: id //selectedSocket
     })
@@ -30,7 +29,6 @@ export const ChatProvider = ({ children, user }) => {
     return () => {
       setMessages([])
       setPage(1)
-      console.log("salio")
       socket.off('join-room')
     }
   }, [id])
