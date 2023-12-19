@@ -3,7 +3,6 @@ import Option from "../Svg/Option";
 import SubsIcon from "../Svg/SubsIcon";
 
 const CardSubscription = ({ data }) => {
-  console.log("Datos de cada card", data);
   const { id, profile_picture, name, username, totalSubscriptions } =
     data.beneficiary;
 

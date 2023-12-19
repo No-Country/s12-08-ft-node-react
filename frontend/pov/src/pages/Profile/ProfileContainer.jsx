@@ -12,8 +12,8 @@ import CheckedIcon from "../../components/Svg/CheckedIcon";
 import SubscriptionCard from "./SubscriptionCard";
 
 const ProfileContainer = () => {
-  const [userToCall, setUserToCall] = useState("");
   const [userData, setUserData] = useState({});
+  const [subscriptions, setSubscriptions] = useState([]);
 
   const { token, user } = useToken();
   const TOKEN = JSON.parse(token);
@@ -22,10 +22,12 @@ const ProfileContainer = () => {
 
   const navigate = useNavigate();
 
+  // OBTIENE EL USUARIO QUE MUESTRA EL PERFIL y SETEA EL ESTADO USERDATA
   const getUser = async () => {
     try {
       //URL Para los chat
-      const URL = `https://pov.azurewebsites.net/api/users/?profile=${userToCall}`;
+      console.log("GETUSER");
+      const URL = `https://pov.azurewebsites.net/api/users/?profile=${id}`;
 
       const response = await axios.get(URL, {
         headers: {
@@ -34,30 +36,43 @@ const ProfileContainer = () => {
       });
 
       const { data } = response;
-      if (data) {
-        setUserData(data);
-        console.log(userData);
-      }
+      setUserData(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // HACER OTRO LLAMADO PARA TRAER SUBSCRIPCIONES.
-
-  // Comparar ids de usuario.
   useEffect(() => {
-    if (id === user.user.id) {
-      setUserToCall(user.user.id);
-    } else {
-      setUserToCall(id);
-    }
-    console.log(userToCall);
-    console.log(userData);
     getUser();
-  }, [userToCall]);
+  }, []);
 
-  return userToCall ? (
+  // OBTIENE LA LISTA DE SUBSCRIPCIONES PARA EL USER LOGUEADO
+  const getSubscriptions = async () => {
+    try {
+      const URL = `https://pov.azurewebsites.net/api/users/subscribed/`;
+
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+      setSubscriptions(response.data.userSubscriptions);
+      console.log(response.data.userSubscriptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (userData && userData.id === id) {
+      getSubscriptions();
+    }
+  }, [userData]);
+
+  console.log(userData);
+  console.log(subscriptions);
+
+  return id ? (
     <>
       <header
         className="w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
@@ -76,7 +91,7 @@ const ProfileContainer = () => {
             <span className=" text-white">{userData.email}</span>
           </div>
           <div className="w-[80px] rounded-full overflow-hidden">
-            <img src={userData.profile_picture} className="" />
+            <img src={userData.profile_picture} />
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
             @{userData.name}
@@ -100,7 +115,7 @@ const ProfileContainer = () => {
         </div>
 
         {/* BOTON EDITAR - SI NO ES USUARIO LOGEADO NO APARECE */}
-        {userToCall === user.user.id ? (
+        {id === user.user.id ? (
           <Link to="/config">
             <EditBtn className={"white"} />
           </Link>
@@ -112,13 +127,9 @@ const ProfileContainer = () => {
       <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
         {/* LISTADO DE SUBSCRIPCIONES */}
         <SubscriptionsList>
-          {userToCall === user.user.id ? (
-            userData?.subscribedTo?.map((subs) => (
-              <SubscriptionCard key={subs.beneficiary_id} subs={subs} />
-            ))
-          ) : (
-            <p className="text-center font-thin">Esta lista es privada</p>
-          )}
+          {subscriptions?.map((subs) => (
+            <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
+          ))}
         </SubscriptionsList>
 
         {/* BOTON DE IR A CHAT */}
@@ -128,7 +139,7 @@ const ProfileContainer = () => {
               {
                 user.user.id === id
                   ? navigate(`/chats/${user.user.id}`)
-                  : navigate(`/chats/${userToCall.id}`);
+                  : navigate(`/chats/${id.id}`);
               }
             }}
             className="btn mt-auto text-white hover:bg-gray-500 flex h-14 px-10 justify-center w-full items-center gap-4 border rounded-md bg-[#5D73E9]"

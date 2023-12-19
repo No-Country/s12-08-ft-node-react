@@ -9,14 +9,6 @@
   color: #232322;
 }
 
-body {
-  background-color: #232322;
-}
-
-main {
-  background-color: rgb(255, 255, 255);
-}
-
 :root {
   @apply font-lexend;
 }
