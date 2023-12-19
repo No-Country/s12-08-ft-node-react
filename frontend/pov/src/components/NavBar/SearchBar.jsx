@@ -38,7 +38,7 @@ const SearchBar = () => {
       {/* SEARCH MOBILE INPUT DROPDOWN */}
       <ul
         tabIndex={0}
-        className="left-0 mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-screen"
+        className="left-0 mt-3  p-2 shadow-2xl menu menu-sm dropdown-content bg-white  rounded-box w-screen"
       >
         <SearchForm />
       </ul>
