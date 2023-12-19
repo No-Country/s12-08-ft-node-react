@@ -13,7 +13,7 @@ import axios from 'axios';
 import toast, { Toaster } from "react-hot-toast";
 
 const ChatContainer = () => {
-  const { userChat, messages, loadingMessages, setId, toggleModal, modal, page, setLoadingMessages, setMessages, setUserChat, TOKEN, URL } = useContext(ChatContext)
+  const { userChat, messages, loadingMessages, setId, toggleModal, modal,setLoadingMessages, setMessages, setUserChat, TOKEN, URL, setPage } = useContext(ChatContext)
   const [success, setSuccess] = useState(false)
   const { id } = useParams();
 
@@ -28,6 +28,11 @@ const ChatContainer = () => {
       setSuccess(true);
     }
   }, [location.search])
+
+  useEffect(() => {
+    setMessages([])
+    setPage(1)
+  }, [setMessages, setPage])
   
 
   useEffect(() => {
