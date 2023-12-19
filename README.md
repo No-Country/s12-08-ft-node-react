@@ -26,7 +26,7 @@ Herramientas utilizadas
 | Hernán García       | Backend           | [Linkedin](https://www.linkedin.com/in/hernan-garcia-fullstack/)|
 | Santiago Sonzini    | Backend           | [Linkedin](https://www.linkedin.com/in/santiago-sonzini-74b068188/)|
 | Santiago Garcia     | UX/UI             | [Linkedin](https://www.linkedin.com/in/santiagogarciaa/)|
-| Facundo Mendiola    | UX/UI             | [Linkedin]()|
+| Facundo Mendiola    | UX/UI             | [Linkedin](https://www.linkedin.com/in/facundo-mendiola/)|
 | Emanuel Andrés Valente| Frontend        | [Linkedin](https://www.linkedin.com/in/emanuel-valente/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) |
 | Simón Restrepo      | Frontend          | [Linkedin](https://www.linkedin.com/in/sim%C3%B3n-restrepo-montoya-071244249/)|
 | Rolando Ramon Duarte| Frontend          | [Linkedin](https://www.linkedin.com/in/rolando-ramon-duarte-93116b17a/) |
