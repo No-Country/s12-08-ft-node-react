@@ -9,6 +9,8 @@ const { errorHandler, errorLogger } = require("./middlewares/errors/index");
 const router = require("./routes/index");
 const http = require("http");
 const { initializeIO } = require("./socket");
+const { obtenerSuscripcionesVencidas } = require("./services/subscriptionRenovación");
+const cron = require('node-cron');
 
 // Configs
 const corsOptions = {
@@ -67,6 +69,15 @@ async function startServer() {
     // SQL init
     await dbInit();
     console.log("Base de datos sincronizada.");
+
+    cron.schedule('0 0 * * *', async () => {
+      console.log('Ejecutando tarea para desactivar suscripciones vencidas...');
+      try {
+        await obtenerSuscripcionesVencidas();
+      } catch (error) {
+        console.error('Error al ejecutar la tarea:', error);
+      }
+    });
 
     server.listen(port, () => {
       console.log(`Api listening at http://localhost:${port}`);
