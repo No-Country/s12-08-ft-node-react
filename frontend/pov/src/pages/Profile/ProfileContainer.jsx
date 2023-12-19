@@ -4,7 +4,6 @@ import { useToken } from "../../hooks/useToken";
 import axios from "axios";
 import SubscriptionsList from "./SubscriptionsList";
 import BackBtn from "../../components/Svg/BackBtn";
-import fondo from "../../assets/avatars/fondo1.jpg";
 import EditBtn from "../../components/Svg/EditBtn";
 import LoadingSpinner from "../../components/Svg/LoadingSpinner";
 import MessageChatCircle from "../../components/Svg/MessageChatCircle";
@@ -15,13 +14,13 @@ import { useSelector } from "react-redux";
 const ProfileContainer = () => {
   const [userData, setUserData] = useState({});
   const [subscriptions, setSubscriptions] = useState([]);
+  const [backgroundChat, setBackgroundChat] = useState("");
 
   const { token, user } = useToken();
   const TOKEN = JSON.parse(token);
 
   const { id } = useParams();
   const profile = useSelector((state) => state.profile);
-  console.log("PROFILE REDUX", profile);
 
   const navigate = useNavigate();
 
@@ -38,6 +37,7 @@ const ProfileContainer = () => {
       });
 
       const { data } = response;
+      setBackgroundChat(data.chat.img)
       setUserData(data);
     } catch (error) {
       console.log(error);
@@ -75,7 +75,7 @@ const ProfileContainer = () => {
       <header
         className="w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${fondo})`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundChat})`,
         }}
       >
         {/* BOTON VOLVER ATRAS */}
@@ -156,7 +156,7 @@ const ProfileContainer = () => {
               {
                 user.user.id === id
                   ? navigate(`/chats/${user.user.id}`)
-                  : navigate(`/chats/${id.id}`);
+                  : navigate(`/chats/${id}`);
               }
             }}
             className="btn mt-auto text-white hover:bg-gray-500 flex h-14 px-10 justify-center w-full items-center gap-4 border rounded-md bg-[#5D73E9]"
