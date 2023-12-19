@@ -26,6 +26,13 @@ class MessageController {
 
       const messages = await Messages.find({ user_id: id}).skip(skip).limit(pageSize).sort({ createdAt: -1 });
 
+      await Messages.populate(messages, {
+        path: "comments",
+        options: {
+          limit: 1,
+        },
+      });
+
       return res.status(200).json({
         messages: messages
       });
