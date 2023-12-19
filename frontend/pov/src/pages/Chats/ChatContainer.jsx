@@ -4,7 +4,6 @@ import PostList from '../../components/Posts/PostList';
 import MessageBar from '../../components/MessageBar/MessageBar';
 import LoadingSpinner from '../../components/Svg/LoadingSpinner';
 import BackBtn from '../../components/Svg/BackBtn';
-import fondo from '../../assets/avatars/fondo1.jpg';
 import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
 import { useLocation, Link } from 'react-router-dom';
@@ -77,7 +76,7 @@ const ChatContainer = () => {
       <header
         className="fixed z-10 left-1/2 -translate-x-1/2 w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${fondo})`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${userChat.chat.img})`,
         }}
       >
         <div>
@@ -92,7 +91,7 @@ const ChatContainer = () => {
             className="w-[44px] h-[44px]"
           />
           <p className="flex w-full items-center justify-center gap-2 text-white text-[14px]">
-            {userChat.user.username}
+            {userChat.chat.name}
             <span>{<Cheked />}</span>
           </p>
           <p className="text-white text-[12px] font-thin">
