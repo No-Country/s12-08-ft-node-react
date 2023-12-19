@@ -10,9 +10,9 @@ const reactionsDicc = {
 };
 
 const ReactionCard = ({ reaction, count }) => (
-  <div className="bg-black rounded-xl p-1 inline-flex items-center text-xs m-1">
-    <span className="mr-2">{reaction}</span>
-    <span className="text-white">{count}</span>
+  <div className="bg-black rounded-xl p-1 inline-flex items-center text-xs mr-1">
+    <span className="mr-1">{reaction}</span>
+    <span className="text-white mr-1">{count}</span>
   </div>
 );
 
@@ -25,9 +25,9 @@ function Reactions({ reactions }) {
   return (
     <div>
       {reactions ? (
-        reactionMap.map(([reaction, count]) => (
+        reactionMap.map(([reaction, count], index) => (
           <ReactionCard
-            key={reaction}
+            key={index}
             reaction={reactionsDicc[reaction]}
             count={count}
           />
