@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../slices/login.slice";
-import noUser from "../../assets/avatars/no_user.svg";
+import NoAvatar from "../Svg/NoAvatar";
 import { useState } from "react";
 import { useToken } from "../../hooks/useToken";
 
@@ -33,7 +33,7 @@ const Menu = () => {
           {isLogin ? (
             <img src={profile_picture} alt="User Avatar" />
           ) : (
-            <img src={noUser} alt="Default Avatar" />
+            <NoAvatar />
           )}
         </div>
       </label>
