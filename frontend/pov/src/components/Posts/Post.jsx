@@ -46,11 +46,11 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
 
   return (
     <div className='flex items-start'>
-                <img
-            src={userAvatar}
-            alt={`avatar de ${userName}`}
-            className="w-[24px] rounded-full mt-[20px]"
-          />
+      <img
+        src={userAvatar}
+        alt={`avatar de ${userName}`}
+        className="w-[24px] rounded-full mt-[20px]"
+      />
     <article
       className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer w-full"
       onClick={() => {
