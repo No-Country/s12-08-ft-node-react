@@ -8,6 +8,7 @@ function useSearch() {
   useEffect(() => {
     if (isFirstInput.current) {
       isFirstInput.current = search === '';
+      return
     }
 
     if (search === '') {
