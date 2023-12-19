@@ -31,7 +31,7 @@ const CardSubscription = ({ data }) => {
               className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg"
               onClick={() => console.log("Te suscribiste")}
             >
-              <Link>Suscribirse</Link>
+              <Link to={`/sub/${id}`}>Suscribirse</Link>
             </li>
           </ul>
         </div>

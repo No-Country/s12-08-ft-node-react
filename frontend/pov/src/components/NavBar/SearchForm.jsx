@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react';
-import { CloseIcon, SearchIcon } from '../Svg/Svgs';
-import debounce from 'just-debounce-it';
-import useSearch from '../../hooks/useSearch';
-import useUsers from '../../hooks/useUsers';
-import LoadingSpinner from '../Svg/LoadingSpinner';
+import { useCallback, useState } from "react";
+import { CloseIcon, SearchIcon } from "../Svg/Svgs";
+import { Link } from "react-router-dom";
+import debounce from "just-debounce-it";
+import useSearch from "../../hooks/useSearch";
+import useUsers from "../../hooks/useUsers";
+import LoadingSpinner from "../Svg/LoadingSpinner";
 
 const SearchForm = () => {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ const SearchForm = () => {
           type="text"
           placeholder="Search"
           className={`${
-            error ? 'border-red-700' : 'border-emerald-500'
+            error ? "border-red-700" : "border-emerald-500"
           } input input-bordered bg-white w-full`}
           onChange={handleChange}
           value={search}
@@ -52,42 +53,46 @@ const SearchForm = () => {
           onClick={handleClose}
         >
           {open ? <SearchIcon /> : <CloseIcon />}
-
         </button>
       </form>
       {error && <p className="text-red-700">{error}</p>}
 
-      {!open && <div className="z-50 relative">
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="flex flex-col">
-            {users?.length > 0 &&
-              users.map((user) => {
-                return (
-                  <div className="p-6" key={user.id}>
-                    <span className="flex flex-row justify-between items-center">
-                      <div className="flex flex-row justify-center items-center">
-                        <img
-                          alt={`Profile picture of ${user.name}`}
-                          src={user.profile_picture}
-                          className="w-24 h-24 rounded-full shadow-2xl"
-                        />
-                        <ul className="pl-5">
-                          <li className="font-bold text-lg">{user.name}</li>
-                          <li>12 suscriptores</li>
-                        </ul>
-                      </div>
-                      <button className="bg-[#232322] rounded-full w-28 h-7 px-0.5 text-white text-center">
-                        Suscribirse
-                      </button>
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
-        )}
-      </div>}
+      {!open && (
+        <div className="z-50 relative">
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <div className="flex flex-col">
+              {users?.length > 0 &&
+                users.map((user) => {
+                  return (
+                    <div className="p-6" key={user.id}>
+                      <span className="flex flex-row justify-between items-center">
+                        <div className="flex flex-row justify-center items-center">
+                          <img
+                            alt={`Profile picture of ${user.name}`}
+                            src={user.profile_picture}
+                            className="w-24 h-24 rounded-full shadow-2xl"
+                          />
+                          <ul className="pl-5">
+                            <li className="font-bold text-lg">{user.name}</li>
+                            <li>12 suscriptores</li>
+                          </ul>
+                        </div>
+                        <Link
+                          to={`/sub/${user.id}`}
+                          className="w-28 p-2 bg-[#232322] rounded-full text-white text-center"
+                        >
+                          Suscribirse
+                        </Link>
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 };
