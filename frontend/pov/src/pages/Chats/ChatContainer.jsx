@@ -7,7 +7,7 @@ import BackBtn from '../../components/Svg/BackBtn';
 import fondo from '../../assets/avatars/fondo1.jpg';
 import Cheked from '../../components/Svg/Cheked';
 import ThreadModal from '../../components/ThreadModal/ThreadModal';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 

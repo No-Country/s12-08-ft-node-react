@@ -29,7 +29,9 @@ const NavBar = () => {
                 <Compass />
               </Link>
               {/* SEARCH */}
+              <div className="flex flex-col">
               <SearchBar />
+              </div>
             </div>
             {/* USER BUTTON MENU */}
             <Menu />
