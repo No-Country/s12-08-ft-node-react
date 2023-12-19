@@ -17,7 +17,7 @@ class CommentController {
     try {
       const pageSize = 10;
       const page = req.query.page || 1;
-      const skip = page == 1 ? page :(page - 1) * pageSize;
+      const skip = page == 1 ? page : (page - 1) * pageSize + 1;
       const message_id = req.params.id;
       
       const comments = await Comments.find({message_id: message_id}).skip(skip).limit(pageSize);

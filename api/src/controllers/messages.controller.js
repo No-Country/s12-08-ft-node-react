@@ -12,6 +12,27 @@ const { cloudinary } = require("../config/cloudinary/index.js");
 const { getIO } = require("../socket.js");
 
 class MessageController {
+  static async getByChat(req, res, next){
+    try{
+      const pageSize = 20;
+
+      const id = req.params.id;
+      const page = req.query.page || 1;
+      const skip = (page - 1) * pageSize;
+
+      if (!id) {
+        throw new BadRequest("El id es necesario");
+      }
+
+      const messages = await Messages.find({ user_id: id}).skip(skip).limit(pageSize).sort({ createdAt: -1 });
+
+      return res.status(200).json({
+        messages: messages
+      });
+    }catch(error){
+      next(error);
+    }
+  }
   static async create(req, res, next) {
     req.body.user_id = req.user_id;
     try {
