@@ -64,6 +64,7 @@ export const CloseIcon = () => {
         strokeLinejoin="round"
       ></g>
       <g id="SVGRepo_iconCarrier">
+        {' '}
         <path
           d="M7 17L16.8995 7.10051"
           stroke="#000000"
