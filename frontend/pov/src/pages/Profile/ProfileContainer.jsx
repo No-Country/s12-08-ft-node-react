@@ -10,6 +10,7 @@ import LoadingSpinner from "../../components/Svg/LoadingSpinner";
 import MessageChatCircle from "../../components/Svg/MessageChatCircle";
 import CheckedIcon from "../../components/Svg/CheckedIcon";
 import SubscriptionCard from "./SubscriptionCard";
+import { useSelector } from "react-redux";
 
 const ProfileContainer = () => {
   const [userData, setUserData] = useState({});
@@ -19,6 +20,8 @@ const ProfileContainer = () => {
   const TOKEN = JSON.parse(token);
 
   const { id } = useParams();
+  const profile = useSelector((state) => state.profile);
+  console.log("PROFILE REDUX", profile);
 
   const navigate = useNavigate();
 
@@ -67,17 +70,6 @@ const ProfileContainer = () => {
     }
   }, [userData]);
 
-  //   useEffect(() => {
-  //   // Actualiza el estado local cuando los datos globales cambian
-  //   setUserData({
-  //     name: user?.user.name,
-  //     email: user?.user.email,
-  //     username: user?.user.username,
-  //     profile_picture: user?.user.profile_picture,
-  //     date_of_birth: user?.user.date_of_birth,
-  //   });
-  // }, [user]);
-
   return id ? (
     <>
       <header
@@ -94,13 +86,17 @@ const ProfileContainer = () => {
         {/* INFO DE USUARIO */}
         <div className="flex flex-col items-center justify-center ">
           <div>
-            <span className=" text-white">{userData.email}</span>
+            <span className=" text-white">
+              {profile.email ? profile.email : userData.email}
+            </span>
           </div>
           <div className="w-[80px] rounded-full overflow-hidden">
-            <img src={userData.profile_picture} />
+            <img
+              src={profile.profile_picture ? profile.profile_picture : userData.profile_picture}
+            />
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
-            @{userData.name}
+            @{profile.name ? profile.name : userData.name}
             <span className="">
               <CheckedIcon />
             </span>

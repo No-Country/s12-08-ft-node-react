@@ -6,7 +6,6 @@ export const fetchEditProfile = createAsyncThunk(
   async (userInformacion, { rejectWithValue }) => {
     const { token } = useToken();
     const TOKEN = JSON.parse(token);
-    console.log("TOKEN >>>", TOKEN);
 
     try {
       console.log(userInformacion);

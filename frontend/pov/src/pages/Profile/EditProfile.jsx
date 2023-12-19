@@ -65,10 +65,6 @@ const EditProfile = () => {
     navigate(-1);
 
     toast.success("Usuario Moficado con exito!!!");
-    
-
-
-    
   };
 
   useEffect(() => {
@@ -76,8 +72,6 @@ const EditProfile = () => {
       setUserData((prevState) => ({ ...prevState, profile_picture: base64 }));
     });
   }, []);
-
-
 
   return (
     <>
