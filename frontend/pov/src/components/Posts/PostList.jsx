@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const PostList = ({ chat, user, toggleModal, messageCount}) => {
   const { profile_picture } = user;
-  const { page, setPage , newMessage, URL, TOKEN} = useContext(ChatContext)
+  const { page, setPage , newMessage, URL, TOKEN, setMessages} = useContext(ChatContext)
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
@@ -22,26 +22,16 @@ const PostList = ({ chat, user, toggleModal, messageCount}) => {
                   Authorization: `Bearer ${TOKEN}`,
                 },
               });
-               const { data } = response;
+          const { data } = response;
 
-/*                const orderData = data.chat.messages.reverse()
+          const orderData = data.messages.reverse()
 
-               setMessages((prevMessages) => [
-                 ...orderData.filter(
-                   (newMessage) => !prevMessages.some((existingMessage) => existingMessage._id === newMessage._id)
-                 ),
-                 ...prevMessages,
-               ]); */
-
-/*              const newMessages = [...messages];
-
-              const indexMessage = newMessages.findIndex((message) => message._id === post._id);
-              
-              if(indexMessage !== -1){
-                newMessages[indexMessage].comments.push(...data.comments)
-              }
-              
-              setMessages(newMessages) */
+          setMessages((prevMessages) => [
+            ...orderData.filter(
+              (newMessage) => !prevMessages.some((existingMessage) => existingMessage._id === newMessage._id)
+            ),
+            ...prevMessages,
+          ]);
         } catch (error) {
           console.log(error);
         }
