@@ -429,7 +429,7 @@ class UserController {
       });
 
       const filteredSuggestions = suggestions.filter((suggestion) => {
-        return !myBeneficiaryIds.includes(suggestion.id);
+        return !myBeneficiaryIds.includes(suggestion.dataValues.id);
       });
 
       const totalSubscriptions = 0;
