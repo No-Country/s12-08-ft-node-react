@@ -37,24 +37,32 @@ const CardSubscription = ({ data, isSubs }) => {
             className="z-[25] gap-4 menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white shadow-md"
           >
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link to={`/profile/${id}`}>Ver perfil</Link>
+              <Link to={`/profile/${id}`} onClick={() => stopPropagation()}>
+                Ver perfil
+              </Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link to={`/chats/${id}`}>Ir al chat</Link>
+              <Link to={`/chats/${id}`} onClick={() => stopPropagation()}>
+                Ir al chat
+              </Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link>Reportar</Link>
+              <Link onClick={() => stopPropagation()}>Reportar</Link>
             </li>
             {isSubs ? (
               <li
                 className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg"
                 onClick={() => console.log("Te desuscribiste")}
               >
-                <Link to="">Desuscribirse</Link>
+                <Link to="" onClick={() => stopPropagation()}>
+                  Desuscribirse
+                </Link>
               </li>
             ) : (
               <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-                <Link to={`/sub/${id}`}>Suscribirse</Link>
+                <Link to={`/sub/${id}`} onClick={() => stopPropagation()}>
+                  Suscribirse
+                </Link>
               </li>
             )}
           </ul>
@@ -67,6 +75,7 @@ const CardSubscription = ({ data, isSubs }) => {
             to={`/profile/${id}`}
             id="avatar"
             className="w-14 h-14 md:w-15 md:h-15 ml-4 flex flex-col -translate-y-1/2 rounded-full overflow-hidden border-2"
+            onClick={() => stopPropagation()}
           >
             <img src={profile_picture} alt={`avatar de ${username}`} />
           </Link>
