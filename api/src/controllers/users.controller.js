@@ -401,6 +401,9 @@ class UserController {
   }
 
   static async suggestion(req, res, next) {
+    const pageSize = 21;
+    const page = req.query.page || 1;
+    const skip = pageSize * (page - 1);
     try {
       const mySubscriptions = await Subscription.findAll({
         where: { user_id: req.user_id, status: true },
@@ -412,7 +415,8 @@ class UserController {
       );
 
       const suggestions = await User.findAll({
-        limit: 10,
+        limit: pageSize,
+        offset: skip,
         attributes: ["id", "name", "username", "profile_picture"],
         include: [
           {
@@ -425,7 +429,6 @@ class UserController {
       });
 
       const filteredSuggestions = suggestions.filter((suggestion) => {
-        console.log("SUGESTION", suggestion);
         return !myBeneficiaryIds.includes(suggestion.id);
       });
 
