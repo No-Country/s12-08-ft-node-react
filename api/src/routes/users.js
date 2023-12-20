@@ -375,7 +375,7 @@ usersRouter.get("/subscribed", checkSession,UserController.subs);
  *                  type: string
  *                  description: Mensaje de error.
 */
-usersRouter.get("/suggestions", UserController.suggestion);
+usersRouter.get("/suggestions", checkSession, UserController.suggestion);
 
 
 module.exports = usersRouter;
