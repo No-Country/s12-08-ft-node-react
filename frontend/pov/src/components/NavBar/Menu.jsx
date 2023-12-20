@@ -29,9 +29,13 @@ const Menu = () => {
     <div className="dropdown dropdown-end">
       {/* USER BUTTON */}
       <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-        <div className="w-[44px] rounded-full">
+        <div className="w-[48px] h-[48px] border-2 rounded-full">
           {isLogin ? (
-            <img src={profile_picture} alt="User Avatar" />
+            <img
+              src={profile_picture}
+              alt="User Avatar"
+              className="w-[48px] h-[48px] object-cover"
+            />
           ) : (
             <NoAvatar />
           )}

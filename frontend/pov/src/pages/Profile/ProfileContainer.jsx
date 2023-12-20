@@ -37,7 +37,7 @@ const ProfileContainer = () => {
       });
 
       const { data } = response;
-      setBackgroundChat(data.chat.img)
+      setBackgroundChat(data.chat.img);
       setUserData(data);
     } catch (error) {
       console.log(error);
@@ -90,13 +90,14 @@ const ProfileContainer = () => {
               {profile.email ? profile.email : userData.email}
             </span>
           </div>
-          <div className="w-[80px] rounded-full overflow-hidden">
+          <div className="w-[80px] h-[80px] rounded-full overflow-hidden">
             <img
               src={
                 profile.profile_picture
                   ? profile.profile_picture
                   : userData.profile_picture
               }
+              className="w-[80px] h-[80px] object-cover"
             />
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
