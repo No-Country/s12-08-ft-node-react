@@ -19,7 +19,7 @@ const CardSubscription = ({ data, isSubs }) => {
   return (
     <div className="card text-neutral-content relative rounded-[20px] bg-slate-50">
       <div
-        className="card-body items-center text-center b"
+        className="card-body items-center text-center cursor-pointer"
         style={backgroundChat}
         onClick={handleNavigate}
       >
@@ -37,17 +37,17 @@ const CardSubscription = ({ data, isSubs }) => {
             className="z-[25] gap-4 menu menu-sm dropdown-content items-center rounded-box w-32 text-black bg-white shadow-md"
           >
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link to={`/profile/${id}`} onClick={() => stopPropagation()}>
+              <Link to={`/profile/${id}`} onClick={(e) => e.stopPropagation()}>
                 Ver perfil
               </Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link to={`/chats/${id}`} onClick={() => stopPropagation()}>
+              <Link to={`/chats/${id}`} onClick={(e) => e.stopPropagation()}>
                 Ir al chat
               </Link>
             </li>
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link onClick={() => stopPropagation()}>Reportar</Link>
+              <Link onClick={(e) => e.stopPropagation()}>Reportar</Link>
             </li>
             {isSubs ? (
               <li
@@ -68,16 +68,23 @@ const CardSubscription = ({ data, isSubs }) => {
           </ul>
         </div>
       </div>
-      <div className="w-full flex justify-between card-actions bg-[#949494] rounded-b-[20px]">
+      <div
+        className="w-full flex justify-between card-actions bg-[#949494] rounded-b-[20px] cursor-pointer"
+        onClick={handleNavigate}
+      >
         {/* AVATAR and USERNAME */}
         <div className="w-full flex items-center justify-between">
           <Link
             to={`/profile/${id}`}
             id="avatar"
-            className="w-14 h-14 md:w-15 md:h-15 ml-4 flex flex-col -translate-y-1/2 rounded-full overflow-hidden border-2"
+            className="w-[56px] h-[56px] md:w-15 md:h-15 ml-4 flex flex-col -translate-y-1/2 rounded-full overflow-hidden border-2"
             onClick={() => stopPropagation()}
           >
-            <img src={profile_picture} alt={`avatar de ${username}`} />
+            <img
+              src={profile_picture}
+              alt={`avatar de ${username}`}
+              className="w-[56px] h-[56px] object-cover"
+            />
           </Link>
           <div className="text-white">@{name}</div>
           {/* Subs Counter */}

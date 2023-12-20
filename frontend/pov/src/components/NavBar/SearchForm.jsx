@@ -59,24 +59,24 @@ const SearchForm = () => {
           {open ? <SearchIcon /> : <CloseIcon />}
         </button>
       </form>
-      {error && <p className="text-red-700">{error}</p>}
+      {error && <p className="mt-2 text-red-700">{error}</p>}
 
       {!open && (
         <>
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className="flex flex-col bg-white">
+            <div className="w-full lg:w-[500px] flex flex-col absolute mt-16 rounded-lg bg-white shadow-lg">
               {users?.length > 0 &&
                 users.map((user) => {
                   return (
-                    <div className="p-6" key={user.id}>
+                    <ul className="p-6 hover:bg-slate-200" key={user.id}>
                       <span className="flex flex-row justify-between items-center">
                         <div className="flex flex-row justify-center items-center">
                           <img
                             alt={`Profile picture of ${user.name}`}
                             src={user.profile_picture}
-                            className="w-24 h-24 rounded-full shadow-2xl"
+                            className="w-24 h-24 rounded-full shadow-lg"
                           />
                           <ul className="pl-5">
                             <li className="font-bold text-lg">{user.name}</li>
@@ -89,19 +89,19 @@ const SearchForm = () => {
                           ))
                         }
                         {isSub ? (
-                          <Link className="w-28 p-2 bg-[#232322] rounded-full text-white text-center">
+                          <Link className="w-[125px] p-2 bg-[#232322] rounded-full text-white text-center">
                             Desuscribirse
                           </Link>
                         ) : (
                           <Link
                             to={`/sub/${user.id}`}
-                            className="w-28 p-2 bg-[#232322] rounded-full text-white text-center"
+                            className="w-[125px] p-2 bg-[#232322] rounded-full text-white text-center"
                           >
                             Suscribirse
                           </Link>
                         )}
                       </span>
-                    </div>
+                    </ul>
                   );
                 })}
             </div>
