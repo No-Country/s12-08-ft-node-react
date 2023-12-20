@@ -125,11 +125,12 @@ class UserController {
       }
 
       // Obtengo y cuento las personas suscritas al perfil que busco
-      const { count: subscribersCount, rows } = await Subscription.findAndCountAll({
-        where: { beneficiary_id: user.id },
-        attributes: ["user_id"],
-        distinct: true,
-      });
+      const { count: subscribersCount, rows } =
+        await Subscription.findAndCountAll({
+          where: { beneficiary_id: user.id },
+          attributes: ["user_id"],
+          distinct: true,
+        });
 
       // Creo un array para almacenar los suscriptores
       let subscribers = [];
@@ -284,11 +285,12 @@ class UserController {
       });
 
       // Obtengo y cuento las personas suscritas al perfil que busco
-      const { count: subscribersCount, rows } = await Subscription.findAndCountAll({
-        where: { beneficiary_id: profile || req.user_id },
-        attributes: ["user_id"],
-        distinct: true,
-      });
+      const { count: subscribersCount, rows } =
+        await Subscription.findAndCountAll({
+          where: { beneficiary_id: profile || req.user_id },
+          attributes: ["user_id"],
+          distinct: true,
+        });
 
       // Creo un array para almacenar los suscriptores
       let subscribers = [];
@@ -400,6 +402,15 @@ class UserController {
 
   static async suggestion(req, res, next) {
     try {
+      const mySubscriptions = await Subscription.findAll({
+        where: { user_id: req.user_id, status: true },
+        attributes: ["beneficiary_id"],
+      });
+
+      const myBeneficiaryIds = mySubscriptions.map(
+        (subscription) => subscription.beneficiary_id
+      );
+
       const suggestions = await User.findAll({
         limit: 10,
         attributes: ["id", "name", "username", "profile_picture"],
@@ -413,9 +424,14 @@ class UserController {
         ],
       });
 
+      const filteredSuggestions = suggestions.filter((suggestion) => {
+        console.log("SUGESTION", suggestion);
+        return !myBeneficiaryIds.includes(suggestion.id);
+      });
+
       const totalSubscriptions = 0;
       const suggestionWithChat = await Promise.all(
-        suggestions.map(async (sugg) => {
+        filteredSuggestions.map(async (sugg) => {
           const totalSubscriptions = sugg.subscriptions.length;
           sugg.dataValues.totalSubscriptions = totalSubscriptions;
           const userChats = await Chat.find({ user_id: sugg.id });
@@ -432,7 +448,7 @@ class UserController {
         userSubscriptions: suggestionWithChat,
       });
     } catch (error) {
-      next(err);
+      next(error);
     }
   }
 }
