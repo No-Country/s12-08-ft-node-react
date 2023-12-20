@@ -54,14 +54,13 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
         className="w-[24px] rounded-full mt-[20px]"
       />
     <article
-      className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer w-full"
-      onClick={() => {
-        toggleModal();
-        saveChangeId(post._id);
-      }}
+      className="flex flex-col gap-2 px-2 py-4 rounded-lg w-full"
     >
       {/* Imagen del Post adjunta */}
-      <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] rounded-lg">
+      <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg" onClick={() => {
+        toggleModal();
+        saveChangeId(post._id);
+      }}>
         {post.content === 'image' && (
           <img
             src={post.image}
@@ -83,17 +82,21 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
         </div>
       </div>
         {/* Reacciones */}
-        <Reactions reactions={reactions} />
+        <Reactions reactions={reactions} id={post._id} />
 
         {/* Link a Respuestas del post */}
         {comments.length > 0 &&
           comments.map((comment, index) => (
-            <div key={index} className="flex gap-1 pl-[28px]">
+            <div key={index} className="flex gap-1 pl-[28px]" >
               {/*             { index == 0 &&
               <ThreadUnion />
             } */}
               <ThreadUnion />
-              <div className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] rounded-lg">
+              <div className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg"
+                onClick={() => {
+                  toggleModal();
+                  saveChangeId(post._id);}}
+              >
                 <Response
                   responses={comment}
                   lastOne={index === comments.length - 1}

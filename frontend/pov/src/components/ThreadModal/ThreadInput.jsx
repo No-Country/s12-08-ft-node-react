@@ -6,7 +6,7 @@ import Send from "../Svg/Send";
 import { ChatContext } from "../../context/ChatContext";
 
 const ThreadInput = () => {
-  const { saveChangeText, handleSubmit, reactionsDicc, URL, TOKEN, selectedId, user } = useContext(ChatContext)
+  const { saveChangeText, handleSubmit, reactionsDicc, selectedId, messages ,user, handleEmoji } = useContext(ChatContext)
   const [text, setText] = useState("");
 
   /* const emojis = ["😍", "🔥", "👿", "💀", "🤮"]; */
@@ -16,24 +16,15 @@ const ThreadInput = () => {
     saveChangeText(e.target.value)
   };
 
-  const handleEmoji = async(e, key) => {
-    try { 
-      const url = `${URL}/message/reaction/${selectedId}?user_id=${user.user.id}&reaction=${key}`;
-      console.log(url)
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      });
 
-      const data = await response.json();
 
-      console.log(data)
-    } catch (error) {
-      console.error(error);
-    }
+  const userReacted = (key) => {
+    const message = messages[messages.findIndex(
+      (message) => message._id === selectedId
+    )]
+
+    return message.reactions.users_who_reacted
+      .some((reaction) => user.user.id === reaction.user_id && reaction.reaction === key)
   }
 
 
@@ -56,8 +47,10 @@ const ThreadInput = () => {
         {Object.entries(reactionsDicc).map(([key, value]) => (
           <button
             key={key}
-            onClick={(e) => handleEmoji(e, key)}
-            className="w-12 h-12 p-[10px] flex justify-center items-center text-[24px] bg-[#1B1B1A] rounded-full transition-transform hover:scale-105"
+            onClick={(e) => handleEmoji(e, key, selectedId, true)}
+            className={`w-12 h-12 p-[10px] flex justify-center items-center text-[24px] bg-[#1B1B1A] rounded-full transition-transform hover:scale-105 ${
+              userReacted(key) ? 'border-2 border-inherit' : ''
+            }`}
           >
             {value}
           </button>

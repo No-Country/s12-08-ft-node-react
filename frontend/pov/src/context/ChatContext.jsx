@@ -22,9 +22,9 @@ export const ChatProvider = ({ children, user }) => {
   const reactionsDicc = {
 /*     like: "👍",
     dislike: "👎", */
-    fun: "😂",
     love: "😍",
     sad: "😢",
+    fun: "😂",
     interesting: "😲",
 /*     dead: "💀",
     hate: "🤬", */
@@ -108,6 +108,42 @@ export const ChatProvider = ({ children, user }) => {
     }
   };
 
+  const handleEmoji = async(e, key, id, modal) => {
+    try {
+      if(id){
+      const url = `${URL}/message/reaction/${id}`
+      const response = await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify({
+          user_id: user.user.id,
+          reaction: key
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+
+      const data = await response.json();
+
+      const newMessages = [...messages];
+
+      const messageIndex = newMessages.findIndex(
+        (message) => message._id === id
+      );
+
+      newMessages[messageIndex].reactions= data.updatedMessage.reactions
+
+      setMessages(newMessages)
+      if(response.ok && modal){
+        toggleModal()
+      }
+    }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const toggleModal = () => {
     setModal((modal) => !modal);
   };
@@ -133,6 +169,7 @@ export const ChatProvider = ({ children, user }) => {
         setMessages,
         setUserChat,
         reactionsDicc,
+        handleEmoji,
         user
       }}
     >
