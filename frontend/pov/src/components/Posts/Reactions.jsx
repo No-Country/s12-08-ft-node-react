@@ -23,7 +23,7 @@ function Reactions({ reactions, id }) {
             key={index}
             emoji={reactionsDicc[reaction]}
             reaction={reaction}
-            count={count}
+            count={count >= 0 ? count : 0}
             handleEmoji={handleEmoji}
             id={id}
           />

@@ -7,7 +7,7 @@ const Reaction = ({ reaction }) => {
   return (
     <button className="reactionBtn btn btn-xs bg-[#232322] rounded-xl">
       <span className="reactionBtn__emoji text-xs">{image}</span>
-      <span className="text-white text-xs">{amount}</span>
+      <span className="text-white text-xs">{amount >= 0 ? amount : 0}</span>
     </button>
   );
 };
