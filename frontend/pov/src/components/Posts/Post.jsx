@@ -11,7 +11,7 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
     useContext(ChatContext);
   const { text, comments, reactions } = post;
   const [page, setPage] = useState(0);
-  console.log("REACCIONES", reactions);
+  //console.log("REACCIONES", reactions);
 
   useEffect(() => {
     const getComments = async () => {

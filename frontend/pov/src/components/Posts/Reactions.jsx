@@ -1,13 +1,5 @@
-const reactionsDicc = {
-  like: "👍",
-  dislike: "👎",
-  fun: "😂",
-  love: "😍",
-  sad: "😢",
-  interesting: "😲",
-  dead: "💀",
-  hate: "🤬",
-};
+import { useContext } from "react";
+import { ChatContext } from "../../context/ChatContext";
 
 const ReactionCard = ({ reaction, count }) => (
   <div className="bg-black rounded-xl p-1 inline-flex items-center text-xs mr-1">
@@ -17,6 +9,7 @@ const ReactionCard = ({ reaction, count }) => (
 );
 
 function Reactions({ reactions }) {
+  const { reactionsDicc } = useContext(ChatContext);
   // Creo un arreglo iterable y lo recorto para quitarle (pero no eliminar) el ultimo elemento que no corresponde (users_who_reacted)
   const reactionMap = Object.entries(reactions).slice(
     0,

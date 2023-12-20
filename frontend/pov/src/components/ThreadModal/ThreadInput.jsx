@@ -5,17 +5,36 @@ import Hashtag from "../Svg/Hashtag";
 import Send from "../Svg/Send";
 import { ChatContext } from "../../context/ChatContext";
 
-const ThreadInput = ({ toggleModal }) => {
-  const { saveChangeText, handleSubmit } = useContext(ChatContext)
+const ThreadInput = () => {
+  const { saveChangeText, handleSubmit, reactionsDicc, URL, TOKEN, selectedId, user } = useContext(ChatContext)
   const [text, setText] = useState("");
 
-  const emojis = ["😍", "🔥", "👿", "💀", "🤮"];
+  /* const emojis = ["😍", "🔥", "👿", "💀", "🤮"]; */
 
   const handleChange = (e) => {
     setText(e.target.value);
     saveChangeText(e.target.value)
   };
 
+  const handleEmoji = async(e, key) => {
+    try { 
+      const url = `${URL}/message/reaction/${selectedId}?user_id=${user.user.id}&reaction=${key}`;
+      console.log(url)
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+
+      const data = await response.json();
+
+      console.log(data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 
   return (
@@ -34,12 +53,13 @@ const ThreadInput = ({ toggleModal }) => {
       }
     >
       <div className="w-full flex justify-between ">
-        {emojis.map((emoji, index) => (
+        {Object.entries(reactionsDicc).map(([key, value]) => (
           <button
-            key={index}
+            key={key}
+            onClick={(e) => handleEmoji(e, key)}
             className="w-12 h-12 p-[10px] flex justify-center items-center text-[24px] bg-[#1B1B1A] rounded-full transition-transform hover:scale-105"
           >
-            {emoji}
+            {value}
           </button>
         ))}
         <button className="w-12 h-12 p-[10px] flex justify-center items-center text-[24px] bg-[#1B1B1A] rounded-full hover:scale-105">

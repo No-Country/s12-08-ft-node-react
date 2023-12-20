@@ -18,6 +18,17 @@ export const ChatProvider = ({ children, user }) => {
   const TOKEN = JSON.parse(token);
   const [modal, setModal] = useState(false);
   const [newMessage,setNewMessage] = useState(false)
+
+  const reactionsDicc = {
+/*     like: "👍",
+    dislike: "👎", */
+    fun: "😂",
+    love: "😍",
+    sad: "😢",
+    interesting: "😲",
+/*     dead: "💀",
+    hate: "🤬", */
+  };
   
   useEffect(() => {
     if (socket === null) return
@@ -120,7 +131,9 @@ export const ChatProvider = ({ children, user }) => {
         setLoadingMessages,
         URL,
         setMessages,
-        setUserChat
+        setUserChat,
+        reactionsDicc,
+        user
       }}
     >
       {children}
