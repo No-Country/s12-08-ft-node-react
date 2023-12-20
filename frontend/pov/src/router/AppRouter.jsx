@@ -10,8 +10,8 @@ import NotFound from "../pages/NotFound/NotFound";
 import ProfileContainer from "../pages/Profile/ProfileContainer";
 import "../index.css";
 import EditProfile from "../pages/Profile/EditProfile";
-import { Confirm } from "../pages/Subscription/Confirm";
-import { Subscription } from "../pages/Subscription/Subscription";
+import { Confirm } from "../pages/Payment/Confirm";
+import { Subscription } from "../pages/Payment/Subscription";
 import { Toaster } from "react-hot-toast";
 
 

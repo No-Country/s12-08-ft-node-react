@@ -4,21 +4,23 @@ import { useToken } from "../../hooks/useToken";
 import axios from "axios";
 import SubscriptionsList from "./SubscriptionsList";
 import BackBtn from "../../components/Svg/BackBtn";
-import fondo from "../../assets/avatars/fondo1.jpg";
 import EditBtn from "../../components/Svg/EditBtn";
 import LoadingSpinner from "../../components/Svg/LoadingSpinner";
 import MessageChatCircle from "../../components/Svg/MessageChatCircle";
 import CheckedIcon from "../../components/Svg/CheckedIcon";
 import SubscriptionCard from "./SubscriptionCard";
+import { useSelector } from "react-redux";
 
 const ProfileContainer = () => {
   const [userData, setUserData] = useState({});
   const [subscriptions, setSubscriptions] = useState([]);
+  const [backgroundChat, setBackgroundChat] = useState("");
 
   const { token, user } = useToken();
   const TOKEN = JSON.parse(token);
 
   const { id } = useParams();
+  const profile = useSelector((state) => state.profile);
 
   const navigate = useNavigate();
 
@@ -26,7 +28,6 @@ const ProfileContainer = () => {
   const getUser = async () => {
     try {
       //URL Para los chat
-      console.log("GETUSER");
       const URL = `https://pov.azurewebsites.net/api/users/?profile=${id}`;
 
       const response = await axios.get(URL, {
@@ -36,6 +37,7 @@ const ProfileContainer = () => {
       });
 
       const { data } = response;
+      setBackgroundChat(data.chat.img)
       setUserData(data);
     } catch (error) {
       console.log(error);
@@ -57,7 +59,6 @@ const ProfileContainer = () => {
         },
       });
       setSubscriptions(response.data.userSubscriptions);
-      console.log(response.data.userSubscriptions);
     } catch (error) {
       console.log(error);
     }
@@ -69,15 +70,12 @@ const ProfileContainer = () => {
     }
   }, [userData]);
 
-  console.log(userData);
-  console.log(subscriptions);
-
   return id ? (
     <>
       <header
         className="w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${fondo})`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundChat})`,
         }}
       >
         {/* BOTON VOLVER ATRAS */}
@@ -88,13 +86,21 @@ const ProfileContainer = () => {
         {/* INFO DE USUARIO */}
         <div className="flex flex-col items-center justify-center ">
           <div>
-            <span className=" text-white">{userData.email}</span>
+            <span className=" text-white">
+              {profile.email ? profile.email : userData.email}
+            </span>
           </div>
           <div className="w-[80px] rounded-full overflow-hidden">
-            <img src={userData.profile_picture} />
+            <img
+              src={
+                profile.profile_picture
+                  ? profile.profile_picture
+                  : userData.profile_picture
+              }
+            />
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
-            @{userData.name}
+            @{profile.name ? profile.name : userData.name}
             <span className="">
               <CheckedIcon />
             </span>
@@ -124,22 +130,33 @@ const ProfileContainer = () => {
         )}
       </header>
 
-      <main className="w-full flex flex-col md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] bg-slate-100">
+      <main className="w-full min-h-[calc(100vh-175px)] flex flex-col md:max-w-[1000px] lg:mx-auto py-8 px-[24px]">
         {/* LISTADO DE SUBSCRIPCIONES */}
         <SubscriptionsList>
-          {subscriptions?.map((subs) => (
-            <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
-          ))}
+          {user.user.id === id ? (
+            subscriptions?.map((subs, index) => (
+              <Link key={index} to={`/chats/${subs.beneficiary.id}`}>
+                <SubscriptionCard key={subs.beneficiary.id} subs={subs} />
+              </Link>
+            ))
+          ) : (
+            <div className="w-full h-[300px] overflow-hidden rounded-lg">
+              <img
+                alt="Chat with your favorite famous ppl"
+                src="https://m.media-amazon.com/images/M/MV5BNDQzNDViNDYtNjE2Ny00YmNhLWExZWEtOTIwMDA1YjY5NDBhXkEyXkFqcGdeQXVyODg3NDc1OTE@._V1_FMjpg_UX1000_.jpg"
+                className="w-full h-[300px] object-cover"
+              />
+            </div>
+          )}
         </SubscriptionsList>
-
         {/* BOTON DE IR A CHAT */}
-        <div className="fixed bottom-[84px] left-1/2 -translate-x-1/2 w-[345px]">
+        <div className="mt-auto mx-auto w-[345px]">
           <button
             onClick={() => {
               {
                 user.user.id === id
                   ? navigate(`/chats/${user.user.id}`)
-                  : navigate(`/chats/${id.id}`);
+                  : navigate(`/chats/${id}`);
               }
             }}
             className="btn mt-auto text-white hover:bg-gray-500 flex h-14 px-10 justify-center w-full items-center gap-4 border rounded-md bg-[#5D73E9]"

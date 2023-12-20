@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useToken } from "../../hooks/useToken";
 import { useNavigate } from "react-router-dom";
 import CloseX from "../../components/Svg/CloseX";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchEditProfile } from "../../slices/profileSlice";
 import { fileToBase64, convertirImagenABase64 } from "../../helpers";
 import { toast } from "react-hot-toast";
@@ -45,12 +45,6 @@ const EditProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(userData);
-    dispatch(fetchEditProfile(userData));
-
-    setIsEdit(false);
-
-    navigate(-1);
 
     const objToLocalStorage = user;
 
@@ -62,8 +56,13 @@ const EditProfile = () => {
       profile_picture: userData.profile_picture,
       date_of_birth: userData.date_of_birth,
     };
+    localStorage.setItem("user", JSON.stringify(objToLocalStorage));
 
-    //localStorage.setItem("user", JSON.stringify(objToLocalStorage));
+    dispatch(fetchEditProfile(userData));
+
+    setIsEdit(false);
+
+    navigate(-1);
 
     toast.success("Usuario Moficado con exito!!!");
   };
@@ -118,7 +117,7 @@ const EditProfile = () => {
               required
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="username">Usuario</label>
             <input
               type="text"
@@ -129,7 +128,7 @@ const EditProfile = () => {
               onChange={onInputChange}
               required
             />
-          </div>
+          </div> */}
           <div>
             <label htmlFor="date_of_birth">Fecha de nacimiento</label>
             <input

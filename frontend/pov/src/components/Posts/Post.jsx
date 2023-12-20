@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import ThreadUnion from "../Svg/ThreadUnion";
 import Response from "./Response";
@@ -54,36 +53,35 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
         alt={`avatar de ${userName}`}
         className="w-[24px] rounded-full mt-[20px]"
       />
-      <article
-        className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer w-full"
-        onClick={() => {
-          toggleModal();
-          saveChangeId(post._id);
-        }}
-      >
-        {/* Imagen del Post adjunta */}
-        <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] rounded-lg">
-          {post.content === "image" && (
-            <img
-              src={post.image}
-              alt="imagen adjunta al post"
-              className="mb-2 rounded-lg overflow-hidden"
-            />
-          )}
-          {/* Texto del Post */}
-          <div className="w-full flex gap-2 items-center">
-            <div className="flex flex-col">
-              <p className="w-full text-[12px]">
-                <span className="font-black">{userName}: </span>
-                {text}
-              </p>
-              <p className="text-[10px] font-thin">
-                {format(new Date(post.createdAt), "dd-MM-yyyy hh:mm")}{" "}
-              </p>
-            </div>
-          </div>
-        </div>
+    <article
+      className="flex flex-col gap-2 px-2 py-4 rounded-lg hover:scale-[102%] transition-transform cursor-pointer w-full"
+      onClick={() => {
+        toggleModal();
+        saveChangeId(post._id);
+      }}
+    >
+      {/* Imagen del Post adjunta */}
+      <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] rounded-lg">
+        {post.content === 'image' && (
+          <img
+            src={post.image}
+            alt="imagen adjunta al post"
+            className="mb-2 rounded-lg overflow-hidden"
+          />
+        )} 
+        {/* Texto del Post */}
+        <div className="w-full flex gap-2 items-center">
 
+          <div className="flex flex-col overflow-auto">
+            <p className="w-full text-[12px] break-words">
+              <span className="font-black">{userName}: </span>
+              {text}
+            </p>
+            <p className="text-[10px] font-thin">{format(new Date(post.createdAt), 'dd-MM-yyyy hh:mm')} </p>
+          </div>
+          
+        </div>
+      </div>
         {/* Reacciones */}
         <Reactions reactions={reactions} />
 

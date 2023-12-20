@@ -19,8 +19,8 @@ const Response = ({ responses, lastOne, toShow, page, setPage }) => {
     responses && (
       <div className="flex items-center w-full">
         <img alt="user avatar" src={user_photo} className="w-[24px] rounded-full mr-[3px]" />
-        <div className="flex flex-col w-full">
-          <p className="text-[12px] text-black">
+        <div className="flex flex-col w-full overflow-auto">
+          <p className="text-[12px] text-black break-words">
           <span className="font-black">{username}: </span>
             {text}
           </p>
