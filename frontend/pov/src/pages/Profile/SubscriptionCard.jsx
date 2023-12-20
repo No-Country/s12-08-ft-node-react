@@ -9,7 +9,7 @@ const SubscriptionCard = ({ subs }) => {
         <div className="w-[48px] h-[48px] overflow-hidden rounded-full border-2 border-transparent">
           {profile_picture ? (
             <img
-              className="object-fill"
+              className="w-[48px] h-[48px] object-cover"
               src={profile_picture}
               alt={`avatar de ${username}`}
             />
