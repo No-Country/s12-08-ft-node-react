@@ -3,7 +3,6 @@ const usersRouter = express.Router();
 const {checkSession} = require('../middlewares/session/session')
 const { UserController } = require("../controllers/users.controller");
 
-usersRouter.use(checkSession)
 
 /**
  * @openapi
@@ -84,7 +83,7 @@ usersRouter.use(checkSession)
  *                   type: string
  *                   description: Mensaje de error.
 */
-usersRouter.put("/edit" , UserController.editUser)
+usersRouter.put("/edit" , checkSession, UserController.editUser)
 
 
 /**
@@ -95,6 +94,12 @@ usersRouter.put("/edit" , UserController.editUser)
  *       - Users
  *     summary: Obtiene la lista de todos los usuarios.
  *     description: Obtiene una lista de todos los usuarios registrados en el sistema, excluyendo la contraseña de cada usuario.
+ *     parameters:
+ *       - in: query
+ *         name: searchForm
+ *         schema:
+ *           type: string
+ *         description: Búsqueda opcional para filtrar la lista de usuarios.
  *     responses:
  *       200:
  *         description: Lista de usuarios obtenida exitosamente.
@@ -201,7 +206,7 @@ usersRouter.get("/allUser", UserController.AllUser);
  *                 type: string
  *                 description: Mensaje de error.
  */
-usersRouter.get("/", UserController.oneUser);
+usersRouter.get("/", checkSession,UserController.oneUser);
 
 /**
  * @openapi
@@ -246,7 +251,7 @@ usersRouter.get("/", UserController.oneUser);
  *                   description: Mensaje de error.
  */
 
-usersRouter.delete("/acc", UserController.deleteUser);
+usersRouter.delete("/acc", checkSession,UserController.deleteUser);
 
 /**
  * @openapi
@@ -308,7 +313,7 @@ usersRouter.delete("/acc", UserController.deleteUser);
  *                  description: Mensaje de error.
  */
 
-usersRouter.get("/subscribed", UserController.subs);
+usersRouter.get("/subscribed", checkSession,UserController.subs);
 
 
 /**
@@ -370,7 +375,7 @@ usersRouter.get("/subscribed", UserController.subs);
  *                  type: string
  *                  description: Mensaje de error.
 */
-usersRouter.get("/suggestions", UserController.suggestion);
+usersRouter.get("/suggestions", checkSession, UserController.suggestion);
 
 
 module.exports = usersRouter;

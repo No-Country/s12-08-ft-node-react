@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useToken } from "../../hooks/useToken";
-import { AnimatePresence, motion } from "framer-motion";
-import CardSubscription from "./CardSubscription";
-import LoadingSpinner from "../Svg/LoadingSpinner";
-import axios from "axios";
-import BackBtn from "../Svg/BackBtn";
-import { URL } from "../../router/routes";
+import { useEffect, useState } from 'react';
+import { useToken } from '../../hooks/useToken';
+import { AnimatePresence, motion } from 'framer-motion';
+import CardSubscription from './CardSubscription';
+import LoadingSpinner from '../Svg/LoadingSpinner';
+import axios from 'axios';
+import BackBtn from '../Svg/BackBtn';
+import { URL } from '../../router/routes';
 
 const ContainerSubscriptions = () => {
   const { token } = useToken();
@@ -17,6 +17,9 @@ const ContainerSubscriptions = () => {
   const [isOpenSug, setIsOpenSug] = useState(true);
   const [isOpenSub, setIsOpenSub] = useState(false);
 
+  const beneficiaryId = localStorage.getItem('user');
+  let parseBeneficiary = JSON.parse(beneficiaryId);
+
   const getChats = async (typeCard) => {
     setLoading(true);
     try {
@@ -25,23 +28,34 @@ const ContainerSubscriptions = () => {
           Authorization: `Bearer ${TOKEN}`,
         },
       });
-      if (typeCard === "suggestions") {
+      if (typeCard === 'suggestions') {
         setcardsSuggestions(response.data);
       } else {
         setCardsSubscriptions(response.data);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  const beneficiary = cardsSuggestions?.userSubscriptions?.map(
+    (sub) => sub.beneficiary.id
+  );
+
+  const VerifiedSubscriptions = parseBeneficiary?.user?.subscribedTo?.forEach(
+    (subscription) => {
+      subscription.beneficiary_id;
+    }
+  );
+  const ValidateSubscription = beneficiary?.includes(VerifiedSubscriptions);
+
   useEffect(() => {
     if (!TOKEN) {
-      getChats("suggestions");
+      getChats('suggestions');
     } else {
-      Promise.all([getChats("suggestions"), getChats("subscribed")]);
+      Promise.all([getChats('suggestions'), getChats('subscribed')]);
     }
   }, []);
 
@@ -58,7 +72,7 @@ const ContainerSubscriptions = () => {
       y: -100,
       opacity: 0,
       transition: {
-        ease: "easeInOut",
+        ease: 'easeInOut',
         duration: 0.3,
         delay: 0.1,
       },
@@ -77,11 +91,11 @@ const ContainerSubscriptions = () => {
             <p className="text-[10px]">Tu lista de subscripciones.</p>
             <button
               className={`mr-4 p-2 absolute  top-1/2 right-0 -translate-y-1/2 ${
-                isOpenSub ? "-rotate-90" : "rotate-90"
+                isOpenSub ? '-rotate-90' : 'rotate-90'
               } cursor-pointer rounded-full bg-slate-100 transition-transform`}
               onClick={toggleSubscriptions}
             >
-              <BackBtn color={"black"} />
+              <BackBtn color={'black'} />
             </button>
           </div>
           <AnimatePresence>
@@ -130,11 +144,11 @@ const ContainerSubscriptions = () => {
             </p>
             <button
               className={`mr-4 p-2 absolute top-1/2 right-0 -translate-y-1/2 ${
-                isOpenSug ? "-rotate-90" : "rotate-90"
+                isOpenSug ? '-rotate-90' : 'rotate-90'
               } cursor-pointer rounded-full bg-slate-100 transition-transform`}
               onClick={toggleSuggestions}
             >
-              <BackBtn color={"black"} />
+              <BackBtn color={'black'} />
             </button>
           </div>
           <AnimatePresence>
@@ -155,7 +169,7 @@ const ContainerSubscriptions = () => {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
                   {cardsSuggestions?.userSubscriptions?.map((card) => (
-                    <CardSubscription key={card.beneficiary.id} data={card} />
+                    <CardSubscription ValidateSubscription={ValidateSubscription} key={card.beneficiary.id} data={card} />
                   ))}
                 </div>
               </motion.div>
