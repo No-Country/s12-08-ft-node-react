@@ -117,7 +117,7 @@ const EditProfile = () => {
               required
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="username">Usuario</label>
             <input
               type="text"
@@ -128,7 +128,7 @@ const EditProfile = () => {
               onChange={onInputChange}
               required
             />
-          </div>
+          </div> */}
           <div>
             <label htmlFor="date_of_birth">Fecha de nacimiento</label>
             <input

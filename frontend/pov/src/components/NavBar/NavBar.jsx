@@ -37,9 +37,9 @@ const NavBar = () => {
                 </Link>
               )}
               {/* COMPASS BUTTON DESKTOP */}
-              <Link to="" className="btn btn-ghost px-0 hover:bg-transparent">
+              {/* <Link to="" className="btn btn-ghost px-0 hover:bg-transparent">
                 <Compass />
-              </Link>
+              </Link> */}
               {/* SEARCH */}
               <div className="flex flex-col">
                 <SearchBar />
