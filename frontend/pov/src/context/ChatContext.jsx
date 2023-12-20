@@ -17,7 +17,9 @@ export const ChatProvider = ({ children, user }) => {
   const [id, setId] = useState(null);
   const TOKEN = JSON.parse(token);
   const [modal, setModal] = useState(false);
+  const [modalComment, setModalComment] = useState(false);
   const [newMessage,setNewMessage] = useState(false)
+  const [currenctCommentId, setCurrentCommentId] = useState(null)
 
   const reactionsDicc = {
 /*     like: "👍",
@@ -144,8 +146,51 @@ export const ChatProvider = ({ children, user }) => {
     }
   }
 
+
+  const handleEmojiComment = async(e, key, id, messageId ,  modal) =>{
+    try {
+      if(id && messageId){
+      const url = `${URL}/comments/reaction/${id}`
+      const response = await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify({
+          reaction: key
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+
+      const data = await response.json();
+
+
+      const newMessages = [...messages];
+
+      const messageIndex = newMessages.findIndex(
+        (message) => message._id === messageId
+      );
+
+      const commentIndex = newMessages[messageIndex].comments.findIndex((comment) => comment._id === id)
+
+      newMessages[messageIndex].comments[commentIndex].reactions = data.updatedComment.reactions
+
+      setMessages(newMessages)
+      if(response.ok && modal){
+        toggleModalComment()
+      }
+    }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const toggleModal = () => {
     setModal((modal) => !modal);
+  };
+
+  const toggleModalComment = () => {
+    setModalComment((modal) => !modal);
   };
 
   return (
@@ -170,7 +215,12 @@ export const ChatProvider = ({ children, user }) => {
         setUserChat,
         reactionsDicc,
         handleEmoji,
-        user
+        user,
+        toggleModalComment,
+        modalComment,
+        setCurrentCommentId,
+        currenctCommentId,
+        handleEmojiComment
       }}
     >
       {children}

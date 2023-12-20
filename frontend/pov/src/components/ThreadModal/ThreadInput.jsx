@@ -48,8 +48,8 @@ const ThreadInput = () => {
           <button
             key={key}
             onClick={(e) => handleEmoji(e, key, selectedId, true)}
-            className={`w-12 h-12 p-[10px] flex justify-center items-center text-[24px] bg-[#1B1B1A] rounded-full transition-transform hover:scale-105 ${
-              userReacted(key) ? 'border-2 border-inherit' : ''
+            className={`w-12 h-12 p-[10px] flex justify-center items-center text-[24px] rounded-full transition-transform hover:scale-105 ${
+              userReacted(key) ? 'bg-[#5D73E9]' : 'bg-[#1B1B1A]'
             }`}
           >
             {value}

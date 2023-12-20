@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ChatContext } from '../../context/ChatContext';
 import axios from 'axios';
 
-const PostList = ({ chat, user, toggleModal, messageCount}) => {
+const PostList = ({ chat, user, toggleModal, messageCount, toggleModalComment}) => {
   const { profile_picture } = user;
   const [page, setPage] = useState(1);
   const { newMessage, URL, TOKEN, setMessages} = useContext(ChatContext)
@@ -69,6 +69,7 @@ const PostList = ({ chat, user, toggleModal, messageCount}) => {
             userAvatar={profile_picture}
             toggleModal={toggleModal}
             commentsCount={message.totalComments}
+            toggleModalComment={toggleModalComment}
           />
       ))}
       </div>

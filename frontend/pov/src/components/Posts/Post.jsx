@@ -6,8 +6,8 @@ import { format } from "date-fns";
 import axios from "axios";
 import Reactions from "./Reactions";
 
-const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
-  const { saveChangeId, TOKEN, URL, messages, setMessages } =
+const Post = ({ post, userName, userAvatar, toggleModal, commentsCount,toggleModalComment }) => {
+  const { saveChangeId, TOKEN, URL, messages, setMessages, user, setCurrentCommentId, handleEmoji, handleEmojiComment } =
     useContext(ChatContext);
   const { text, comments, reactions } = post;
   const [page, setPage] = useState(0);
@@ -82,28 +82,35 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
         </div>
       </div>
         {/* Reacciones */}
-        <Reactions reactions={reactions} id={post._id} />
+        <Reactions reactions={reactions} id={post._id} usersReacted={post.reactions.users_who_reacted} idUser={user.user.id} handleEmoji={handleEmoji}/>
 
         {/* Link a Respuestas del post */}
         {comments.length > 0 &&
           comments.map((comment, index) => (
-            <div key={index} className="flex gap-1 pl-[28px]" >
-              {/*             { index == 0 &&
-              <ThreadUnion />
-            } */}
-              <ThreadUnion />
-              <div className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg"
-                onClick={() => {
-                  toggleModal();
-                  saveChangeId(post._id);}}
-              >
-                <Response
-                  responses={comment}
-                  lastOne={index === comments.length - 1}
-                  toShow={commentsCount - comments.length}
-                  setPage={setPage}
-                  page={page}
-                />
+            <div key={index} className="flex flex-col items-start">
+              <div className="flex gap-1 pl-[28px] w-full" >
+                {/*             { index == 0 &&
+                <ThreadUnion />
+              } */}
+                <ThreadUnion />
+                <div className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg"
+                  onClick={() => {
+                    toggleModalComment();
+                    saveChangeId(post._id);
+                    setCurrentCommentId(comment._id);}}
+                >
+                  <Response
+                    responses={comment}
+                    lastOne={index === comments.length - 1}
+                    toShow={commentsCount - comments.length}
+                    setPage={setPage}
+                    page={page}
+                  />
+                  
+                </div>
+              </div>
+              <div className="self-end">
+                <Reactions reactions={comment.reactions} id={comment._id} messageId={post._id} usersReacted={comment.reactions.users_who_reacted} idUser={user.user.id} handleEmoji={handleEmojiComment}/>
               </div>
             </div>
           ))}
