@@ -92,21 +92,25 @@ messagesRouter.delete("/:id", MessageController.delete);
  *         description: ID del mensaje a modificar.
  *         schema:
  *           type: string
- *           format: uuid
- *       - name: user_id
- *         in: query
- *         required: true
- *         description: ID del usuario.
- *         schema:
- *           type: string
- *           format: uuid
- *       - name: reaction
- *         in: query
- *         required: true
- *         description: Reacción a aplicar.
- *         schema:
- *           type: string
- *           enum: [love, sad, fun, interesting]
+ *     requestBody:
+ *       description: Datos del la reaccion
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 description: ID del usuario que hace la reacccion.
+ *               reaction:
+ *                 type: string
+ *                 description: Reaccion a agregar.
+ *                 enum:
+ *                  - love
+ *                  - sad
+ *                  - fun
+ *                  - interesting
  *     responses:
  *       '200':
  *         description: Reacción actualizada exitosamente.
