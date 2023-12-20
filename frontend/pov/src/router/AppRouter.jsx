@@ -4,16 +4,15 @@ import { LoginForm } from "../pages/Login/LoginForm";
 import { RegisterForm } from "../pages/Register/RegisterForm";
 import { RequireAuth } from "../slices/auth/RequireAuth";
 import { ChatProvider } from "../context/ChatContext";
-//import Configurations from '../pages/Profile/Configurations';
 import ChatContainer from "../pages/Chats/ChatContainer";
 import NotFound from "../pages/NotFound/NotFound";
 import ProfileContainer from "../pages/Profile/ProfileContainer";
 import "../index.css";
 import EditProfile from "../pages/Profile/EditProfile";
+import HistoryContainer from "../pages/Histories/HistoryContainer";
 import { Confirm } from "../pages/Payment/Confirm";
 import { Subscription } from "../pages/Payment/Subscription";
 import { Toaster } from "react-hot-toast";
-
 
 const AppRouter = () => {
   const user = localStorage.getItem("user")
@@ -30,7 +29,7 @@ const AppRouter = () => {
             <Route path="/" element={<Home />} />
             <Route path="login" element={<LoginForm />} />
             <Route path="register" element={<RegisterForm />} />
-
+            <Route path="histories/:id" element={<HistoryContainer />} />
             {/* Private routes */}
             <Route element={<RequireAuth />}>
               <Route path="home" element={<Home />} />
