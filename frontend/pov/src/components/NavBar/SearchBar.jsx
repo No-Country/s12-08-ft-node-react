@@ -17,7 +17,7 @@ const SearchBar = () => {
       {/* SEARCHBAR MOBILE */}
       <label
         tabIndex={0}
-        className="btn btn-ghost btn-circle avatar px-0 hover:bg-transparent"
+        className="w-[24px] h-[24px] btn btn-ghost btn-circle px-0 hover:bg-transparent"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -73,13 +73,30 @@ class ChatController {
         throw new NotFound("El usuario no existe");
       }
 
-      const chat = await Chat.findById(id).populate({
+      
+
+      const chat = await Chat.findById(id);
+
+      chat._doc.totalMessages = chat.messages.length;
+      
+      await Chat.populate(chat, {
         path: "messages",
         options: {
           skip,
           limit: pageSize,
+          sort: { createdAt: -1 },
+        }
+      });
+
+      for(const message of chat.messages){
+        message._doc.totalComments = message.comments.length;
+      }
+
+      await Chat.populate(chat.messages, {
+        path: "comments",
+        options: {
+          limit: 1,
         },
-        populate: { path: "comments" },
       });
 
       if (!chat) {
@@ -93,7 +110,6 @@ class ChatController {
         profile_picture: plainUser.profile_picture,
         subCount: user.subscriptions.length,
       };
-  
 
       return res.status(200).json({
         user: finalUser,

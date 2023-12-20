@@ -2,6 +2,7 @@ const express = require("express");
 const messagesRouter = express.Router();
 const { MessageController } = require("../controllers/messages.controller");
 const { checkSession } = require("../middlewares/session/session");
+const { checkSubscription } = require("../middlewares/subscriptions/subscriptions");
 
 messagesRouter.use(checkSession)
 
@@ -91,21 +92,25 @@ messagesRouter.delete("/:id", MessageController.delete);
  *         description: ID del mensaje a modificar.
  *         schema:
  *           type: string
- *           format: uuid
- *       - name: user_id
- *         in: query
- *         required: true
- *         description: ID del usuario.
- *         schema:
- *           type: string
- *           format: uuid
- *       - name: reaction
- *         in: query
- *         required: true
- *         description: Reacción a aplicar.
- *         schema:
- *           type: string
- *           enum: [love, sad, fun, interesting]
+ *     requestBody:
+ *       description: Datos del la reaccion
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 description: ID del usuario que hace la reacccion.
+ *               reaction:
+ *                 type: string
+ *                 description: Reaccion a agregar.
+ *                 enum:
+ *                  - love
+ *                  - sad
+ *                  - fun
+ *                  - interesting
  *     responses:
  *       '200':
  *         description: Reacción actualizada exitosamente.
@@ -152,6 +157,71 @@ messagesRouter.delete("/:id", MessageController.delete);
  *                   description: Mensaje de error.
  */
 messagesRouter.put("/reaction/:messageId", MessageController.putReaction);
+
+/**
+ * @openapi
+ * /api/message/chat/{id}:
+ *   get:
+ *     tags:
+ *       - Messages
+ *     summary: Obtiene los Mensajes de un chat especifico.
+ *     description: Obtiene los Mensajes de un chat.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID del chat.
+ *       - in: query
+ *         name: page
+ *         description: Pagina con cantidad de Mensajes (cada 20) del chat.
+ *         required: false
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Mensajes obtenidos exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 messages:
+ *                   type: object
+ *                   description: Mensajes ascociados al chat.
+ *       400:
+ *         description: Error en la solicitud debido a datos incorrectos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error.
+ *       404:
+ *         description: El chat no existe o el usuario no está disponible.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error indicando que el chat no existe o el usuario no está disponible.
+ *       500:
+ *         description: Error del servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error del servidor.
+*/
+messagesRouter.get("/chat/:id", checkSubscription,MessageController.getByChat)
 
 
 module.exports = messagesRouter;

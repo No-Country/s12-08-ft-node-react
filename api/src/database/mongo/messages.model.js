@@ -5,7 +5,7 @@ const messagesSchema = new Schema(
   {
     user_id: { type: String, required: true },
     content: { type: String, required: true },
-    comments:[{ type: Schema.Types.ObjectId, ref: 'Comments' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comments" }],
     text: {
       type: String,
     },
@@ -26,7 +26,10 @@ const messagesSchema = new Schema(
       users_who_reacted: [
         {
           user_id: { type: String },
-          reaction: { type: String, enum: ['love', 'sad', 'fun', 'interesting'] },
+          reaction: {
+            type: String,
+            enum: ["love", "sad", "fun", "interesting"],
+          },
         },
       ],
     },
@@ -35,6 +38,9 @@ const messagesSchema = new Schema(
     timestamps: true,
   }
 );
+
+// Index del campo createdAt
+messagesSchema.index({ createdAt: -1 });
 
 const Messages = mongoose.model("Messages", messagesSchema);
 module.exports = Messages;

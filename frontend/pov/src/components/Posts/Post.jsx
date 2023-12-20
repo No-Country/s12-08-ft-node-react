@@ -70,8 +70,8 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount }) => {
         {/* Texto del Post */}
         <div className="w-full flex gap-2 items-center">
 
-          <div className="flex flex-col">
-            <p className="w-full text-[12px]">
+          <div className="flex flex-col overflow-auto">
+            <p className="w-full text-[12px] break-words">
               <span className="font-black">{userName}: </span>
               {text}
             </p>

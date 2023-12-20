@@ -126,7 +126,7 @@ const EditProfile = () => {
               value={userData.username}
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               onChange={onInputChange}
-              required
+              disabled
             />
           </div>
           <div>

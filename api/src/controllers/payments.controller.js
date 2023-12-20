@@ -78,7 +78,7 @@ class PaymentController {
         },
         customer: customer.data[0].id,
         mode: 'subscription',
-        success_url: `${process.env.DEPLOY_URL}/chat/${chat_id}`,
+        success_url: `${process.env.DEPLOY_URL}/chats/${chat_id}?succes=true`,
         cancel_url:`${process.env.DEPLOY_URL}`,
       });
       return res
