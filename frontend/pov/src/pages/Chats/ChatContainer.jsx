@@ -7,7 +7,7 @@ import BackBtn from "../../components/Svg/BackBtn";
 import Cheked from "../../components/Svg/Cheked";
 import ThreadModal from "../../components/ThreadModal/ThreadModal";
 import ThreadEmojis from "../../components/ThreadModal/ThreadEmojis";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -31,6 +31,7 @@ const ChatContainer = () => {
   } = useContext(ChatContext);
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -75,7 +76,10 @@ const ChatContainer = () => {
 
           setUserChat(data);
         } catch (error) {
-          console.log(error);
+          toast.error("No estas suscrito/a. Hubo un error al ingresar al chat");
+          setTimeout(() => {
+            navigate(`/sub/${id}`);
+          }, 1000);
         } finally {
           setLoadingMessages(false);
         }
