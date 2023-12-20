@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       username: {
         type: DataTypes.STRING,
@@ -53,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       profile_picture: {
         type: DataTypes.STRING,
         allowNull: true,
+        defaultValue: 'https://res.cloudinary.com/dkgvoukdj/image/upload/v1702563393/pov/uaotuzpgadixhmaoxtxy.png'
       },
       date_of_birth: {
         type: DataTypes.DATEONLY,

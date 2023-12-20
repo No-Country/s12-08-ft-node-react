@@ -25,6 +25,7 @@
     "mongoose": "^8.0.1",
     "morgan": "^1.10.0",
     "mysql2": "^3.6.5",
+    "node-cron": "^3.0.3",
     "sequelize": "^6.35.1",
     "socket.io": "^4.7.2",
     "stripe": "^14.8.0",

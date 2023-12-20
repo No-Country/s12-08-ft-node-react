@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import Option from "../Svg/Option";
-import SubsIcon from "../Svg/SubsIcon";
+import { Link, useNavigate } from 'react-router-dom';
+import Option from '../Svg/Option';
+import SubsIcon from '../Svg/SubsIcon';
 
-const CardSubscription = ({ data, isSubs }) => {
+const CardSubscription = ({ data, isSubs, ValidateSubscription }) => {
   const { id, profile_picture, name, username, totalSubscriptions } =
     data.beneficiary;
   const navigate = useNavigate();
@@ -41,18 +41,26 @@ const CardSubscription = ({ data, isSubs }) => {
                 Ver perfil
               </Link>
             </li>
-            <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
-              <Link to={`/chats/${id}`} onClick={(e) => e.stopPropagation()}>
-                Ir al chat
-              </Link>
-            </li>
+            {ValidateSubscription === false ? (
+              <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
+                <Link to={`/sub/${id}`} onClick={(e) => e.stopPropagation()}>
+                  Ir al chat
+                </Link>
+              </li>
+            ) : (
+              <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
+                <Link to={`/chats/${id}`} onClick={(e) => e.stopPropagation()}>
+                  Ir al chat
+                </Link>
+              </li>
+            )}
             <li className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg">
               <Link onClick={(e) => e.stopPropagation()}>Reportar</Link>
             </li>
             {isSubs ? (
               <li
                 className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg"
-                onClick={() => console.log("Te desuscribiste")}
+                onClick={() => console.log('Te desuscribiste')}
               >
                 <Link to="" onClick={() => stopPropagation()}>
                   Desuscribirse

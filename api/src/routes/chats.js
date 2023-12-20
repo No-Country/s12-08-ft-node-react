@@ -209,6 +209,7 @@ chatsRouter.put("/chat/:id", MessageController.editMessage)
  *               username:
  *                 type: string
  *                 description: Nombre de usuario, de la persona creadora del comentario
+ *     responses:
  *       201:
  *         description: Comentario creado exitosamente.
  *         content:
@@ -386,6 +387,6 @@ chatsRouter.put("/", ChatController.editChat)
  *                   type: string
  *                   description: Mensaje de error del servidor.
 */
-chatsRouter.get("/chat/:id", ChatController.getChatWithMessages)
+chatsRouter.get("/chat/:id", checkSubscription ,ChatController.getChatWithMessages)
 
 module.exports = chatsRouter;
