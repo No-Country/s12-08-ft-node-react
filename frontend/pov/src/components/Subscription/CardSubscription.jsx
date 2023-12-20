@@ -21,6 +21,7 @@ const CardSubscription = ({ data, isSubs }) => {
       <div
         className="card-body items-center text-center b"
         style={backgroundChat}
+        onClick={handleNavigate}
       >
         {/* Menu ... */}
         <div className="dropdown dropdown-end right-0 top-0 absolute">
