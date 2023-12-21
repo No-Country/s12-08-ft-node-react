@@ -23,10 +23,14 @@ const ContainerSubscriptions = () => {
   const getChats = async (typeCard) => {
     setLoading(true);
     try {
-      const response = await axios.get(`${URL}/users/${typeCard}`, {
-        headers: {
+      let headers = {}
+      if(TOKEN !== null){
+        headers =  {
           Authorization: `Bearer ${TOKEN}`,
-        },
+        }
+      }
+      const response = await axios.get(`${URL}/users/${typeCard}`, {
+        headers: headers
       });
       if (typeCard === 'suggestions') {
         setcardsSuggestions(response.data);
