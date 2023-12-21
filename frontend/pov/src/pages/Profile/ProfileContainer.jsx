@@ -153,7 +153,7 @@ const ProfileContainer = () => {
           )}
         </SubscriptionsList>
         {/* BOTON DE IR A CHAT */}
-        <div className="mt-auto mx-auto w-[345px]">
+        <div className="mt-auto mx-auto w-full max-w-[345px]">
           <button
             onClick={() => {
               {
