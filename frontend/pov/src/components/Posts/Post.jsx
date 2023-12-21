@@ -6,9 +6,25 @@ import { format } from "date-fns";
 import axios from "axios";
 import Reactions from "./Reactions";
 
-const Post = ({ post, userName, userAvatar, toggleModal, commentsCount,toggleModalComment }) => {
-  const { saveChangeId, TOKEN, URL, messages, setMessages, user, setCurrentCommentId, handleEmoji, handleEmojiComment } =
-    useContext(ChatContext);
+const Post = ({
+  post,
+  userName,
+  userAvatar,
+  toggleModal,
+  commentsCount,
+  toggleModalComment,
+}) => {
+  const {
+    saveChangeId,
+    TOKEN,
+    URL,
+    messages,
+    setMessages,
+    user,
+    setCurrentCommentId,
+    handleEmoji,
+    handleEmojiComment,
+  } = useContext(ChatContext);
   const { text, comments, reactions } = post;
   const [page, setPage] = useState(0);
   //console.log("REACCIONES", reactions);
@@ -48,56 +64,67 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount,toggleMod
 
   return (
     <div className="flex items-start">
-      <img
-        src={userAvatar}
-        alt={`avatar de ${userName}`}
-        className="w-[24px] rounded-full mt-[20px]"
-      />
-    <article
-      className="flex flex-col gap-2 px-2 py-4 rounded-lg w-full"
-    >
-      {/* Imagen del Post adjunta */}
-      <div className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg" onClick={() => {
-        toggleModal();
-        saveChangeId(post._id);
-      }}>
-        {post.content === 'image' && (
-          <img
-            src={post.image}
-            alt="imagen adjunta al post"
-            className="mb-2 rounded-lg overflow-hidden"
-          />
-        )} 
-        {/* Texto del Post */}
-        <div className="w-full flex gap-2 items-center">
-
-          <div className="flex flex-col overflow-auto">
-            <p className="w-full text-[12px] break-words">
-              <span className="font-black">{userName}: </span>
-              {text}
-            </p>
-            <p className="text-[10px] font-thin">{format(new Date(post.createdAt), 'dd-MM-yyyy hh:mm')} </p>
-          </div>
-          
-        </div>
+      <div className="w-[24px] h-[24px] mt-[20px] overflow-hidden rounded-full">
+        <img
+          src={userAvatar}
+          alt={`avatar de ${userName}`}
+          className="w-[24px] h-[24px] object-cover"
+        />
       </div>
+      <article className="flex flex-col gap-2 px-2 py-4 rounded-lg w-full">
+        {/* Imagen del Post adjunta */}
+        <div
+          className="py-1 px-4 flex flex-col justify-center items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg"
+          onClick={() => {
+            toggleModal();
+            saveChangeId(post._id);
+          }}
+        >
+          {post.content === "image" && (
+            <img
+              src={post.image}
+              alt="imagen adjunta al post"
+              className="mb-2 rounded-lg overflow-hidden"
+            />
+          )}
+          {/* Texto del Post */}
+          <div className="w-full flex gap-2 items-center">
+            <div className="flex flex-col overflow-auto">
+              <p className="w-full text-[12px] break-words">
+                <span className="font-black">{userName}: </span>
+                {text}
+              </p>
+              <p className="text-[10px] font-thin">
+                {format(new Date(post.createdAt), "dd-MM-yyyy hh:mm")}{" "}
+              </p>
+            </div>
+          </div>
+        </div>
         {/* Reacciones */}
-        <Reactions reactions={reactions} id={post._id} usersReacted={post.reactions.users_who_reacted} idUser={user.user.id} handleEmoji={handleEmoji}/>
+        <Reactions
+          reactions={reactions}
+          id={post._id}
+          usersReacted={post.reactions.users_who_reacted}
+          idUser={user.user.id}
+          handleEmoji={handleEmoji}
+        />
 
         {/* Link a Respuestas del post */}
         {comments.length > 0 &&
           comments.map((comment, index) => (
             <div key={index} className="flex flex-col items-start">
-              <div className="flex gap-1 pl-[28px] w-full" >
+              <div className="flex gap-1 pl-[28px] w-full">
                 {/*             { index == 0 &&
                 <ThreadUnion />
               } */}
                 <ThreadUnion />
-                <div className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg"
+                <div
+                  className="w-full p-2 flex gap-2 items-center bg-[#C3C3BF] hover:scale-[102%] transition-transform cursor-pointer rounded-lg"
                   onClick={() => {
                     toggleModalComment();
                     saveChangeId(post._id);
-                    setCurrentCommentId(comment._id);}}
+                    setCurrentCommentId(comment._id);
+                  }}
                 >
                   <Response
                     responses={comment}
@@ -106,11 +133,17 @@ const Post = ({ post, userName, userAvatar, toggleModal, commentsCount,toggleMod
                     setPage={setPage}
                     page={page}
                   />
-                  
                 </div>
               </div>
               <div className="self-end">
-                <Reactions reactions={comment.reactions} id={comment._id} messageId={post._id} usersReacted={comment.reactions.users_who_reacted} idUser={user.user.id} handleEmoji={handleEmojiComment}/>
+                <Reactions
+                  reactions={comment.reactions}
+                  id={comment._id}
+                  messageId={post._id}
+                  usersReacted={comment.reactions.users_who_reacted}
+                  idUser={user.user.id}
+                  handleEmoji={handleEmojiComment}
+                />
               </div>
             </div>
           ))}

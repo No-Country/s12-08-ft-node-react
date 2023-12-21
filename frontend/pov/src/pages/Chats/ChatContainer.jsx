@@ -27,7 +27,7 @@ const ChatContainer = () => {
     TOKEN,
     URL,
     user,
-    toggleModalComment
+    toggleModalComment,
   } = useContext(ChatContext);
   const { id } = useParams();
   const location = useLocation();
@@ -105,11 +105,15 @@ const ChatContainer = () => {
           </Link>
         </div>
         <div className="mx-auto flex flex-col items-center justify-center">
-          <img
-            src={userChat.user.profile_picture}
-            alt=""
-            className="w-[44px] h-[44px]"
-          />
+          <div className="flex justify-center items-center bg-gradient-to-b from-[#5D73E9] via-[#4C22B3] to-[#FF8600] rounded-full hover:-translate-y-1 hover:shadow-lg transition-transform">
+            <div className="w-[44px] h-[44px] overflow-hidden rounded-full border-2 border-transparent">
+              <img
+                src={userChat.user.profile_picture}
+                alt=""
+                className="w-[44px] h-[44px] object-cover"
+              />
+            </div>
+          </div>
           <p className="flex w-full items-center justify-center gap-2 text-white text-[14px]">
             {userChat.chat.name}
             <span>{<Cheked />}</span>
@@ -135,7 +139,7 @@ const ChatContainer = () => {
           toggleModal={toggleModal}
           toggleModalComment={toggleModalComment}
         />
-        { id == user.user.id && <MessageBar /> }
+        {id == user.user.id && <MessageBar />}
       </main>
     </>
   ) : (
