@@ -70,7 +70,6 @@ function MessageBar() {
         text: message,
         content: 'text',
       }
-      console.log(imagePreview)
       if(imagePreview){
         data = {
           content: 'image',

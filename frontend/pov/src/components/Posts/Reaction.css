@@ -1,9 +1,0 @@
-.reactionBtn:hover {
-  background-color: #424242;
-  transition: all 0.3s ease;
-}
-
-.reactionBtn:hover .reactionBtn__emoji {
-  transform: scale(1.5);
-  transition: transform 0.3s ease;
-}

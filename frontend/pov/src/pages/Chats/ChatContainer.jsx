@@ -6,6 +6,7 @@ import LoadingSpinner from "../../components/Svg/LoadingSpinner";
 import BackBtn from "../../components/Svg/BackBtn";
 import Cheked from "../../components/Svg/Cheked";
 import ThreadModal from "../../components/ThreadModal/ThreadModal";
+import ThreadEmojis from "../../components/ThreadModal/ThreadEmojis";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -19,11 +20,14 @@ const ChatContainer = () => {
     setId,
     toggleModal,
     modal,
+    modalComment,
     setLoadingMessages,
     setMessages,
     setUserChat,
     TOKEN,
     URL,
+    user,
+    toggleModalComment
   } = useContext(ChatContext);
   const { id } = useParams();
   const location = useLocation();
@@ -88,6 +92,7 @@ const ChatContainer = () => {
   return !loadingMessages && userChat.user ? (
     <>
       {modal && <ThreadModal toggleModal={toggleModal} />}
+      {modalComment && <ThreadEmojis toggleModal={toggleModalComment} />}
       <header
         className="fixed z-10 left-1/2 -translate-x-1/2 w-full md:max-w-[1000px] lg:mx-auto flex justify-between items-center px-[24px] py-2 bg-cover bg-center"
         style={{
@@ -128,8 +133,9 @@ const ChatContainer = () => {
           messageCount={userChat.chat.totalMessages}
           user={userChat.user}
           toggleModal={toggleModal}
+          toggleModalComment={toggleModalComment}
         />
-        <MessageBar />
+        { id == user.user.id && <MessageBar /> }
       </main>
     </>
   ) : (
