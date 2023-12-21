@@ -139,7 +139,7 @@ const ChatContainer = () => {
           toggleModal={toggleModal}
           toggleModalComment={toggleModalComment}
         />
-        {id == user.user.id && <MessageBar />}
+        {id == user?.user?.id && <MessageBar />}
       </main>
     </>
   ) : (

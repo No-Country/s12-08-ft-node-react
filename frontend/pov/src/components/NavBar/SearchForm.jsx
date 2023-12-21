@@ -5,7 +5,6 @@ import debounce from "just-debounce-it";
 import useSearch from "../../hooks/useSearch";
 import useUsers from "../../hooks/useUsers";
 import { useToken } from "../../hooks/useToken";
-import MiniSpinner from "../Svg/MiniSpinner";
 
 const SearchForm = () => {
   const [open, setOpen] = useState(false);
