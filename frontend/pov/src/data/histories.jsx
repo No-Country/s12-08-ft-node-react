@@ -13,17 +13,17 @@ export const users = [
     reels: [
       {
         id: 1,
-        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2tsMDk3d2x5OG5oeWN3bHFxcTI5N3A4b3JzejIxanR6enp4eWkyeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lv37Fbz7jkXvNlLvf9/giphy.gif",
+        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzF3bXdxc3pyd205aGx1dWVhc212OG5oM255aHFrejQyeDlyOWU3biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JDPsfIOg1uL6M/giphy.gif",
         time: "15:30",
       },
       {
         id: 2,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm9yajZwa3Jvem9tYjFxcm8wbXdydXBwYTkyeXJ4aHJmOXRpcTNpNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KfCNKDScYfh2RV3j4J/giphy.gif",
+        gif: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3VhZHNobXM3aTZkYmhnbm1yenZmYzVncjk2d3A2NWxpc29zbmszeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tjouaHKt4fTrpUEaGP/giphy.gif",
         time: "19:00",
       },
       {
         id: 3,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzZ6MzdjeWRlMHJibms3MnUwdTl6N3B0M2xjcnJsenBweGN1czQxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/a8YIs5VhCaP2nmUp3F/giphy.gif",
+        gif: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExajd1Y3BudDNiZzVydTRtcnZqc2Y1Ym9lbmoxeG9hdW9oa3BmMjFicCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l2Sq7iaXkcRciQbeM/giphy.gif",
         time: "20:30",
       },
     ],
@@ -36,17 +36,17 @@ export const users = [
     reels: [
       {
         id: 1,
-        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2tsMDk3d2x5OG5oeWN3bHFxcTI5N3A4b3JzejIxanR6enp4eWkyeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lv37Fbz7jkXvNlLvf9/giphy.gif",
+        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExemN0ZGM1dHN6MHBjYzRnaHptdzVxYngyNW9wdW9mcGVmeTJwdzZwayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dILlAz6nKSPO18PXIH/giphy.gif",
         time: "08:15",
       },
       {
         id: 2,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm9yajZwa3Jvem9tYjFxcm8wbXdydXBwYTkyeXJ4aHJmOXRpcTNpNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KfCNKDScYfh2RV3j4J/giphy.gif",
+        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm10cTc2Y2V6YWxzZDBqOGwwMWhiMnl5bGpucDl2ZGNlM2RtNmp3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9ViAy38uAktqrhBJVW/giphy.gif",
         time: "12:30",
       },
       {
         id: 3,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzZ6MzdjeWRlMHJibms3MnUwdTl6N3B0M2xjcnJsenBweGN1czQxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/a8YIs5VhCaP2nmUp3F/giphy.gif",
+        gif: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWgxYzRiMHcyNTM1bWpwMnV6NmhwdGhjMzN1am05emVzZGVkY3RhcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kJHVEkeAiNQny3hMpF/giphy.gif",
         time: "16:18",
       },
     ],
@@ -59,17 +59,17 @@ export const users = [
     reels: [
       {
         id: 1,
-        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2tsMDk3d2x5OG5oeWN3bHFxcTI5N3A4b3JzejIxanR6enp4eWkyeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lv37Fbz7jkXvNlLvf9/giphy.gif",
+        gif: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGpzaTFiMHlrNXRpbzgxbXFraGMwdWk4b3Q3M21hMzJoNzN3dnZvcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1oDwFsUjjPlnUHy0NC/giphy.gif",
         time: "16:32",
       },
       {
         id: 2,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm9yajZwa3Jvem9tYjFxcm8wbXdydXBwYTkyeXJ4aHJmOXRpcTNpNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KfCNKDScYfh2RV3j4J/giphy.gif",
+        gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2I3NTg1djBxNmtzMHpucGo3ZDNneTFoOGk2cWZrNWJiOGx1eDl6YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/AIBZoAadqGn1paYyW2/giphy.gif",
         time: "19:50",
       },
       {
         id: 3,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzZ6MzdjeWRlMHJibms3MnUwdTl6N3B0M2xjcnJsenBweGN1czQxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/a8YIs5VhCaP2nmUp3F/giphy.gif",
+        gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2Ywb20wNm1weHg3N2owcWl2anRpbTV6ZTRrNG5hbmY3cHI5YWlmNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wjrXeknZwntLWMWMfv/giphy.gif",
         time: "23:30",
       },
     ],
@@ -82,17 +82,17 @@ export const users = [
     reels: [
       {
         id: 1,
-        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2tsMDk3d2x5OG5oeWN3bHFxcTI5N3A4b3JzejIxanR6enp4eWkyeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lv37Fbz7jkXvNlLvf9/giphy.gif",
+        gif: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXM5OXVjNTIxaHEzcGR5YWgzbGl1bDdwZnRpOHc2Nnl3bWxqZDF2cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KtxSbRb9AXt99VXImU/giphy.gif",
         time: "12:00",
       },
       {
         id: 2,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm9yajZwa3Jvem9tYjFxcm8wbXdydXBwYTkyeXJ4aHJmOXRpcTNpNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KfCNKDScYfh2RV3j4J/giphy.gif",
+        gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDJ0ZHJjdmh6N24zNWl3bHFjNzh4aWRhMzJvaG0yY2RiMmdwaDgwYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/iDJQRjTCenF7A4BRyU/giphy.gif",
         time: "18:30",
       },
       {
         id: 3,
-        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzZ6MzdjeWRlMHJibms3MnUwdTl6N3B0M2xjcnJsenBweGN1czQxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/a8YIs5VhCaP2nmUp3F/giphy.gif",
+        gif: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2l3c3h4eWRrMmwwcjhheGYzMXd4emx4ODVzbGl0cHBjenkzMW1payZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vdUEYSLuYtPsCoF5sP/giphy.gif",
         time: "21:45",
       },
     ],

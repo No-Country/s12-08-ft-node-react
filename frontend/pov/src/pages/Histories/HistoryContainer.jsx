@@ -10,7 +10,7 @@ const HistoryContainer = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="w-full px-[24px] pt-2 fixed top-0 gap-4 flex justify-start items-center">
+      <header className="w-full px-[24px] py-2 fixed z-10 top-0 gap-4 flex justify-start items-center bg-[rgb(0,0,0,0.8)]">
         <div className="w-full max-w-[1000px] lg: mx-auto flex gap-4 items-center">
           <div className="sm:ml-[24px] flex justify-center items-center bg-gradient-to-b from-[#5D73E9] via-[#4C22B3] to-[#FF8600] rounded-full hover:-translate-y-1 hover:shadow-lg transition-transform">
             <picture className="w-[72px] h-[72px] overflow-hidden rounded-full border-2 border-transparent">
@@ -41,9 +41,9 @@ const HistoryContainer = () => {
             <CloseX />
           </button>
         </div>
-      </div>
+      </header>
       <main className="w-full h-screen max-w-[1000px] lg:mx-auto z-20 flex flex-col justify-center items-center bg-[rgba(0,0,0,0.9)]">
-        <div className="carousel w-full">
+        <div className="carousel w-full h-screen">
           {users[id - 1].reels.map((reel, index) => (
             <Fragment key={index}>
               <div
