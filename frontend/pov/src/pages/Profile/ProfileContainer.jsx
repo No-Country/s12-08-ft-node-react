@@ -90,15 +90,17 @@ const ProfileContainer = () => {
               {profile.email ? profile.email : userData.email}
             </span>
           </div>
-          <div className="w-[80px] h-[80px] rounded-full overflow-hidden">
-            <img
-              src={
-                profile.profile_picture
-                  ? profile.profile_picture
-                  : userData.profile_picture
-              }
-              className="w-[80px] h-[80px] object-cover"
-            />
+          <div className="flex justify-center items-center bg-gradient-to-b from-[#5D73E9] via-[#4C22B3] to-[#FF8600] rounded-full">
+            <div className="w-[80px] h-[80px] rounded-full overflow-hidden border-2 border-transparent">
+              <img
+                src={
+                  profile.profile_picture
+                    ? profile.profile_picture
+                    : userData.profile_picture
+                }
+                className="w-[80px] h-[80px] object-cover"
+              />
+            </div>
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
             @{profile.name ? profile.name : userData.name}
