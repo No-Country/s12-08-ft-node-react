@@ -1,9 +1,8 @@
-import axios from "axios";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useToken } from "../hooks/useToken";
 import { URL, URL_SOCKET } from "../router/routes";
-import toast from "react-hot-toast";
+
 
 export const ChatContext = createContext();
 const socket = io(URL_SOCKET);
@@ -18,19 +17,29 @@ export const ChatProvider = ({ children, user }) => {
   const [id, setId] = useState(null);
   const TOKEN = JSON.parse(token);
   const [modal, setModal] = useState(false);
-  const [page, setPage] = useState(1);
-  const [newMessage, setNewMessage] = useState(false);
+  const [modalComment, setModalComment] = useState(false);
+  const [newMessage,setNewMessage] = useState(false)
+  const [currenctCommentId, setCurrentCommentId] = useState(null)
 
+  const reactionsDicc = {
+/*     like: "👍",
+    dislike: "👎", */
+    love: "😍",
+    sad: "😢",
+    fun: "😂",
+    interesting: "😲",
+/*     dead: "💀",
+    hate: "🤬", */
+  };
+  
   useEffect(() => {
-    if (socket === null) return;
-
-    socket.emit("join-room", {
-      user_id: id, //selectedSocket
-    });
+    if (socket === null) return
+    socket.emit('join-room', {
+      user_id: id //selectedSocket
+    })
 
     return () => {
       setMessages([]);
-      setPage(1);
       socket.off("join-room");
     };
   }, [id]);
@@ -68,37 +77,6 @@ export const ChatProvider = ({ children, user }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (id !== null) {
-      const getMessages = async () => {
-        try {
-          setLoadingMessages(true);
-          //URL Para los chat
-          //El ultimo parametro es el id al que se le da click y obtiene ese id de un get
-          const url = `${URL}/chats/chat/${id}?page=${page}`;
-          const response = await axios.get(url, {
-            headers: {
-              Authorization: `Bearer ${TOKEN}`,
-            },
-          });
-
-          const { data } = response;
-
-          const orderData = data.chat.messages.reverse();
-          setMessages((prevMessages) => [...orderData, ...prevMessages]);
-
-          setUserChat(data);
-        } catch (error) {
-          toast.error("No estas subscripto a este chat");
-          console.log(error);
-        } finally {
-          setLoadingMessages(false);
-        }
-      };
-      getMessages();
-    }
-  }, [TOKEN, user, id, page]);
-
   const saveChangeId = useCallback(async (id) => {
     setSelectedId(id);
   }, []);
@@ -132,8 +110,105 @@ export const ChatProvider = ({ children, user }) => {
     }
   };
 
+
+  const debounceTimersMessages = {};
+
+  const handleEmoji = async(e, key, id, modal) => {
+    if (debounceTimersMessages[id]) {
+      clearTimeout(debounceTimersMessages[id]);
+    }
+    debounceTimersMessages[id] = setTimeout(async () => {
+      try {
+        if(id){
+        const url = `${URL}/message/reaction/${id}`
+        const response = await fetch(url, {
+          method: "PUT",
+          body: JSON.stringify({
+            user_id: user.user.id,
+            reaction: key
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        });
+
+        const data = await response.json();
+
+        const newMessages = [...messages];
+
+        const messageIndex = newMessages.findIndex(
+          (message) => message._id === id
+        );
+
+        newMessages[messageIndex].reactions= data.updatedMessage.reactions
+
+        setMessages(newMessages)
+        delete debounceTimersMessages[id]
+        if(response.ok && modal){
+          toggleModal()
+        }
+      }
+      } catch (error) {
+        console.error(error);
+        delete debounceTimersMessages[id]
+      }
+    }, 500);
+  }
+
+  const debounceTimersComments = {};
+
+  const handleEmojiComment = async(e, key, id, messageId ,  modal) =>{
+     if (debounceTimersComments[id]) {
+        clearTimeout(debounceTimersComments[id]);
+      }
+      debounceTimersComments[id] = setTimeout(async () => {
+        try {
+          if(id && messageId){
+          const url = `${URL}/comments/reaction/${id}`
+          const response = await fetch(url, {
+            method: "PUT",
+            body: JSON.stringify({
+              reaction: key
+            }),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${TOKEN}`,
+            },
+          });
+
+          const data = await response.json();
+
+
+          const newMessages = [...messages];
+
+          const messageIndex = newMessages.findIndex(
+            (message) => message._id === messageId
+          );
+
+          const commentIndex = newMessages[messageIndex].comments.findIndex((comment) => comment._id === id)
+
+          newMessages[messageIndex].comments[commentIndex].reactions = data.updatedComment.reactions
+
+          setMessages(newMessages)
+          delete debounceTimersComments[id];
+          if(response.ok && modal){
+            toggleModalComment()
+          }
+        }
+        } catch (error) {
+          console.error(error);
+          delete debounceTimersComments[id];
+        }
+      }, 500);
+  }
+
   const toggleModal = () => {
     setModal((modal) => !modal);
+  };
+
+  const toggleModalComment = () => {
+    setModalComment((modal) => !modal);
   };
 
   return (
@@ -150,9 +225,20 @@ export const ChatProvider = ({ children, user }) => {
         setId,
         toggleModal,
         modal,
-        page,
-        setPage,
         newMessage,
+        TOKEN,
+        setLoadingMessages,
+        URL,
+        setMessages,
+        setUserChat,
+        reactionsDicc,
+        handleEmoji,
+        user,
+        toggleModalComment,
+        modalComment,
+        setCurrentCommentId,
+        currenctCommentId,
+        handleEmojiComment
       }}
     >
       {children}
