@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import debounce from "just-debounce-it";
 import useSearch from "../../hooks/useSearch";
 import useUsers from "../../hooks/useUsers";
-import LoadingSpinner from "../Svg/LoadingSpinner";
 import { useToken } from "../../hooks/useToken";
+import MiniSpinner from "../Svg/MiniSpinner";
 
 const SearchForm = () => {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ const SearchForm = () => {
           type="text"
           placeholder="Search"
           className={`${
-            error ? "border-red-700" : "border-emerald-500"
+            error ? "outline-red-700" : "border-emerald-500"
           } input input-bordered bg-white w-full`}
           onChange={handleChange}
           value={search}
@@ -59,19 +59,21 @@ const SearchForm = () => {
           {open ? <SearchIcon /> : <CloseIcon />}
         </button>
       </form>
-      {error && <p className="mt-2 text-red-700">{error}</p>}
-
       {!open && (
         <>
-          {loading ? (
-            <LoadingSpinner />
-          ) : (
-            <div className="w-full lg:w-[500px] flex flex-col absolute mt-16 rounded-lg bg-white shadow-lg">
+          {loading ? null : (
+            <div className="w-full md:w-[500px] flex flex-col absolute top-[64px] left-0 md:right-0 md:left-auto bg-white shadow-lg rounded-b-xl">
+              {error && (
+                <p className="py-4 text-red-700 text-xs text-center">{error}</p>
+              )}
               {users?.length > 0 &&
                 users.map((user) => {
                   return (
-                    <ul className="p-6 hover:bg-slate-200" key={user.id}>
-                      <span className="flex flex-row justify-between items-center">
+                    <div className="p-6 hover:bg-slate-200" key={user.id}>
+                      <Link
+                        to={`/profile/${user.id}`}
+                        className="flex flex-row justify-between items-center"
+                      >
                         <div className="flex flex-row justify-center items-center">
                           <img
                             alt={`Profile picture of ${user.name}`}
@@ -100,8 +102,8 @@ const SearchForm = () => {
                             Suscribirse
                           </Link>
                         )}
-                      </span>
-                    </ul>
+                      </Link>
+                    </div>
                   );
                 })}
             </div>

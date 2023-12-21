@@ -13,7 +13,7 @@ const NavBar = () => {
   return (
     <div className="w-screen fixed left-0 top-0 px-[24px] 3xl:px-0 bg-white shadow-md z-50">
       <Toaster toastOptions={{ className: "z-10000" }} />
-      <nav className="max-w-[1000px] mx-auto p-0 navbar">
+      <nav className="max-w-[1000px] mx-auto p-0 navbar md:relative">
         {/*  Section LOGO */}
         <section className="flex-1">
           <Link to="/home" className="btn btn-ghost px-0 hover:bg-transparent">

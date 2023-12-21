@@ -75,16 +75,16 @@ const EditProfile = () => {
 
   return (
     <>
-      <header className="w-full px-[24px] py-[10px] pt-[96px] flex bg-white">
+      <header className="w-full px-[24px] py-[10px] pt-[64px] flex bg-white">
         <div className="w-full md:max-w-[1000px] lg:mx-auto items-center ">
           <h2 className="text-[20px]">Mi Perfil</h2>
           <p className="text-[12px]">Actualiza tus datos personales.</p>
         </div>
         <button
-          className="btn btn-circle btn-ghost bg-gray-200 hover:bg-slate-100"
+          className="btn btn-circle btn-ghost  hover:bg-slate-100"
           onClick={() => navigate(-1)}
         >
-          <CloseX />
+          <CloseX color="#232322" />
         </button>
       </header>
       <main className="w-full md:max-w-[1000px] lg:mx-auto px-[24px]">

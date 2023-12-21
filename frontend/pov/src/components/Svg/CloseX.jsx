@@ -1,4 +1,4 @@
-const CloseX = () => {
+const CloseX = ({ color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +9,7 @@ const CloseX = () => {
     >
       <path
         d="M17 7L7 17M7 7L17 17"
-        stroke="#232322"
+        stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

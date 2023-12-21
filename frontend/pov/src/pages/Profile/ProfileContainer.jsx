@@ -103,19 +103,19 @@ const ProfileContainer = () => {
             </div>
           </div>
           <p className="w-full flex gap-2 text-[14px] font-bold text-white justify-center items-center">
-            @{profile.name ? profile.name : userData.name}
+            {profile.name ? profile.name : userData.name}
             <span className="">
               <CheckedIcon />
             </span>
           </p>
           <div className="w-full flex flex-row justify-center items-center text-whit">
-            <p className="w-full flex gap-2 justify-center items-center p-2 text-white text-[12px] font-thin">
+            <p className="w-full flex gap-1 justify-center items-center p-2 text-white text-[12px] font-thin">
               {userData.subscribersCount}
               <span className="text-white">
                 {userData.subscribersCount >= 1000
                   ? "mil"
                   : userData.subscribersCount >= 1000000
-                  ? "millon"
+                  ? "millon de"
                   : null}
                 suscriptores
               </span>

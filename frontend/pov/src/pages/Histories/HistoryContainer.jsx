@@ -35,10 +35,10 @@ const HistoryContainer = () => {
             <p className="mt-2 text-white text-xs font-thin">{`Publicado a las ${time}hs`}</p>
           </div>
           <button
-            className="ml-auto md:mr-[24px] btn btn-circle btn-ghost bg-gray-200 hover:bg-slate-100"
+            className="ml-auto md:mr-[24px] btn btn-circle btn-ghost hover:bg-[rgba(0,0,0,0.3)]"
             onClick={() => navigate("/home")}
           >
-            <CloseX />
+            <CloseX color="#fff" />
           </button>
         </div>
       </header>

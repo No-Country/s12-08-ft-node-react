@@ -6,27 +6,33 @@ import Send from "../Svg/Send";
 import { ChatContext } from "../../context/ChatContext";
 
 const ThreadInput = () => {
-  const { saveChangeText, handleSubmit, reactionsDicc, selectedId, messages ,user, handleEmoji } = useContext(ChatContext)
+  const {
+    saveChangeText,
+    handleSubmit,
+    reactionsDicc,
+    selectedId,
+    messages,
+    user,
+    handleEmoji,
+  } = useContext(ChatContext);
   const [text, setText] = useState("");
 
   /* const emojis = ["😍", "🔥", "👿", "💀", "🤮"]; */
 
   const handleChange = (e) => {
     setText(e.target.value);
-    saveChangeText(e.target.value)
+    saveChangeText(e.target.value);
   };
 
-
-
   const userReacted = (key) => {
-    const message = messages[messages.findIndex(
-      (message) => message._id === selectedId
-    )]
+    const message =
+      messages[messages.findIndex((message) => message._id === selectedId)];
 
-    return message.reactions.users_who_reacted
-      .some((reaction) => user.user.id === reaction.user_id && reaction.reaction === key)
-  }
-
+    return message.reactions.users_who_reacted.some(
+      (reaction) =>
+        user.user.id === reaction.user_id && reaction.reaction === key
+    );
+  };
 
   return (
     <motion.div
@@ -49,7 +55,7 @@ const ThreadInput = () => {
             key={key}
             onClick={(e) => handleEmoji(e, key, selectedId, true)}
             className={`w-12 h-12 p-[10px] flex justify-center items-center text-[24px] rounded-full transition-transform hover:scale-105 ${
-              userReacted(key) ? 'bg-[#5D73E9]' : 'bg-[#1B1B1A]'
+              userReacted(key) ? "bg-[#5D73E9]" : "bg-[#1B1B1A]"
             }`}
           >
             {value}
@@ -72,7 +78,7 @@ const ThreadInput = () => {
           placeholder="Contesta el hilo aquí"
           className="w-full px-2 resize-none overflow-auto bg-transparent text-white outline-none"
           onChange={(e) => {
-            handleChange(e)
+            handleChange(e);
           }}
         ></textarea>
         <div className="flex items-center mx-2">
