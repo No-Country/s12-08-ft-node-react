@@ -404,33 +404,49 @@ class UserController {
     const pageSize = 21;
     const page = req.query.page || 1;
     const skip = pageSize * (page - 1);
+    const user_id = req.user_id
     try {
-      const mySubscriptions = await Subscription.findAll({
-        where: { user_id: req.user_id, status: true },
-        attributes: ["beneficiary_id"],
-      });
+      let filteredSuggestions
+      if(user_id){
+        const mySubscriptions = await Subscription.findAll({
+          where: { user_id: user_id , status: true },
+          attributes: ["beneficiary_id"],
+        });
 
-      const myBeneficiaryIds = mySubscriptions.map(
-        (subscription) => subscription.beneficiary_id
-      );
+        const myBeneficiaryIds = mySubscriptions.map(
+          (subscription) => subscription.beneficiary_id
+        );
 
-      const suggestions = await User.findAll({
-        limit: pageSize,
-        offset: skip,
-        attributes: ["id", "name", "username", "profile_picture"],
-        include: [
-          {
-            model: Subscription,
-            as: "subscriptions",
-            attributes: ["beneficiary_id"],
-            required: false,
-          },
-        ],
-      });
+        const suggestions = await User.findAll({
+          limit: pageSize,
+          offset: skip,
+          attributes: ["id", "name", "username", "profile_picture"],
+          include: [
+            {
+              model: Subscription,
+              as: "subscriptions",
+              attributes: ["beneficiary_id"],
+              required: false,
+            },
+          ],
+        });
 
-      const filteredSuggestions = suggestions.filter((suggestion) => {
-        return !myBeneficiaryIds.includes(suggestion.dataValues.id);
-      });
+        filteredSuggestions = suggestions.filter((suggestion) => {
+          return !myBeneficiaryIds.includes(suggestion.dataValues.id);
+        });
+      }else{
+        filteredSuggestions = await User.findAll({
+          limit: pageSize,
+          offset: skip,
+          include: [
+            {
+              model: Subscription,
+              as: "subscriptions",
+              attributes: ["beneficiary_id"],
+              required: false,
+            },
+          ],})
+      }
 
       const totalSubscriptions = 0;
       const suggestionWithChat = await Promise.all(
