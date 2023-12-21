@@ -324,6 +324,13 @@ usersRouter.get("/subscribed", checkSession,UserController.subs);
  *      - Users
  *    summary: Obtiene los detalles de los usuarios sugeridos.
  *    description: Obtiene los detalles de los usuarios sugeridos para el usuario actual.
+ *    parameters:
+ *      - in: query
+ *        name: page
+ *        description: Pagina con cantidad de ususarios (cada 10).
+ *        required: false
+ *        schema:
+ *          type: string
  *    responses:
  *      200:
  *        description: Detalles de los usuarios sugeridos encontrados exitosamente.
@@ -375,7 +382,7 @@ usersRouter.get("/subscribed", checkSession,UserController.subs);
  *                  type: string
  *                  description: Mensaje de error.
 */
-usersRouter.get("/suggestions", checkSession, UserController.suggestion);
+usersRouter.get("/suggestions",UserController.suggestion);
 
 
 module.exports = usersRouter;
