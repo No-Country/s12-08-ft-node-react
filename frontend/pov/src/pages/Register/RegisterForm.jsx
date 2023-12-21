@@ -91,22 +91,22 @@ export const RegisterForm = () => {
             <input
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5]"
               type="text"
-              name="name"
-              placeholder="Usuario"
-              {...register("name")}
-            />
-            {errors.name && (
-              <p className="text-red-500">{errors?.name?.message}</p>
-            )}
-            <input
-              className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30   bg-[#A5A5A5]"
-              type="text"
               name="username"
-              placeholder="Nombre y apellido"
+              placeholder="Usuario"
               {...register("username")}
             />
             {errors.username && (
               <p className="text-red-500">{errors?.username?.message}</p>
+            )}
+            <input
+              className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30   bg-[#A5A5A5]"
+              type="text"
+              name="name"
+              placeholder="Nombre y apellido"
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-red-500">{errors?.name?.message}</p>
             )}
             <input
               className="mb-2 flex w-full h-16 p-2 items-center gap-2 flex-shrink-0 rounded-lg bg-opacity-30  bg-[#A5A5A5] "

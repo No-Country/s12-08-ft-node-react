@@ -14,6 +14,7 @@ const CardSubscription = ({ data, isSubs, ValidateSubscription }) => {
   const backgroundChat = {
     backgroundImage: `url(${data.chat[0].img})`,
     borderRadius: `15px 15px 0px 0px`,
+    backgroundSize: `cover`,
   };
 
   return (
