@@ -16,6 +16,7 @@ const mongoose = require("mongoose");
 const { Op } = require("sequelize");
 const stripe = require("../stripe.js");
 const { Subscription } = require("../db.js");
+require("dotenv").config();
 
 class UserController {
   static async createUser(req, res, next) {
@@ -404,6 +405,13 @@ class UserController {
     const pageSize = 21;
     const page = req.query.page || 1;
     const skip = pageSize * (page - 1);
+    const tokenByUser = req.headers.authorization || null
+
+    if(tokenByUser){
+      const token = tokenByUser.substring(7);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user_id = decoded.id;
+    }
     const user_id = req.user_id
     try {
       let filteredSuggestions
@@ -418,6 +426,11 @@ class UserController {
         );
 
         const suggestions = await User.findAll({
+          where: {
+            id: {
+              [Op.not]: user_id
+            }
+          },
           limit: pageSize,
           offset: skip,
           attributes: ["id", "name", "username", "profile_picture"],
