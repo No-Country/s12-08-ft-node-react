@@ -1,6 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom';
-import Option from '../Svg/Option';
-import SubsIcon from '../Svg/SubsIcon';
+import { Link, useNavigate } from "react-router-dom";
+import Option from "../Svg/Option";
+import SubsIcon from "../Svg/SubsIcon";
 
 const CardSubscription = ({ data, isSubs, ValidateSubscription }) => {
   const { id, profile_picture, name, username, totalSubscriptions } =
@@ -60,7 +60,7 @@ const CardSubscription = ({ data, isSubs, ValidateSubscription }) => {
             {isSubs ? (
               <li
                 className="w-full m-0 p-0 hover:cursor-pointer hover:text-white hover:bg-[#232322] rounded-lg"
-                onClick={() => console.log('Te desuscribiste')}
+                onClick={() => console.log("Te desuscribiste")}
               >
                 <Link to="" onClick={() => stopPropagation()}>
                   Desuscribirse
@@ -77,7 +77,7 @@ const CardSubscription = ({ data, isSubs, ValidateSubscription }) => {
         </div>
       </div>
       <div
-        className="w-full flex justify-between card-actions bg-[#949494] rounded-b-[20px] cursor-pointer"
+        className="w-full flex justify-between card-actions bg-[#232322] rounded-b-[20px] cursor-pointer"
         onClick={handleNavigate}
       >
         {/* AVATAR and USERNAME */}
@@ -97,7 +97,7 @@ const CardSubscription = ({ data, isSubs, ValidateSubscription }) => {
           <div className="text-white">@{name}</div>
           {/* Subs Counter */}
           <div className="mr-4 flex gap-2 items-center">
-            <SubsIcon />
+            <SubsIcon color="rgba(255,134,0,1)" />
             <span className="text-white">{totalSubscriptions}</span>
           </div>
         </div>

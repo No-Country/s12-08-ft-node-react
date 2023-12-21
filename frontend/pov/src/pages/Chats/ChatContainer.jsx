@@ -131,7 +131,7 @@ const ChatContainer = () => {
           </p>
         </div>
       </header>
-      <main className="w-full md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] pt-[99px] bg-slate-100 relative overflow-scroll ">
+      <main className="w-full md:max-w-[1000px] min-h-[calc(100vh-99px)] lg:mx-auto py-8 px-[24px] pt-[99px] bg-white relative overflow-scroll ">
         <PostList
           chat={messages}
           messageCount={userChat.chat.totalMessages}

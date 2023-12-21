@@ -46,7 +46,7 @@ const ThreadInput = () => {
         y: 0,
       }}
       className={
-        "w-full max-w-[780px] absolute z-50 bottom-0 px-[24px] py-[16px] flex flex-col gap-[16px] justify-between bg-[#232322] text-white rounded-t-3xl"
+        "w-full max-w-[780px] absolute z-50 bottom-0 px-[24px] pt-[16px] pb-24 flex flex-col gap-[16px] justify-between bg-[#232322] text-white rounded-t-3xl"
       }
     >
       <div className="w-full flex justify-between ">
