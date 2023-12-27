@@ -2,7 +2,7 @@
 
 ¡Bienvenido a POV, la plataforma que transforma la interacción social! Imagina una red donde puedes conectar de manera directa y personal con tus ídolos, expertos o amigos. Con POV, puedes sumergirte en chats exclusivos y participar activamente en conversaciones significativas
 
-[POV](https://pov-nocountry.netlify.app/)
+[POV](https://pov-chat.netlify.app/)
 
 🏁 El proyecto terminó el 21/12/2023 pero se va seguir escalando en sus funcionalidades y su aspecto visual.
 
